@@ -232,6 +232,12 @@ namespace ZQ
 					max_run_id = label_for_each_run[i];
 			}
 
+			if (max_run_id == -1)
+			{
+				memset(label, 0, sizeof(int)*width*height);
+				area_size.clear();
+				return true;
+			}
 		
 			std::vector<std::vector<int>> graphs(max_run_id);
 			

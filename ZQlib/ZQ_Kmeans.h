@@ -187,7 +187,8 @@ namespace ZQ
 			return true;
 		}
 
-	private:
+	//private:
+	public:
 		static bool _select_init_center(int nPts, int dim, int k, const T* pts, T* init_centers)
 		{
 			int* idx = new int[nPts];

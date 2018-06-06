@@ -38,7 +38,7 @@ int main(int argc, const char** argv)
 	int ncam = container.model_list[0].camera_list.size();
 	for (int i = 0; i < ncam; i++)
 	{
-		fprintf(out, "%s %f ", container.model_list[0].camera_list[i].image_name, container.model_list[0].camera_list[i].focal);
+		fprintf(out, "%s %f ", container.model_list[0].camera_list[i].image_name.c_str(), container.model_list[0].camera_list[i].focal);
 		fprintf(out, "%f %f %f %f ", container.model_list[0].camera_list[i].qw, container.model_list[0].camera_list[i].qx, container.model_list[0].camera_list[i].qy, container.model_list[0].camera_list[i].qz);
 		fprintf(out, "%f %f %f ", container.model_list[0].camera_list[i].tx, container.model_list[0].camera_list[i].ty, container.model_list[0].camera_list[i].tz);
 		fprintf(out, "%f \n", container.model_list[0].camera_list[i].r);

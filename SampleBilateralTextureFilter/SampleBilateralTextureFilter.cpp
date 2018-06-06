@@ -1,8 +1,6 @@
 #include "ZQ_BilateralTextureFilter.h"
 #include <time.h>
 #include "ZQ_ImageIO.h"
-#define ZQ_LINK_OPENCV_VERSION_2413
-#include "ZQ_Link_OpenCV_Lib.h"
 
 
 using namespace ZQ;

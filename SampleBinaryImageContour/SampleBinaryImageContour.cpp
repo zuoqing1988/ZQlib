@@ -1,7 +1,5 @@
 #include "ZQ_BinaryImageContour.h"
 #include "ZQ_ImageIO.h"
-#include "cv.h"
-#include "highgui.h"
 
 using namespace ZQ;
 int main()

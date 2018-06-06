@@ -57,14 +57,14 @@ public:
 		type = TYPE_SYNTHESIS_FIELD;
 		texture_file[0] = '\0';
 		tex_vector_field = false;
-		strcpy(original_fold,".");
-		strcpy(original_prefix,"");
-		strcpy(original_suffix,"di2");
+		strcpy_s(original_fold, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,".");
+		strcpy_s(original_prefix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,"");
+		strcpy_s(original_suffix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,"di2");
 		base_id = 0;
 		frame_count = 0;
-		strcpy(synthesis_fold,".");
-		strcpy(synthesis_prefix,"");
-		strcpy(synthesis_suffix,"di2");
+		strcpy_s(synthesis_fold, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,".");
+		strcpy_s(synthesis_prefix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,"");
+		strcpy_s(synthesis_suffix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,"di2");
 		border_width = 16;
 		reduce_factor = 0.5;
 		max_level = 5;
@@ -80,12 +80,12 @@ public:
 		dt = 1;
 		substeps = 20;
 		advectionN = 5;
-		strcpy(input_density_fold,".");
-		strcpy(input_density_prefix,"");
-		strcpy(input_density_suffix,"png");
-		strcpy(output_density_fold,".");
-		strcpy(output_density_prefix,"");
-		strcpy(output_density_suffix,"png");
+		strcpy_s(input_density_fold, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN, ".");
+		strcpy_s(input_density_prefix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN, "");
+		strcpy_s(input_density_suffix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN, "png");
+		strcpy_s(output_density_fold, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN, ".");
+		strcpy_s(output_density_prefix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN, "");
+		strcpy_s(output_density_suffix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN, "png");
 		coarse_field_weight = 0;
 		detail_field_weight = 1;
 	}
@@ -135,7 +135,7 @@ public:
 					return false;
 				}
 
-				strcpy(texture_file,argv[k]);
+				strcpy_s(texture_file, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN, argv[k]);
 			}
 			else if(_strcmpi(argv[k],"output_flowfile") == 0)
 			{
@@ -146,7 +146,7 @@ public:
 					return false;
 				}
 
-				strcpy(output_flowfile,argv[k]);
+				strcpy_s(output_flowfile, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"tex_vector_field") == 0)
 			{
@@ -161,7 +161,7 @@ public:
 					return false;
 				}
 
-				strcpy(original_fold,argv[k]);
+				strcpy_s(original_fold, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"original_prefix") == 0)
 			{
@@ -172,7 +172,7 @@ public:
 					return false;
 				}
 
-				strcpy(original_prefix,argv[k]);
+				strcpy_s(original_prefix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"original_suffix") == 0)
 			{
@@ -183,7 +183,7 @@ public:
 					return false;
 				}
 
-				strcpy(original_suffix,argv[k]);
+				strcpy_s(original_suffix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN, argv[k]);
 			}
 			else if(_strcmpi(argv[k],"base_id") == 0)
 			{
@@ -216,7 +216,7 @@ public:
 					return false;
 				}
 
-				strcpy(synthesis_fold,argv[k]);
+				strcpy_s(synthesis_fold, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"synthesis_prefix") == 0)
 			{
@@ -227,7 +227,7 @@ public:
 					return false;
 				}
 
-				strcpy(synthesis_prefix,argv[k]);
+				strcpy_s(synthesis_prefix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"synthesis_suffix") == 0)
 			{
@@ -238,7 +238,7 @@ public:
 					return false;
 				}
 
-				strcpy(synthesis_suffix,argv[k]);
+				strcpy_s(synthesis_suffix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"border_width") == 0)
 			{
@@ -402,7 +402,7 @@ public:
 					return false;
 				}
 
-				strcpy(input_density_fold,argv[k]);
+				strcpy_s(input_density_fold, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"input_density_prefix") == 0)
 			{
@@ -413,7 +413,7 @@ public:
 					return false;
 				}
 
-				strcpy(input_density_prefix,argv[k]);
+				strcpy_s(input_density_prefix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"input_density_suffix") == 0)
 			{
@@ -424,7 +424,7 @@ public:
 					return false;
 				}
 
-				strcpy(input_density_suffix,argv[k]);
+				strcpy_s(input_density_suffix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"output_density_fold") == 0)
 			{
@@ -435,7 +435,7 @@ public:
 					return false;
 				}
 
-				strcpy(output_density_fold,argv[k]);
+				strcpy_s(output_density_fold, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"output_density_prefix") == 0)
 			{
@@ -446,7 +446,7 @@ public:
 					return false;
 				}
 
-				strcpy(output_density_prefix,argv[k]);
+				strcpy_s(output_density_prefix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"output_density_suffix") == 0)
 			{
@@ -457,7 +457,7 @@ public:
 					return false;
 				}
 
-				strcpy(output_density_suffix,argv[k]);
+				strcpy_s(output_density_suffix, ZQ_MOTION_FIELD_SYNTHESIS_BUFLEN,argv[k]);
 			}
 			else if(_strcmpi(argv[k],"coarse_field_weight") == 0)
 			{

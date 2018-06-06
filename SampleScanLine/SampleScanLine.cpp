@@ -1,5 +1,5 @@
-#include "cv.h"
-#include "highgui.h"
+#include "opencv\cv.h"
+#include "opencv\highgui.h"
 #include "ZQ_Vec2D.h"
 #include <vector>
 #include <math.h>
@@ -10,9 +10,9 @@
 using namespace ZQ;
 
 
-void main1();
+int main1();
 
-void main()
+int main()
 {
 	int width = 80, height = 60;
 	std::vector<ZQ_Vec2D> ply_pts,pixels;
@@ -24,13 +24,15 @@ void main()
 	{
 		printf("fail\n");
 	}
-	/*for(int i = 0;i < 10000;i++)
+	for(int i = 0;i < 10000;i++)
 	{
 		main1();
-	}*/
+	}
+
+	return EXIT_SUCCESS;
 }
 
-void main1()
+int main1()
 {
 	srand(time(0)+rand());
 	int seed =  rand();//time(0);
@@ -82,5 +84,5 @@ void main1()
 	cvShowImage("show",img);
 	cvWaitKey(30);
 	cvReleaseImage(&img);
-
+	return EXIT_SUCCESS;
 }

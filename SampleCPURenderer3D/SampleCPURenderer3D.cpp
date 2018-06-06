@@ -1,7 +1,7 @@
 #include "ZQ_CPURenderer3DWorkspace.h"
 #include "ZQ_DoubleImage.h"
-#include "cv.h"
-#include "highgui.h"
+#include "opencv\cv.h"
+#include "opencv\highgui.h"
 
 using namespace ZQ;
 

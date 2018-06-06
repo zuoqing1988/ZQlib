@@ -89,10 +89,10 @@ int main2()
 	//找到文件ZQ_ImageIO.h 中loadImage函数，可以查看是如何从IplImage 转成ZQ_DImage<float>
 	ZQ_DImage<float> im1, im2;
 	ZQ_DImage<float> bgr1, bgr2, out_im;
-	ZQ_ImageIO::loadImage(im1, "1.jpg",0);	//读取灰度图，用于光流
-	ZQ_ImageIO::loadImage(im2, "2.jpg",0);	
-	ZQ_ImageIO::loadImage(bgr1, "1.jpg", 1);	//读取彩色图，用于插帧
-	ZQ_ImageIO::loadImage(bgr2, "2.jpg", 1);
+	ZQ_ImageIO::loadImage(im1, "in_0.jpg",0);	//读取灰度图，用于光流
+	ZQ_ImageIO::loadImage(im2, "in_1.jpg",0);	
+	ZQ_ImageIO::loadImage(bgr1, "in_0.jpg", 1);	//读取彩色图，用于插帧
+	ZQ_ImageIO::loadImage(bgr2, "in_1.jpg", 1);
 	int width = im1.width();
 	int height = im1.height();
 	float weight1 = 0.5;	//插帧时第一帧图像的权重，取值范围(0.0, 1.0)

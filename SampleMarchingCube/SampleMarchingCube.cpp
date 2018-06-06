@@ -137,10 +137,7 @@ void vPrintHelp()
 {
         printf("Marching Cubes Example by Cory Bloyd (dejaspaminacan@my-deja.com)\n\n");
 
-        printf("+/-  increase/decrease sample density\n");
-        printf("PageUp/PageDown  increase/decrease surface value\n");
-        printf("s  change sample function\n");
-        printf("c  toggle marching cubes / marching tetrahedrons\n");
+        printf("Y/T  increase/decrease surface value\n");
         printf("w  wireframe on/off\n");
         printf("l  toggle lighting / color-by-normal\n");
         printf("Home  spin scene on/off\n");
@@ -200,50 +197,7 @@ void vKeyboard(unsigned char cKey, int iX, int iY)
                         }
                         glPolygonMode(GL_FRONT_AND_BACK, ePolygonMode);
                 } break;
-                /*case '+' :
-                case '=' :
-                {
-                        ++iDataSetSize;
-                        fStepSize = 1.0/iDataSetSize;
-                } break;
-                case '-' :
-                {
-                        if(iDataSetSize > 1)
-                        {
-                                --iDataSetSize;
-                                fStepSize = 1.0/iDataSetSize;
-                        }
-                } break;*/
-                //case 'c' :
-                //{
-                //        if(vMarchCube == vMarchCube1)
-                //        {
-                //                vMarchCube = vMarchCube2;//Use Marching Tetrahedrons
-                //        }
-                //        else
-                //        {
-                //                vMarchCube = vMarchCube1;//Use Marching Cubes
-                //        }
-                //} break;
-                /*case 's' :
-                {
-                        if(fSample == fSample1)
-                        {
-                                fSample = fSample2;
-                        }
-                        else if(fSample == fSample2)
-                        {
-                                fSample = fSample3;
-                        }
-                        else if(fSample == fSample3)
-                        {
-                                fSample = fSample4;
-                        }
-						else
-						{
-								fSample = fSample1;
-						}
-                } break;*/
+               
                 case 'l' :
                 {
                         if(bLight)
@@ -265,20 +219,6 @@ void vSpecial(int iKey, int iX, int iY)
 {
         switch(iKey)
         {
-                case GLUT_KEY_PAGE_UP :
-                {
-                        if(fTargetValue < 1000.0)
-                        {
-                                fTargetValue *= 1.1;
-                        }
-                } break;
-                case GLUT_KEY_PAGE_DOWN :
-                {
-                        if(fTargetValue > 1.0)
-                        {
-                                fTargetValue /= 1.1;
-                        }
-                } break;
                 case GLUT_KEY_HOME :
                 {
                         bSpin = !bSpin;

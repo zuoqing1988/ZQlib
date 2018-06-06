@@ -882,8 +882,8 @@ namespace ZQ
 	template<class T>
 	bool ZQ_DImage3D<T>::loadImage(const char* filename)
 	{
-		FILE* in = fopen(filename,"rb");
-		if(in == 0)
+		FILE* in = 0;
+		if(0 != fopen_s(&in,filename, "rb"))
 			return false;
 
 		char type[16];

@@ -68,7 +68,7 @@ int main(int argc, const char** argv)
 	const char* forefile = argv[2];
 	const char* maskfile = argv[3];
 
-	ZQ_DImage<float> in_im, tri_map;
+	ZQ_DImage<double> in_im, tri_map;
 	if (!ZQ_ImageIO::loadImage(in_im, infile, 1))
 	{
 		printf("failed to load %s\n", infile);
@@ -76,7 +76,7 @@ int main(int argc, const char** argv)
 	}
 
 	ZQ_LazySnappingGUI::Run(in_im, tri_map);
-	ZQ_DImage<float> fore_im(in_im);
+	ZQ_DImage<double> fore_im(in_im);
 	int nChannels = in_im.nchannels();
 	for (int i = 0; i < in_im.npixels(); i++)
 	{
@@ -259,6 +259,7 @@ void on_mouse(int event, int x, int y, int flags, void*)
 					back_pts[i * 2 + 0] = backPts[i].x;
 					back_pts[i * 2 + 1] = backPts[i].y;
 				}
+				printf("!\n");
 				if (!ZQ_LazySnapping<BaseType,MAX_CLUSTER_NUM>::LazySnapping(im2, back_pts, back_num, fore_pts, fore_num, mask, ls_opt))
 				{
 					delete[]fore_pts;
@@ -266,7 +267,7 @@ void on_mouse(int event, int x, int y, int flags, void*)
 					fore_pts = NULL;
 					back_pts = NULL;
 				}
-				
+				printf("!!\n");
 				drawMask(imageDraw, mask);
 			}
 			if (fore_pts)

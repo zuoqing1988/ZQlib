@@ -855,7 +855,7 @@ namespace ZQ
 			for (int i = 0; i < npixels1; i++)
 			{
 				int val = gray_data1[i] * 255.0;
-				val = __min(255, max(0, val));
+				val = __min(255, __max(0, val));
 				hist1[val] += 1;
 			}
 			for (int i = 0; i < nBins; i++)
@@ -864,7 +864,7 @@ namespace ZQ
 			for (int i = 0; i < npixels2; i++)
 			{
 				int val = gray_data2[i] * 255.0;
-				val = __min(255, max(0, val));
+				val = __min(255, __max(0, val));
 				hist2[val] += 1;
 			}
 			for (int i = 0; i < nBins; i++)
@@ -902,7 +902,7 @@ namespace ZQ
 			for (int i = 0; i < npixels2; i++)
 			{
 				int val = gray_data2[i] * 255.0;
-				val = __min(255, max(0, val));
+				val = __min(255, __max(0, val));
 				gray_data2_[i] = trans[val] / 255.0;
 			}
 		}

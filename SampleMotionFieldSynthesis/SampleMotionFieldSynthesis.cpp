@@ -114,10 +114,10 @@ bool texture_to_flow(const ZQ_MotionFieldSynthesisOptions& opt)
 		input.SetTexture(tex);
 		input.TranslateToMotionField(tmpfield);
 	}
+	const static int BUF_LEN = 200;
+	char buf[BUF_LEN];
 
-	char buf[200];
-
-	sprintf(buf,"%s.png",output_flowfile);
+	sprintf_s(buf, BUF_LEN,"%s.png",output_flowfile);
 	DImage detail_u,detail_v;
 	tmpfield.separate(1,detail_u,detail_v);
 	IplImage* detail_img = ZQ_ImageIO::SaveFlowToColorImage(detail_u,detail_v,false,0,64,1,false);
@@ -162,7 +162,8 @@ bool generate_detailflow(const ZQ_MotionFieldSynthesisOptions& opt)
 	int fineWidth = opt.fine_width;
 	int fineHeight = opt.fine_height;
 
-	char buf[200];
+	const static int BUF_LEN = 200;
+	char buf[BUF_LEN];
 	
 	DImage detailflow(fineWidth,fineHeight,1);
 	DImage advectedDetail(fineWidth,fineHeight,1);
@@ -192,7 +193,7 @@ bool generate_detailflow(const ZQ_MotionFieldSynthesisOptions& opt)
 	for(int fr = base_id; fr < base_id+frame_count;fr++)
 	{
 		printf("fr = %d\n",fr);
-		sprintf(buf,"%s\\%s%d.%s",original_fold,original_prefix,fr,original_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",original_fold,original_prefix,fr,original_suffix);
 		
 		DImage coarseFlow,coarseU,coarseV;
 		if(!coarseFlow.loadImage(buf))
@@ -228,20 +229,20 @@ bool generate_detailflow(const ZQ_MotionFieldSynthesisOptions& opt)
 
 		if(opt.tex_vector_field)
 		{
-			sprintf(buf,"%s\\%s%d.png",synthesis_fold,synthesis_prefix,fr);
+			sprintf_s(buf, BUF_LEN,"%s\\%s%d.png",synthesis_fold,synthesis_prefix,fr);
 			DImage detail_u,detail_v;
 			detailflow.separate(1,detail_u,detail_v);
 			IplImage* detail_img = ZQ_ImageIO::SaveFlowToColorImage(detail_u,detail_v,false,0,64,1,false);
 			cvSaveImage(buf,detail_img);
 			cvReleaseImage(&detail_img);
 
-			sprintf(buf,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,fr,synthesis_suffix);
+			sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,fr,synthesis_suffix);
 			detailflow.saveImage(buf);
 
 		}
 		else
 		{
-			sprintf(buf,"%s\\tex_%d.png",synthesis_fold,fr);
+			sprintf_s(buf, BUF_LEN,"%s\\tex_%d.png",synthesis_fold,fr);
 			ZQ_ImageIO::saveImage(detailflow,buf);
 
 			DImage tmpfield;
@@ -259,14 +260,14 @@ bool generate_detailflow(const ZQ_MotionFieldSynthesisOptions& opt)
 				input.TranslateToMotionField(tmpfield);
 			}
 
-			sprintf(buf,"%s\\%s%d.png",synthesis_fold,synthesis_prefix,fr);
+			sprintf_s(buf, BUF_LEN,"%s\\%s%d.png",synthesis_fold,synthesis_prefix,fr);
 			DImage detail_u,detail_v;
 			tmpfield.separate(1,detail_u,detail_v);
 			IplImage* detail_img = ZQ_ImageIO::SaveFlowToColorImage(detail_u,detail_v,false,0,64,1,false);
 			cvSaveImage(buf,detail_img);
 			cvReleaseImage(&detail_img);
 
-			sprintf(buf,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,fr,synthesis_suffix);
+			sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,fr,synthesis_suffix);
 			tmpfield.saveImage(buf);
 		}
 	}
@@ -295,7 +296,8 @@ bool advect_density_static(const ZQ_MotionFieldSynthesisOptions& opt)
 	int start_fr = opt.base_id;
 	std::vector<DImage> flows(N);
 
-	char buf[2000];
+	const static int BUF_LEN = 2000;
+	char buf[BUF_LEN];
 
 	const float coarse_weight = opt.coarse_field_weight;
 	const float detail_weight = opt.detail_field_weight;
@@ -304,7 +306,7 @@ bool advect_density_static(const ZQ_MotionFieldSynthesisOptions& opt)
 	for(int i = start_fr;i < start_fr+frame_count;i++)
 	{
 		printf("frame [%d]\n",i);
-		sprintf(buf,"%s\\%s%d.%s",original_fold,original_prefix,i,original_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",original_fold,original_prefix,i,original_suffix);
 		DImage flow;
 		if(!flow.loadImage(buf))
 		{
@@ -313,7 +315,7 @@ bool advect_density_static(const ZQ_MotionFieldSynthesisOptions& opt)
 		}
 
 		DImage detailflow;
-		sprintf(buf,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,i,synthesis_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,i,synthesis_suffix);
 		if(!detailflow.loadImage(buf))
 		{
 			printf("failed to load %s\n",buf);
@@ -329,7 +331,7 @@ bool advect_density_static(const ZQ_MotionFieldSynthesisOptions& opt)
 		flow.Addwith(detailflow,detail_weight);
 
 		DImage in_density,out_density;
-		sprintf(buf,"%s\\%s%d.%s",input_density_fold,input_density_prefix,i,input_density_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",input_density_fold,input_density_prefix,i,input_density_suffix);
 		if(!ZQ_ImageIO::loadImage(in_density,buf,0))
 		{
 			printf("failed to load %s\n",buf);
@@ -342,7 +344,7 @@ bool advect_density_static(const ZQ_MotionFieldSynthesisOptions& opt)
 		DImage cur_u,cur_v;
 		flow.separate(1,cur_u,cur_v);
 
-		sprintf(buf,"%s\\flow_%d.png",output_density_fold,i);
+		sprintf_s(buf, BUF_LEN,"%s\\flow_%d.png",output_density_fold,i);
 		IplImage* flow_img = ZQ_ImageIO::SaveFlowToColorImage(cur_u,cur_v,true,1,64,1,false);
 		cvSaveImage(buf,flow_img);
 		cvReleaseImage(&flow_img);
@@ -353,7 +355,7 @@ bool advect_density_static(const ZQ_MotionFieldSynthesisOptions& opt)
 			in_density = out_density;
 		}
 
-		sprintf(buf,"%s\\%s%d.%s",output_density_fold,output_density_prefix,i,output_density_suffix);
+		sprintf_s(buf, BUF_LEN, "%s\\%s%d.%s",output_density_fold,output_density_prefix,i,output_density_suffix);
 		if(!ZQ_ImageIO::saveImage(out_density,buf))
 		{
 			printf("failed to save %s\n",buf);
@@ -383,8 +385,8 @@ bool advect_density_dynamic(const ZQ_MotionFieldSynthesisOptions& opt)
 
 	int start_fr = opt.base_id;
 	std::vector<DImage> flows(N);
-
-	char buf[2000];
+	const static int BUF_LEN = 2000;
+	char buf[BUF_LEN];
 
 	const float coarse_weight = opt.coarse_field_weight;
 	const float detail_weight = opt.detail_field_weight;
@@ -392,7 +394,7 @@ bool advect_density_dynamic(const ZQ_MotionFieldSynthesisOptions& opt)
 
 	for(int i = start_fr;i < start_fr+N-1;i++)
 	{
-		sprintf(buf,"%s\\%s%d.%s",original_fold,original_prefix,i,original_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",original_fold,original_prefix,i,original_suffix);
 		int off = i%N;
 		if(!flows[off].loadImage(buf))
 		{
@@ -401,7 +403,7 @@ bool advect_density_dynamic(const ZQ_MotionFieldSynthesisOptions& opt)
 		}
 
 		DImage detailflow;
-		sprintf(buf,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,i,synthesis_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,i,synthesis_suffix);
 		if(!detailflow.loadImage(buf))
 		{
 			printf("failed to load %s\n",buf);
@@ -420,7 +422,7 @@ bool advect_density_dynamic(const ZQ_MotionFieldSynthesisOptions& opt)
 	for(int i = start_fr;i < start_fr+M;i++)
 	{
 		printf("frame [%d]\n",i);
-		sprintf(buf,"%s\\%s%d.%s",original_fold,original_prefix,i+N-1,original_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",original_fold,original_prefix,i+N-1,original_suffix);
 		int off = (i+N-1)%N;
 		if(!flows[off].loadImage(buf))
 		{
@@ -429,7 +431,7 @@ bool advect_density_dynamic(const ZQ_MotionFieldSynthesisOptions& opt)
 		}
 
 		DImage detailflow;
-		sprintf(buf,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,i+N-1,synthesis_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",synthesis_fold,synthesis_prefix,i+N-1,synthesis_suffix);
 		if(!detailflow.loadImage(buf))
 		{
 			printf("failed to load %s\n",buf);
@@ -446,7 +448,7 @@ bool advect_density_dynamic(const ZQ_MotionFieldSynthesisOptions& opt)
 		flows[off].Addwith(detailflow,detail_weight);
 
 		DImage in_density,out_density;
-		sprintf(buf,"%s\\%s%d.%s",input_density_fold,input_density_prefix,i,input_density_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",input_density_fold,input_density_prefix,i,input_density_suffix);
 		
 		if(!ZQ_ImageIO::loadImage(in_density,buf,0))
 		{
@@ -465,7 +467,7 @@ bool advect_density_dynamic(const ZQ_MotionFieldSynthesisOptions& opt)
 
 			if(j == 0)
 			{
-				sprintf(buf,"%s\\flow_%d.png",output_density_fold,i);
+				sprintf_s(buf, BUF_LEN, "%s\\flow_%d.png",output_density_fold,i);
 				IplImage* flow_img = ZQ_ImageIO::SaveFlowToColorImage(cur_u,cur_v,true,1,64,1,false);
 				cvSaveImage(buf,flow_img);
 				cvReleaseImage(&flow_img);
@@ -475,7 +477,7 @@ bool advect_density_dynamic(const ZQ_MotionFieldSynthesisOptions& opt)
 			in_density = out_density;
 		}
 
-		sprintf(buf,"%s\\%s%d.%s",output_density_fold,output_density_prefix,i,output_density_suffix);
+		sprintf_s(buf, BUF_LEN,"%s\\%s%d.%s",output_density_fold,output_density_prefix,i,output_density_suffix);
 		
 		if(!ZQ_ImageIO::saveImage(out_density,buf))
 		{

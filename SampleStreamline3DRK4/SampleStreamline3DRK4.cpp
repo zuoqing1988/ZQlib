@@ -53,8 +53,8 @@ void main(int argc, char** argv)
 		}
 
 
-		FILE* out = fopen(argv[2],"w");
-		if(out == 0)
+		FILE* out = 0;
+		if(0 != fopen_s(&out,argv[2], "w"))
 		{
 			printf("cannot create file %s\n",argv[2]);
 			return ;

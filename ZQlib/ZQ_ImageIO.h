@@ -175,8 +175,8 @@ namespace ZQ
 		template<class T>
 		static bool loadImage(ZQ_DImage<T>& im, const char* filename, int iscolor = 0)
 		{
-			FILE* in = fopen(filename, "r");
-			if (in == 0)
+			FILE* in = 0;
+			if(0 != fopen_s(&in, filename, "r"))
 				return false;
 			fclose(in);
 			IplImage* img = cvLoadImage(filename, iscolor);
@@ -231,8 +231,8 @@ namespace ZQ
 		template<class T>
 		static bool saveImage(const ZQ_DImage<T>& im, const char* filename)
 		{
-			FILE* out = fopen(filename, "w");
-			if (out == 0)
+			FILE* out = 0;
+			if(0 != fopen_s(&out, filename, "w"))
 				return false;
 			fclose(out);
 

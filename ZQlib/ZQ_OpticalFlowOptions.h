@@ -404,7 +404,7 @@ namespace ZQ
 						printf("the value of %s ?\n",argv[i-1]);
 						return false;
 					}
-					strcpy(maskFile,argv[i]);
+					strcpy_s(maskFile, FILE_BUFF_LEN, argv[i]);
 				}
 				else if (_strcmpi(argv[i], "hasMaxUpdateLimit") == 0)
 				{

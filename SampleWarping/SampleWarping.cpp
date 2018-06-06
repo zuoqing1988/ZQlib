@@ -1,6 +1,6 @@
 #include "ZQ_Warping.h"
-#include "cv.h"
-#include "highgui.h"
+#include "opencv\cv.h"
+#include "opencv\highgui.h"
 
 using namespace ZQ;
 

@@ -1,6 +1,6 @@
 #include "ZQ_LazySnappingGUI.h"
 #include "ZQ_ScanLinePolygonFill.h"
-#include "highgui.h"
+#include "opencv\highgui.h"
 
 using namespace ZQ;
 const char* ZQ_LazySnappingGUI::winName = "Lazy Snapping @ Zuo Qing";
@@ -57,7 +57,7 @@ bool ZQ_LazySnappingGUI::Run(const ZQ_DImage<BaseType>& ori_image, ZQ_DImage<Bas
 	}
 	else
 	{
-		im2 = scaled_image;
+		im2 = ori_image;
 		/*if (!ZQ_StructureFromTexture::StructureFromTexture(ori_image, im2, opt))
 		{
 			printf("failed to run StructureFromTexture\n");
@@ -285,7 +285,8 @@ void ZQ_LazySnappingGUI::_mouseHandler(int event, int x, int y, int flags, void*
 					add_backPts.clear();
 				}
 			}
-			if (!ZQ_LazySnapping<BaseType, MAX_CLUSTER_NUM>::FilterMask(lazySnap->GetForegroundMaskPtr(), mask.data(), mask.width(), mask.height(), ls_opt.area_thresh, ls_opt.dilate_erode_size))
+			if (!ZQ_LazySnapping<BaseType, MAX_CLUSTER_NUM>::FilterMask(lazySnap->GetForegroundMaskPtr(), mask.data(), mask.width(), mask.height(), 
+				ls_opt.area_thresh, ls_opt.dilate_erode_size))
 			{
 				memcpy(mask.data(), lazySnap->GetForegroundMaskPtr(), sizeof(bool)*mask.width()*mask.height());
 			}

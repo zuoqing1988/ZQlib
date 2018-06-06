@@ -2,8 +2,8 @@
 #include "ZQ_PoissonSolver.h"
 #include "ZQ_DoubleImage.h"
 #include "ZQ_ImageIO.h"
-#include "cv.h"
-#include "highgui.h"
+#include "opencv\cv.h"
+#include "opencv\highgui.h"
 
 using namespace ZQ;
 using namespace ZQ_PoissonSolver;

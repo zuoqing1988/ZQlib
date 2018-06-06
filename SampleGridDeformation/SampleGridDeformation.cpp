@@ -1,8 +1,8 @@
 #include "ZQ_GridDeformation.h"
 #include "ZQ_GridDeformationOptions.h"
 #include "SampleGridDeformationSceneDescription.h"
-#include "cv.h"
-#include "highgui.h"
+#include "opencv\cv.h"
+#include "opencv\highgui.h"
 
 using namespace ZQ;
 

@@ -13,7 +13,7 @@ void main(const int argc, const char** argv)
 
 	if(!ZQ_MergeImage::Go(opt))
 	{
-		"go failed\n";
+		printf("go failed\n");
 		return ;
 	}
 }

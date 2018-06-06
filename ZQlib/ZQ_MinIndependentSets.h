@@ -182,7 +182,7 @@ namespace ZQ
 		int* element_num_of_set;
 		int** elements;
 	public:
-		void Print(const char* name)
+		bool Print(const char* name)
 		{
 			if (strcmp(name, "stdout") == 0 || strcmp(name, "stderr") == 0)
 			{
@@ -195,10 +195,16 @@ namespace ZQ
 					}
 					printf("\n");
 				}
+				return true;
 			}
 			else
 			{
-				FILE* out = fopen(name, "w");
+				FILE* out = 0;
+				if (0 != fopen_s(&out, name, "w"))
+				{
+					printf("failed to open file %s\n", name);
+					return false;
+				}
 				for (int i = 0; i < set_num; i++)
 				{
 					fprintf(out, "[S%3d]:", i);
@@ -209,6 +215,7 @@ namespace ZQ
 					fprintf(out, "\n");
 				}
 				fclose(out);
+				return true;
 			}
 		}
 	};

@@ -47,16 +47,33 @@ namespace ZQ
 			std::map<int,T>::const_iterator rit;
 			int rowptrC = 0;
 
-			for (int c = 0;c < nCols;c++) 
+			if (flags & TAUCS_DOUBLE)
 			{
-				matC->colptr[c] = rowptrC;
-				for (rit = cols[c].begin(); rit!= cols[c].end() ; ++rit) 
+				for (int c = 0; c < nCols; c++)
 				{
-					matC->rowind[rowptrC]=rit->first;
-					((T*)(matC->values.d))[rowptrC]=rit->second;
-					++rowptrC;
+					matC->colptr[c] = rowptrC;
+					for (rit = cols[c].begin(); rit != cols[c].end(); ++rit)
+					{
+						matC->rowind[rowptrC] = rit->first;
+						matC->values.d[rowptrC] = rit->second;
+						++rowptrC;
+					}
 				}
 			}
+			else
+			{
+				for (int c = 0; c < nCols; c++)
+				{
+					matC->colptr[c] = rowptrC;
+					for (rit = cols[c].begin(); rit != cols[c].end(); ++rit)
+					{
+						matC->rowind[rowptrC] = rit->first;
+						matC->values.s[rowptrC] = rit->second;
+						++rowptrC;
+					}
+				}
+			}
+			
 
 			matC->colptr[nCols] = nnz;
 			return matC;

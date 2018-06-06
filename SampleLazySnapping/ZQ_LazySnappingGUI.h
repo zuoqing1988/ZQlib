@@ -2,7 +2,7 @@
 #define _ZQ_LAZY_SNAPPING_GUI_H_
 #pragma once
 
-#include "cv.h"
+#include <opencv\cv.h>
 #include <vector>
 #include "ZQ_DoubleImage.h"
 #include "ZQ_LazySnapping.h"
@@ -13,7 +13,7 @@ namespace ZQ
 	class ZQ_LazySnappingGUI
 	{
 	public:
-		typedef float BaseType;
+		typedef double BaseType;
 		static const int MAX_CLUSTER_NUM = 32;
 		static const int standard_width = 960;
 		static const int standard_height = 540;

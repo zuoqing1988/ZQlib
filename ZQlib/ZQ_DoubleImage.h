@@ -962,8 +962,8 @@ namespace ZQ
 	template<class T>
 	bool ZQ_DImage<T>::saveImage(const char *filename) const
 	{
-		FILE* out = fopen(filename,"wb");
-		if(out == 0)
+		FILE* out = 0;
+		if(0 != fopen_s(&out, filename, "wb"))
 			return false;
 
 		char type[16];
@@ -986,8 +986,8 @@ namespace ZQ
 	template<class T>
 	bool ZQ_DImage<T>::loadImage(const char* filename)
 	{
-		FILE* in = fopen(filename,"rb");
-		if(in == 0)
+		FILE* in = 0;
+		if(0 != fopen_s(&in, filename, "rb"))
 			return false;
 
 		char type[16];

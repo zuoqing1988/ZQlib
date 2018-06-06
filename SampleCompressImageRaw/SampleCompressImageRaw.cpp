@@ -1,8 +1,6 @@
 #include "ZQ_CompressedImageRaw.h"
 #include "ZQ_CompressedImage.h"
 #include "ZQ_ImageIO.h"
-#include "cv.h"
-#include "highgui.h"
 
 using namespace ZQ;
 

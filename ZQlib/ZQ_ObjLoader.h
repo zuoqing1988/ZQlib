@@ -87,9 +87,8 @@ namespace ZQ
 			mLen = 0;
 			mMyAlloc = false;
 
-			FILE* in = fopen(fname, "rb");
-
-			if (in)
+			FILE* in = 0;
+			if(0 != fopen_s(&in,fname, "rb"))
 			{
 				fseek(in, 0L, SEEK_END);
 				mLen = ftell(in);
@@ -755,7 +754,7 @@ namespace ZQ
 				}
 				else
 				{
-					sscanf(argv + i, "%d", vt_id);
+					sscanf_s(argv + i, "%d", vt_id);
 					has_vt_id = true;
 					has_vn_id = false;
 					return;
@@ -770,7 +769,7 @@ namespace ZQ
 			{
 				strncpy_s(buf, argv + i, len);
 				buf[len] = 0;
-				sscanf(buf, "%d", vt_id);
+				sscanf_s(buf, "%d", vt_id);
 				has_vt_id = true;
 			}
 
@@ -779,7 +778,7 @@ namespace ZQ
 			if (argv[j] != '\0')
 			{
 				has_vn_id = true;
-				sscanf(argv + i, "%d", vn_id);
+				sscanf_s(argv + i, "%d", vn_id);
 			}
 			else
 			{
@@ -913,8 +912,8 @@ namespace ZQ
 		bool LoadFromBinaryFile(const char* fname)
 		{
 			_clear();
-			FILE* in = fopen(fname, "rb");
-			if (in == 0)
+			FILE* in = 0;
+			if(0 != fopen_s(&in, fname, "rb"))
 			{
 				return false;
 			}
@@ -980,8 +979,8 @@ namespace ZQ
 				return false;
 
 
-			FILE* out = fopen(fname, "wb");
-			if (out == 0)
+			FILE* out = 0;
+			if(0 != fopen_s(&out, fname, "wb"))
 			{
 				return false;
 			}

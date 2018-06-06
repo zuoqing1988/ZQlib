@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include "ZQ_CPURenderer3DWorkSpace.h"
 #include "ZQ_StereoRectify.h"
-#include "cv.h"
-#include "highgui.h"
 #include "ZQ_ImageIO.h"
 
 using namespace ZQ;
@@ -32,7 +30,7 @@ bool first_to_second_rT(const T* R1, const T* T1, const T* R2, const T* T2, T* r
 	T1_2[0] += inv_T[0];
 	T1_2[1] += inv_T[1];
 	T1_2[2] += inv_T[2];
-	if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r_fun(R1_2, rT))
+	if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r(R1_2, rT))
 	{
 		return false;
 	}
@@ -71,11 +69,11 @@ int test_stereo_disparity_opticalflow_L1();
 
 int main()
 {
-	//test_stereo_rectify<float>();
-	//test_stereo_rectify<double>();
-	//test_stereo_disparity_opticalflow_L2<float>();
+	test_stereo_rectify<float>();
+	test_stereo_rectify<double>();
+	test_stereo_disparity_opticalflow_L2<float>();
 	test_stereo_disparity_opticalflow_L2<double>();
-	//test_stereo_disparity_opticalflow_L1<double>();
+	test_stereo_disparity_opticalflow_L1<double>();
 
 	return 0;
 }
@@ -85,12 +83,11 @@ template<class T>
 int test_stereo_rectify()
 {
 
-	bool global_coord = false;
 	int width = 960, height = 540;
 
 	/*******************************  load image begin *******************************/
-	const char* left_name = "bino_left.png";
-	const char* right_name = "bino_right.png";
+	const char* left_name = "bino_left.jpg";
+	const char* right_name = "bino_right.jpg";
 
 	ZQ_DImage<T> left_ori_img, right_ori_img;
 	if (!ZQ_ImageIO::loadImage(left_ori_img, left_name, 0))
@@ -118,8 +115,8 @@ int test_stereo_rectify()
 
 	/*******************************  set binocular paras begin *******************************/
 	float focal_len = height, cx = width*0.5, cy = height*0.5;
-	T left_ori_intrinsic[4] = { focal_len, focal_len, cx, cy };
-	T right_ori_intrinsic[4] = { focal_len, focal_len, cx, cy };
+	T left_ori_intrinsic[10] = { focal_len, focal_len, cx, cy };
+	T right_ori_intrinsic[10] = { focal_len, focal_len, cx, cy };
 
 	float view_mat1[16], view_mat2[16];
 	ZQ_CPURenderer3DWorkspace renderer(width, height, false);
@@ -143,8 +140,8 @@ int test_stereo_rectify()
 
 	T left_ori_rT[6];
 	T right_ori_rT[6];
-	ZQ_Rodrigues::ZQ_Rodrigues_R2r_fun(left_ori_R, left_ori_rT);
-	ZQ_Rodrigues::ZQ_Rodrigues_R2r_fun(right_ori_R, right_ori_rT);
+	ZQ_Rodrigues::ZQ_Rodrigues_R2r(left_ori_R, left_ori_rT);
+	ZQ_Rodrigues::ZQ_Rodrigues_R2r(right_ori_R, right_ori_rT);
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -175,29 +172,17 @@ int test_stereo_rectify()
 	T*& right_map_ofr = right_map_ori_from_rectify.data();
 	ZQ_DImage<bool> right_mask_ori_from_rectify(width, height);
 	bool*& right_mask_ofr = right_mask_ori_from_rectify.data();
-	T left_rectify_intrinsic[4], right_rectify_intrinsic[4];
+	T left_rectify_intrinsic[10], right_rectify_intrinsic[10];
 	T left_rectify_rT[6], right_rectify_rT[6];
 	double right_to_left_transX;
 
-	if (global_coord)
+	if (!ZQ_StereoRectify::stereo_rectify(width, height, left_ori_rT, right_ori_rT, left_ori_intrinsic, right_ori_intrinsic, left_rectify_rT, right_rectify_rT,
+		left_rectify_intrinsic, right_rectify_intrinsic, left_map_rfo, left_mask_rfo, right_map_rfo, right_mask_rfo))
 	{
-		if (!ZQ_StereoRectify::stereo_rectify(width, height, left_ori_rT, right_ori_rT, left_ori_intrinsic, right_ori_intrinsic, left_rectify_rT, right_rectify_rT,
-			left_rectify_intrinsic, right_rectify_intrinsic, left_map_rfo, left_mask_rfo, right_map_rfo, right_mask_rfo))
-		{
-			printf("stereo rectify fail\n");
-			return 0;
-		}
+		printf("stereo rectify fail\n");
+		return 0;
 	}
-	else
-	{
-		if (!ZQ_StereoRectify::stereo_rectify(width, height, right_to_left_rT, left_ori_intrinsic, right_ori_intrinsic, right_to_left_transX, left_rectify_intrinsic,
-			right_rectify_intrinsic, left_map_rfo, left_mask_rfo, right_map_rfo, right_mask_rfo, left_map_ofr, left_mask_ofr, right_map_ofr, right_mask_ofr))
-		{
-			printf("stereo rectify fail\n");
-			return 0;
-		}
 
-	}
 
 	ZQ_DImage<T> left_rectify_img(width, height), right_rectify_img(width, height);
 	T*& left_r_i_data = left_rectify_img.data();
@@ -228,7 +213,7 @@ int test_stereo_rectify()
 	T*& left_m_i_data = left_mapback_img.data();
 	T*& right_m_i_data = right_mapback_img.data();
 
-	if (!global_coord)
+	/*if (!global_coord)
 	{
 		for (int i = 0; i < height; i++)
 		{
@@ -249,7 +234,7 @@ int test_stereo_rectify()
 				ZQ_ImageProcessing::BilinearInterpolate(right_r_i_data, width, height, 1, x, y, right_m_i_data + i*width + j, false);
 			}
 		}
-	}
+	}*/
 
 	left_rectify_img.FlipY();
 	right_rectify_img.FlipY();
@@ -261,13 +246,13 @@ int test_stereo_rectify()
 	ZQ_ImageIO::saveImage(left_mask_rectify_from_ori, "left_rectify_mask.png");
 	ZQ_ImageIO::saveImage(right_mask_rectify_from_ori, "right_rectify_mask.png");
 
-	if (!global_coord)
+	/*if (!global_coord)
 	{
 		left_mapback_img.FlipY();
 		right_mapback_img.FlipY();
 		ZQ_ImageIO::saveImage(left_mapback_img, "left_mapback.png");
 		ZQ_ImageIO::saveImage(right_mapback_img, "right_mapback.png");
-	}
+	}*/
 
 	return 0;
 }

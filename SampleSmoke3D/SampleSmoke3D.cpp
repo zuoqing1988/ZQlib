@@ -2,8 +2,8 @@
 #include "ZQ_DoubleImage3D.h"
 #include "ZQ_Advection3D.h"
 #include "ZQ_CPURaycasting.h"
-#include "cv.h"
-#include "highgui.h"
+#include "opencv\cv.h"
+#include "opencv\highgui.h"
 
 using namespace ZQ;
 using namespace ZQ_PoissonSolver3D;
