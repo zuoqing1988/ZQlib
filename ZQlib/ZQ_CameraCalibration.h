@@ -133,15 +133,12 @@ namespace ZQ
 		/*
 		refer to the paper:
 		iterative pose estimation using coplanar feature points. Denis Oberkampf, Daniel F. DeMenthon, Larry  S. Davis. CVIU, 1995.
-		left hand coordinates.
-		intrinsic_para[0-3]: fx, fy, u0, v0. with no distortion.
 		rT[0-5]: rx, ry, rz, Tx, Ty, Tz.  (rx,ry,rz,rw) is a quaternion.
 		*/
 		template<class T>
 		static bool PositCoplanar(int nPts, const T* X3, const T* X2, const T fc[2], const T cc[2], const T kc[5], const T alpha_c, int max_iter, double tol_E, T* rT, T* reproj_err_square, bool zAxis_in);
 
 		/*
-		left hand coordinates.
 		The base idea is to use the method proposed in the paper:
 		iterative pose estimation using coplanar points. Denis Oberkampf, Daniel F. DeMenthon, Larry  S. Davis. CVPR, 1993.
 		However, I find it cannot make sure the method always converge to the optimal solution.
