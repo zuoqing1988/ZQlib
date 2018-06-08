@@ -3130,7 +3130,6 @@ namespace ZQ
 	/*
 	refer to the paper:
 	iterative pose estimation using coplanar feature points. Denis Oberkampf, Daniel F. DeMenthon, Larry  S. Davis. CVIU, 1995.
-	intrinsic_para[0-3]: fx, fy, u0, v0. with no distortion.
 	rT[0-5]: rx, ry, rz, Tx, Ty, Tz.  (rx,ry,rz,rw) is a quaternion.
 	*/
 	template<class T>
