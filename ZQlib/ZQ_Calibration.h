@@ -2645,12 +2645,8 @@ private:
 
 		T R[9];
 		
-		if(!ZQ_Rodrigues::ZQ_Rodrigues_r2R_fun(r,R))
-		{
-			//printf("error: Rodrigues r to R failed:(%d)%s\n",__LINE__,__FILE__);
-			return false;
-		}
-
+		ZQ_Rodrigues::ZQ_Rodrigues_r2R(r, R);
+		
 		T* tmp_X2 = new T[N * 2];
 
 		proj_no_distortion(N,A,R,tt,X3,tmp_X2,eps);
@@ -2691,17 +2687,8 @@ private:
 		
 		T dRdr[27],R[9];
 		const T *tt = p+3;
-		if(!ZQ_Rodrigues::ZQ_Rodrigues_r2R_jac(p,dRdr))
-		{
-			//printf("error: Rodrigues r to R failed:(%d)%s\n",__LINE__,__FILE__);
-			return false;
-		}
-		if(!ZQ_Rodrigues::ZQ_Rodrigues_r2R_fun(p,R))
-		{
-			//printf("error: Rodrigues r to R failed:(%d)%s\n",__LINE__,__FILE__);
-			return false;
-		}
-
+		ZQ_Rodrigues::ZQ_Rodrigues_r2R(p, R, dRdr);
+	
 		for(int i = 0;i < N;i++)
 		{
 			int cur_row0 = i*2+0;
@@ -3001,7 +2988,7 @@ private:
 			}
 			tt[i] = invM.GetData(i,3,flag);
 		}
-		ZQ_Rodrigues::ZQ_Rodrigues_R2r_fun(R,rT);
+		ZQ_Rodrigues::ZQ_Rodrigues_R2r(R,rT);
 		
 		
 		delete []A;
@@ -3053,8 +3040,8 @@ private:
 
 		for(int i = 0;i < n_pts;i++)
 		{
-			X[i*2+0] = X2[i*2+0]-intrinsic_para[3];
-			X[i*2+1] = (X2[i*2+1]-intrinsic_para[4])*scale_y;
+			X[i*2+0] = X2[i*2+0]-intrinsic_para[2];
+			X[i*2+1] = (X2[i*2+1]-intrinsic_para[3])*scale_y;
 		}
 
 		ZQ_Matrix<double> Amat(n_pts,3),Bmat(3,n_pts);
@@ -4190,21 +4177,8 @@ private:
 									  checkboard_visited_err[j] = cam_visited_err[i] + checkboard_to_cam_err_map[j*n_cams + i];
 									  T tmp_R[9];
 									  T* tmp_T = checkboard_to_cam_rT_map + (j*n_cams + i) * 6 + 3;
-									  if (!ZQ_Rodrigues::ZQ_Rodrigues_r2R_fun(checkboard_to_cam_rT_map + (j*n_cams + i) * 6, tmp_R))
-									  {
-										  delete[]checkboard_to_cam_err_map;
-										  delete[]checkboard_to_cam_rT_map;
-										  delete[]visible_map;
-										  delete[]cam_R;
-										  delete[]cam_T;
-										  delete[]checkboard_R;
-										  delete[]checkboard_T;
-										  delete[]cam_visited;
-										  delete[]cam_visited_err;
-										  delete[]checkboard_visited;
-										  delete[]checkboard_visited_err;
-										  return false;
-									  }
+									  ZQ_Rodrigues::ZQ_Rodrigues_r2R(checkboard_to_cam_rT_map + (j*n_cams + i) * 6, tmp_R);
+									 
 									  ZQ_MathBase::MatrixMul(cam_R + i * 9, tmp_R, 3, 3, 3, checkboard_R + j * 9);
 									  ZQ_MathBase::MatrixMul(cam_R + i * 9, tmp_T, 3, 3, 1, checkboard_T + j * 3);
 									  checkboard_T[j * 3 + 0] += cam_T[i * 3 + 0];
@@ -4220,21 +4194,8 @@ private:
 										  checkboard_visited_err[j] = tmp_err;
 										  T tmp_R[9];
 										  T* tmp_T = checkboard_to_cam_rT_map + (j*n_cams + i) * 6 + 3;
-										  if (!ZQ_Rodrigues::ZQ_Rodrigues_r2R_fun(checkboard_to_cam_rT_map + (j*n_cams + i) * 6, tmp_R))
-										  {
-											  delete[]checkboard_to_cam_err_map;
-											  delete[]checkboard_to_cam_rT_map;
-											  delete[]visible_map;
-											  delete[]cam_R;
-											  delete[]cam_T;
-											  delete[]checkboard_R;
-											  delete[]checkboard_T;
-											  delete[]cam_visited;
-											  delete[]cam_visited_err;
-											  delete[]checkboard_visited;
-											  delete[]checkboard_visited_err;
-											  return false;
-										  }
+										  ZQ_Rodrigues::ZQ_Rodrigues_r2R(checkboard_to_cam_rT_map + (j*n_cams + i) * 6, tmp_R);
+
 										  ZQ_MathBase::MatrixMul(cam_R + i * 9, tmp_R, 3, 3, 3, checkboard_R + j * 9);
 										  ZQ_MathBase::MatrixMul(cam_R + i * 9, tmp_T, 3, 3, 1, checkboard_T + j * 3);
 										  checkboard_T[j * 3 + 0] += cam_T[i * 3 + 0];
@@ -4284,21 +4245,8 @@ private:
 									  cam_visited_err[i] = checkboard_visited_err[j] + checkboard_to_cam_err_map[j*n_cams + i];
 									  T tmp_R[9];
 									  T* tmp_T = checkboard_to_cam_rT_map + (j*n_cams + i) * 6 + 3;
-									  if (!ZQ_Rodrigues::ZQ_Rodrigues_r2R_fun(checkboard_to_cam_rT_map + (j*n_cams + i) * 6, tmp_R))
-									  {
-										  delete[]checkboard_to_cam_err_map;
-										  delete[]checkboard_to_cam_rT_map;
-										  delete[]visible_map;
-										  delete[]cam_R;
-										  delete[]cam_T;
-										  delete[]checkboard_R;
-										  delete[]checkboard_T;
-										  delete[]cam_visited;
-										  delete[]cam_visited_err;
-										  delete[]checkboard_visited;
-										  delete[]checkboard_visited_err;
-										  return false;
-									  }
+									  ZQ_Rodrigues::ZQ_Rodrigues_r2R(checkboard_to_cam_rT_map + (j*n_cams + i) * 6, tmp_R);
+									 
 									  //inv_R = R^T
 									  T inv_R[9] = {
 										  tmp_R[0], tmp_R[3], tmp_R[6],
@@ -4327,21 +4275,8 @@ private:
 										  cam_visited_err[i] = tmp_err;
 										  T tmp_R[9];
 										  T* tmp_T = checkboard_to_cam_rT_map + (j*n_cams + i) * 6 + 3;
-										  if (!ZQ_Rodrigues::ZQ_Rodrigues_r2R_fun(checkboard_to_cam_rT_map + (j*n_cams + i) * 6, tmp_R))
-										  {
-											  delete[]checkboard_to_cam_err_map;
-											  delete[]checkboard_to_cam_rT_map;
-											  delete[]visible_map;
-											  delete[]cam_R;
-											  delete[]cam_T;
-											  delete[]checkboard_R;
-											  delete[]checkboard_T;
-											  delete[]cam_visited;
-											  delete[]cam_visited_err;
-											  delete[]checkboard_visited;
-											  delete[]checkboard_visited_err;
-											  return false;
-										  }
+										  ZQ_Rodrigues::ZQ_Rodrigues_r2R(checkboard_to_cam_rT_map + (j*n_cams + i) * 6, tmp_R);
+
 										  //inv_R = R^T
 										  T inv_R[9] = {
 											  tmp_R[0], tmp_R[3], tmp_R[6],
@@ -4424,7 +4359,7 @@ private:
 		}
 		for (int j = 0; j < n_checkboards; j++)
 		{
-			if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r_fun(checkboard_R + j * 9, checkboard_rT_to_cam0 + j * 6))
+			if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r(checkboard_R + j * 9, checkboard_rT_to_cam0 + j * 6))
 			{
 				delete[]cam_R;
 				delete[]cam_T;
@@ -4453,7 +4388,7 @@ private:
 			inv_T[0] = -inv_T[0];
 			inv_T[1] = -inv_T[1];
 			inv_T[2] = -inv_T[2];
-			if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r_fun(inv_R, cam0_to_othercam_rT + (i-1) * 6))
+			if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r(inv_R, cam0_to_othercam_rT + (i-1) * 6))
 			{
 				delete[]cam_R;
 				delete[]cam_T;
@@ -4603,16 +4538,8 @@ private:
 				const T* r_0 = checkboard_rT_to_cam0 + cur_checkboard_idx * 6;
 				memcpy(tmp_r, r_0, sizeof(T)* 3);
 				ZQ_Rodrigues::ZQ_Rodrigues_autoscale(tmp_r);
-				if (!ZQ_Rodrigues::ZQ_Rodrigues_r2R_jac(tmp_r, dR_0_dr_0))
-				{
-					//printf("error: Rodrigues r to R failed:(%d)%s\n",__LINE__,__FILE__);
-					return false;
-				}
-				if (!ZQ_Rodrigues::ZQ_Rodrigues_r2R_fun(tmp_r, R_0))
-				{
-					//printf("error: Rodrigues r to R failed:(%d)%s\n",__LINE__,__FILE__);
-					return false;
-				}
+				ZQ_Rodrigues::ZQ_Rodrigues_r2R_jac(tmp_r, R_0, dR_0_dr_0);
+				
 				for (int pp = 0; pp < N; pp++)
 				{
 					int cur_row0 = (cur_vis_off + j)*N * 2 + pp * 2 + 0;
@@ -4752,16 +4679,7 @@ private:
 				const T* r_0 = checkboard_rT_to_cam0 + cur_checkboard_idx * 6;
 				memcpy(tmp_r, r_0, sizeof(T)* 3);
 				ZQ_Rodrigues::ZQ_Rodrigues_autoscale(tmp_r);
-				if (!ZQ_Rodrigues::ZQ_Rodrigues_r2R_jac(tmp_r, dR_0_dr_0))
-				{
-					//printf("error: Rodrigues r to R failed:(%d)%s\n",__LINE__,__FILE__);
-					return false;
-				}
-				if (!ZQ_Rodrigues::ZQ_Rodrigues_r2R_fun(tmp_r, R_0))
-				{
-					//printf("error: Rodrigues r to R failed:(%d)%s\n",__LINE__,__FILE__);
-					return false;
-				}
+				ZQ_Rodrigues::ZQ_Rodrigues_r2R_jac(tmp_r, R_0, dR_0_dr_0);
 				for (int pp = 0; pp < N; pp++)
 				{
 					int cur_row0 = (cur_vis_off + j)*N * 2 + pp * 2 + 0;

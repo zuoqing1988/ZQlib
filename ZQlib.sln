@@ -132,6 +132,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamplePutTextCN", "SamplePu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleBilateralTextureFilter", "SampleBilateralTextureFilter\SampleBilateralTextureFilter.vcxproj", "{DE37DD0A-E532-4902-8FC4-B8CFB5B0CFCA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamplePOSIT", "SamplePOSIT\SamplePOSIT.vcxproj", "{506E6614-3D46-47B1-BC46-5DF0B71E2703}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -659,6 +661,14 @@ Global
 		{DE37DD0A-E532-4902-8FC4-B8CFB5B0CFCA}.Release|Win32.Build.0 = Release|x64
 		{DE37DD0A-E532-4902-8FC4-B8CFB5B0CFCA}.Release|x64.ActiveCfg = Release|x64
 		{DE37DD0A-E532-4902-8FC4-B8CFB5B0CFCA}.Release|x64.Build.0 = Release|x64
+		{506E6614-3D46-47B1-BC46-5DF0B71E2703}.Debug|Win32.ActiveCfg = Debug|Win32
+		{506E6614-3D46-47B1-BC46-5DF0B71E2703}.Debug|Win32.Build.0 = Debug|Win32
+		{506E6614-3D46-47B1-BC46-5DF0B71E2703}.Debug|x64.ActiveCfg = Debug|x64
+		{506E6614-3D46-47B1-BC46-5DF0B71E2703}.Debug|x64.Build.0 = Debug|x64
+		{506E6614-3D46-47B1-BC46-5DF0B71E2703}.Release|Win32.ActiveCfg = Release|Win32
+		{506E6614-3D46-47B1-BC46-5DF0B71E2703}.Release|Win32.Build.0 = Release|Win32
+		{506E6614-3D46-47B1-BC46-5DF0B71E2703}.Release|x64.ActiveCfg = Release|x64
+		{506E6614-3D46-47B1-BC46-5DF0B71E2703}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

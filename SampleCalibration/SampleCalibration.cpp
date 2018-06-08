@@ -65,7 +65,7 @@ bool check_visible(const T* cam_R, const T* cam_T, const T* board_R, const T* bo
 	modelview_T[2] += view_T[2];
 
 	T mv_r[3];
-	if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r_fun(modelview_R, mv_r))
+	if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r(modelview_R, mv_r))
 		return false;
 
 	T w2 = 1.0 - mv_r[0] * mv_r[0] - mv_r[1] * mv_r[1] - mv_r[2] * mv_r[2];
@@ -97,7 +97,7 @@ bool first_to_second_rT(const T* R1, const T* T1, const T* R2, const T* T2, T* r
 	T1_2[0] += inv_T[0];
 	T1_2[1] += inv_T[1];
 	T1_2[2] += inv_T[2];
-	if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r_fun(R1_2, rT))
+	if (!ZQ_Rodrigues::ZQ_Rodrigues_R2r(R1_2, rT))
 	{
 		return false;
 	}
@@ -127,32 +127,35 @@ int test_stickCalib();
 template<class T, const bool zAxis_in>
 int test_CamCalib();
 
-template<class T>
+template<class T, const bool zAxis_in>
 int test_proj();
 
 int main()
 {
-	//test_posit_no_coplanar_and_pose_estimation<float>();
-	//test_posit_no_coplanar_and_pose_estimation<double>();
-	//test_posit_coplanar_robust<float, true>();
-	//test_posit_coplanar_robust<float, false>();
-	//test_posit_coplanar_robust<double, true>();
-	//test_posit_coplanar_robust<double, false>();
-	//test_binocalib_with_known_intrinsic<float, true>();
-	//test_binocalib_with_known_intrinsic<float, false>();
+	/*test_posit_no_coplanar_and_pose_estimation<float>();
+	test_posit_no_coplanar_and_pose_estimation<double>();*/
+	/*test_posit_coplanar_robust<float, true>();
+	test_posit_coplanar_robust<float, false>();
+	test_posit_coplanar_robust<double, true>();
+	test_posit_coplanar_robust<double, false>();*/
+	/*test_binocalib_with_known_intrinsic<float, true>();
+	test_binocalib_with_known_intrinsic<float, false>();
 	test_binocalib_with_known_intrinsic<double,true>();
-	test_binocalib_with_known_intrinsic<double,false>();
-	//test_multicalib_with_known_intrinsic<float>();
-	//test_multicalib_with_known_intrinsic<double>();
-	//test_stickCalib_closed_form_solution<float>();
-	//test_stickCalib_closed_form_solution<double>();
-	//test_stickCalib<float>();
-	//test_stickCalib<double>();
-	//test_CamCalib<float, true>();
-	//test_CamCalib<float, false>();
-	//test_CamCalib<double, true>();
-	//test_CamCalib<double, false>();
-	//test_proj<double>();
+	test_binocalib_with_known_intrinsic<double,false>();*/
+	/*test_multicalib_with_known_intrinsic<float>();
+	test_multicalib_with_known_intrinsic<double>();*/
+	/*test_stickCalib_closed_form_solution<float>();
+	test_stickCalib_closed_form_solution<double>();*/
+	/*test_stickCalib<float>();
+	test_stickCalib<double>();*/
+	test_CamCalib<float, true>();
+	test_CamCalib<float, false>();
+	test_CamCalib<double, true>();
+	test_CamCalib<double, false>();
+	test_proj<float, true>();
+	test_proj<float, false>();
+	test_proj<double, true>();
+	test_proj<double, false>();
 
 	return 0;
 }
@@ -166,8 +169,6 @@ int test_posit_no_coplanar_and_pose_estimation()
 
 	for(int cc = 0;cc < 100;cc++)
 	{
-
-
 		clock_t t1 = clock();
 		T intrinsic_para[5] = {1200,1200,512,512};
 
@@ -205,7 +206,7 @@ int test_posit_no_coplanar_and_pose_estimation()
 
 		T R[9];
 		T* TT = rT+3;
-		ZQ_Rodrigues::ZQ_Rodrigues_r2R_fun(rT,R);
+		ZQ_Rodrigues::ZQ_Rodrigues_r2R(rT,R);
 
 		ZQ_Calibration::proj_no_distortion(num_of_pts,A,R,TT,X3,X2,eps);
 
@@ -951,7 +952,7 @@ int test_CamCalib()
 	return 0;
 }
 
-template<class T>
+template<class T, const bool zAxis_in>
 int test_proj()
 {
 	T fc[2] = { 1600, 1600 };
@@ -967,10 +968,10 @@ int test_proj()
 	T dxdc[4];
 	T dxdk[10];
 	T dxdalpha[2];
-	ZQ_CameraCalibration::project_points_fun(1, X3, rT, fc, cc, kc, alpha_c, x);
+	ZQ_CameraCalibration::project_points_fun(1, X3, rT, fc, cc, kc, alpha_c, x, zAxis_in);
 	m_printf_mxn_f(x, 2, 1);
 	printf("\n\n");
-	ZQ_CameraCalibration::project_points_jac(1, X3, rT, fc, cc, kc, alpha_c, dxdrT, dxdf, dxdc, dxdk, dxdalpha);
+	ZQ_CameraCalibration::project_points_jac(1, X3, rT, fc, cc, kc, alpha_c, dxdrT, dxdf, dxdc, dxdk, dxdalpha, zAxis_in);
 	m_printf_mxn_f(dxdrT, 2, 6);
 	printf("\n\n");
 	m_printf_mxn_f(dxdf, 2, 2);

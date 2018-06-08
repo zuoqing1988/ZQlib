@@ -17,12 +17,12 @@ namespace ZQ
 	private:
 		bool has_data;
 		ZQ_DImage<T> data;
-		bool x_warp_mode;
-		bool y_warp_mode;
+		bool x_wrap_mode;
+		bool y_wrap_mode;
 
 	public:
 		bool BindImage(const ZQ_DImage<T>& img, bool wrap_mode);
-		bool BindImage(const ZQ_DImage<T>& img, bool x_wrap_mode, bool y_warp_mode);
+		bool BindImage(const ZQ_DImage<T>& img, bool x_wrap_mode, bool y_wrap_mode);
 		bool Sample_NormalizedCoord(float x, float y, T* result, bool cubic) const;
 		bool Sample(float x, float y, T* result, bool cubic) const;
 		int nchannels() const { return data.nchannels(); }
@@ -34,8 +34,8 @@ namespace ZQ
 	template<class T>
 	ZQ_TextureSampler<T>::ZQ_TextureSampler()
 	{
-		x_warp_mode = false;
-		y_warp_mode = false;
+		x_wrap_mode = false;
+		y_wrap_mode = false;
 		has_data = false;
 	}
 
@@ -52,7 +52,7 @@ namespace ZQ
 	}
 
 	template<class T>
-	bool ZQ_TextureSampler<T>::BindImage(const ZQ_DImage<T>& img, bool x_warp_mode, bool y_warp_mode)
+	bool ZQ_TextureSampler<T>::BindImage(const ZQ_DImage<T>& img, bool x_wrap_mode, bool y_wrap_mode)
 	{
 		int width = img.width();
 		int height = img.height();
@@ -60,8 +60,8 @@ namespace ZQ
 		if (width <= 0 || height <= 0 || nChannels <= 0)
 			return false;
 
-		this->x_warp_mode = x_warp_mode;
-		this->y_warp_mode = y_warp_mode;
+		this->x_wrap_mode = x_wrap_mode;
+		this->y_wrap_mode = y_wrap_mode;
 		int padding_width = width + 4;
 		int padding_height = height + 4;
 		data.allocate(padding_width, padding_height, nChannels);
@@ -72,7 +72,7 @@ namespace ZQ
 		int YSLICE = padding_width*nChannels;
 
 
-		if (x_warp_mode)
+		if (x_wrap_mode)
 		{
 			for (int j = 0; j < height; j++)
 				memcpy(ptr + (j + 2)*YSLICE + XSLICE * 2, img_data + j*width*nChannels, sizeof(T)*width*nChannels);
@@ -89,7 +89,7 @@ namespace ZQ
 			memcpy(ptr + j*YSLICE + (padding_width - 2)*XSLICE, ptr + j*YSLICE + XSLICE * 2, sizeof(T)*XSLICE * 2);
 		}
 
-		if (y_warp_mode)
+		if (y_wrap_mode)
 		{
 			memcpy(ptr, ptr + (padding_height - 4)*YSLICE, sizeof(T)*YSLICE);
 			memcpy(ptr + YSLICE, ptr + (padding_height - 3)*YSLICE, sizeof(T)*YSLICE);
@@ -120,7 +120,7 @@ namespace ZQ
 		const T*& ptr = data.data();
 
 		float real_x = 0,real_y = 0;
-		if(x_warp_mode)
+		if(x_wrap_mode)
 		{
 			real_x = (x - floor(x))*(width-4) + 1.5;
 		}
@@ -129,7 +129,7 @@ namespace ZQ
 			real_x = __min(1.0,__max(0,x)) * (width-4) + 1.5;
 		}
 
-		if (y_warp_mode)
+		if (y_wrap_mode)
 		{
 			real_y = (y - floor(y))*(height - 4) + 1.5;
 		}

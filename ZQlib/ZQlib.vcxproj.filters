@@ -300,5 +300,80 @@
     <ClInclude Include="ZQ_PutTextCN.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ZQ_CameraCalibration.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_FindCorners.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_FindLargestRectInHistgram.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_FindLargestSubMatrix.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_JpegCodecDefines.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_JpegDecoder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_JpegEncoder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_Logger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_MFC_Utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_NVMLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_PoseEstimation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_ProtectedData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_QuaternionSpline.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_SemaphoreEx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_Spline.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_StereoCalibration.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_StereoDisparity_CV2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_StereoMatching.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_WinSock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_WinSockBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_WinSockClientImpl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_WinSockClientSimple.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_WinSockIOPoolSimple.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_WinSockServerImpl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_WinSockServerSimple.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

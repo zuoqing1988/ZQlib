@@ -1,0 +1,223 @@
+﻿  SamplePOSIT.cpp
+f:\code\projects\zqlib\zqlib\ZQ_TaucsBase.h(71): warning C4244: “=”: 从“const double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\ZQ_TaucsBase.h(284): note: 参见对正在编译的函数 模板 实例化“taucs_ccs_matrix *ZQ::ZQ_TaucsBase::ZQ_taucs_ccs_CreateMatrixFromColumns<double>(std::vector<std::map<int,double,std::less<int>,std::allocator<std::pair<const _Kty,_Ty>>>,std::allocator<std::map<_Kty,_Ty,std::less<int>,std::allocator<std::pair<const _Kty,_Ty>>>>> &,int,int)”的引用
+          with
+          [
+              _Kty=int,
+              _Ty=double
+          ]
+SamplePOSIT.cpp(42): warning C4244: “初始化”: 从“time_t”转换到“int”，可能丢失数据
+  SamplePOSIT.cpp(29): note: 参见对正在编译的函数 模板 实例化“int test_posit_coplanar_robust<double,true>(void)”的引用
+SamplePOSIT.cpp(56): warning C4305: “初始化”: 从“double”到“float”截断
+SamplePOSIT.cpp(57): warning C4838: 从“double”转换到“float”需要收缩转换
+SamplePOSIT.cpp(57): warning C4305: “初始化”: 从“double”到“float”截断
+SamplePOSIT.cpp(68): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+SamplePOSIT.cpp(69): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+SamplePOSIT.cpp(87): warning C4838: 从“double”转换到“float”需要收缩转换
+SamplePOSIT.cpp(87): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+SamplePOSIT.cpp(99): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(275): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  SamplePOSIT.cpp(94): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::project_points_fun<T>(int,const T *,const T *,const T *,const T *,const T *,const T,T *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+  SamplePOSIT.cpp(33): note: 参见对正在编译的函数 模板 实例化“int test_posit_coplanar_robust<float,true>(void)”的引用
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(286): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3565): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  SamplePOSIT.cpp(110): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::PositCoplanarRobust<T>(int,const T *,const T *,const T [],const T [],const T [],const T,int,int,double,T *,double &,bool)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3591): warning C4838: 从“double”转换到“float”需要收缩转换
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3591): warning C4305: “初始化”: 从“double”到“float”截断
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3608): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3260): warning C4018: “<”: 有符号/无符号不匹配
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3561): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::PositCoplanar<T>(int,const T *,const T *,const T [],const T [],const T [],const T,int,double,T *,T *,bool)”的引用
+          with
+          [
+              T=double
+          ]
+  SamplePOSIT.cpp(110): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::PositCoplanarRobust<T>(int,const T *,const T *,const T [],const T [],const T [],const T,int,int,double,T *,double &,bool)”的引用
+          with
+          [
+              T=double
+          ]
+  SamplePOSIT.cpp(29): note: 参见对正在编译的函数 模板 实例化“int test_posit_coplanar_robust<double,true>(void)”的引用
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3457): warning C4018: “<”: 有符号/无符号不匹配
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3511): warning C4018: “<”: 有符号/无符号不匹配
+f:\code\projects\zqlib\zqlib\ZQ_Rodrigues.h(66): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(259): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_Rodrigues::ZQ_Rodrigues_r2R<T>(const T *,T *,T *)”的引用
+          with
+          [
+              T=float
+          ]
+  SamplePOSIT.cpp(94): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::project_points_fun<T>(int,const T *,const T *,const T *,const T *,const T *,const T,T *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\ZQ_Rodrigues.h(110): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\ZQ_Rodrigues.h(217): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3186): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3561): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::PositCoplanar<T>(int,const T *,const T *,const T [],const T [],const T [],const T,int,double,T *,T *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+  SamplePOSIT.cpp(110): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::PositCoplanarRobust<T>(int,const T *,const T *,const T [],const T [],const T [],const T,int,int,double,T *,double &,bool)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3207): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3352): warning C4838: 从“double”转换到“float”需要收缩转换
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3352): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3356): warning C4838: 从“double”转换到“float”需要收缩转换
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3356): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3375): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3376): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3377): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3378): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3386): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3387): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3388): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3415): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3417): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3537): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1460): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(882): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::_compute_extrinsic_init<T>(int,const T *,const T *,const T [],const T [],const T [],const T,T [],bool)”的引用
+          with
+          [
+              T=float
+          ]
+  SamplePOSIT.cpp(111): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::_compute_extrinsic_param<T>(int,int,const T *,const T *,const T [],const T [],const T [],const T,T *,bool *,int,double,bool,bool)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1461): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1462): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1515): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1516): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1517): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1547): warning C4244: “*=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1602): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1609): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1610): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1611): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1710): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1730): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1831): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(884): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::_compute_extrinsic_refine<T>(int,const T *,const T *,const T *,const T [],const T [],const T [],const T,T [],double *,bool,int,double)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(830): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3160): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_CameraCalibration::undistort_points_oulu<T>(int,const T *,const T [],T *)”的引用
+          with
+          [
+              T=float
+          ]
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3561): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::PositCoplanar<T>(int,const T *,const T *,const T [],const T [],const T [],const T,int,double,T *,T *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(831): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\ZQ_Rodrigues.h(280): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3422): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_Rodrigues::ZQ_Rodrigues_R2r<T>(const T *,T *,T *)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\ZQ_Rodrigues.h(336): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\ZQ_Rodrigues.h(396): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\ZQ_Rodrigues.h(397): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\ZQ_Rodrigues.h(398): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\ZQ_LevMar.h(215): warning C4244: “+=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3688): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_LevMar::ZQ_LevMar_Der<T>(bool (__cdecl *)(const T *,T *,int,int,const void *),bool (__cdecl *)(const T *,T *,int,int,const void *),T *,const T *,int,int,int,const ZQ::ZQ_LevMarOptions &,ZQ::ZQ_LevMarReturnInfos &,const void *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3600): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::pose_estimation_with_init<T>(int,const T *,const T *,const T [],const T [],const T [],const T,int,T *,double &,bool)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\ZQ_LevMar.h(262): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1908): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1531): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::_compute_homography<T>(int,const T *,const T *,T [],T [],T [])”的引用
+          with
+          [
+              T=float
+          ]
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(882): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::_compute_extrinsic_init<T>(int,const T *,const T *,const T [],const T [],const T [],const T,T [],bool)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1909): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1987): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(2058): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(453): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(1792): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::project_points_jac<T>(int,const T *,const T *,const T *,const T *,const T *,const T,T *,T *,T *,T *,T *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(884): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_CameraCalibration::_compute_extrinsic_refine<T>(int,const T *,const T *,const T *,const T [],const T [],const T [],const T,T [],double *,bool,int,double)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(503): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\ZQ_SVD.h(106): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\ZQ_SVD.h(149): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_SVD::Invert<T>(const ZQ::ZQ_Matrix<T> &,ZQ::ZQ_Matrix<T> &)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\ZQ_LevMar.h(221): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_SVD::Solve<T>(const ZQ::ZQ_Matrix<T> &,ZQ::ZQ_Matrix<T> &,const ZQ::ZQ_Matrix<T> &)”的引用
+          with
+          [
+              T=float
+          ]
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_CameraCalibration.h(3688): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_LevMar::ZQ_LevMar_Der<T>(bool (__cdecl *)(const T *,T *,int,int,const void *),bool (__cdecl *)(const T *,T *,int,int,const void *),T *,const T *,int,int,int,const ZQ::ZQ_LevMarOptions &,ZQ::ZQ_LevMarReturnInfos &,const void *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\ZQ_SVD.h(71): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\ZQ_SVD.h(98): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_SVD::Decompose<T>(const ZQ::ZQ_Matrix<T> &,ZQ::ZQ_Matrix<T> &,ZQ::ZQ_Matrix<T> &,ZQ::ZQ_Matrix<T> &)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\ZQ_SVD.h(149): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_SVD::Invert<T>(const ZQ::ZQ_Matrix<T> &,ZQ::ZQ_Matrix<T> &)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\ZQ_SVD.h(73): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\ZQ_SVD.h(75): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\ZQ_MathBase.h(786): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\ZQ_SVD.h(50): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_MathBase::SVD_Decompose<T>(const T *,int,int,T *,T *,T *)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\ZQ_SVD.h(98): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_SVD::Decompose<T>(const ZQ::ZQ_Matrix<T> &,ZQ::ZQ_Matrix<T> &,ZQ::ZQ_Matrix<T> &,ZQ::ZQ_Matrix<T> &)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\ZQ_MathBase.h(938): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  正在生成代码
+  All 272 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  SamplePOSIT.vcxproj -> F:\Code\Projects\ZQlib\Release\SamplePOSIT.exe
+  SamplePOSIT.vcxproj -> F:\Code\Projects\ZQlib\Release\SamplePOSIT.pdb (Full PDB)
