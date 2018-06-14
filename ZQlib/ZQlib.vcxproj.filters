@@ -375,5 +375,23 @@
     <ClInclude Include="ZQ_WinSockServerSimple.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ZQ_MultiCamCalibration.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_CameraProjection.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_CameraPoseEstimation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_CameraCalibrationMono.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_CameraCalibrationBino.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_CameraCalibrationMulti.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

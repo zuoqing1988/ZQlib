@@ -6,7 +6,6 @@ using namespace ZQ;
 int main()
 {
 	const char* file = "cam1_image0.jpg";
-	//const char* file = "C:\\checkboard.png";
 	ZQ_DImage<float> img;
 	ZQ_ImageIO::loadImage(img, file, 0);
 	//img.GaussianSmoothing(2, 3);
@@ -17,7 +16,7 @@ int main()
 		printf("failed to extract grid!");
 		return -1;
 	}
-	printf("done!");
+	printf("done!\n");
 	IplImage* show_img = cvLoadImage(file, 1);
 	int width = grid.width();
 	int height = grid.height();
@@ -30,7 +29,7 @@ int main()
 			int off = h*width + w;
 			int x = grid_data[off * 2 + 0] + 0.5;
 			int y = grid_data[off * 2 + 1] + 0.5;
-			cvCircle(show_img, cvPoint(x, y), 5, scal);
+			cvCircle(show_img, cvPoint(x, y), 5, scal, 2);
 		}
 	}
 	cvNamedWindow("show", 1);

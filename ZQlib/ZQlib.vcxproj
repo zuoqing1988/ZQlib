@@ -85,6 +85,11 @@
     <ClInclude Include="ZQ_BlendTwoImages3D.h" />
     <ClInclude Include="ZQ_Calibration.h" />
     <ClInclude Include="ZQ_CameraCalibration.h" />
+    <ClInclude Include="ZQ_CameraCalibrationBino.h" />
+    <ClInclude Include="ZQ_CameraCalibrationMono.h" />
+    <ClInclude Include="ZQ_CameraCalibrationMulti.h" />
+    <ClInclude Include="ZQ_CameraPoseEstimation.h" />
+    <ClInclude Include="ZQ_CameraProjection.h" />
     <ClInclude Include="ZQ_ClosedFormImageMatting.h" />
     <ClInclude Include="ZQ_ClosedFormImageMattingOptions.h" />
     <ClInclude Include="ZQ_CompressedImage.h" />
@@ -136,6 +141,7 @@
     <ClInclude Include="ZQ_MFC_Utils.h" />
     <ClInclude Include="ZQ_MGMRESSolver.h" />
     <ClInclude Include="ZQ_MinIndependentSets.h" />
+    <ClInclude Include="ZQ_MultiCamCalibration.h" />
     <ClInclude Include="ZQ_NVMLoader.h" />
     <ClInclude Include="ZQ_ObjLoader.h" />
     <ClInclude Include="ZQ_Link_OpenCV_Lib.h" />

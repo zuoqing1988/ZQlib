@@ -29,7 +29,7 @@ int main()
 {
 	test_posit_coplanar_robust<double, true>();
 	test_posit_coplanar_robust<double, false>();
-	
+
 	// float is not accurate
 	test_posit_coplanar_robust<float, true>();
 	test_posit_coplanar_robust<float, false>();
