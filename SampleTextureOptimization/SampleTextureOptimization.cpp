@@ -34,12 +34,12 @@ void main()
 
 	int borderWidth = 16;
 	float reduce_factor = 0.5;
-	int max_level = 5;
+	int max_level = 6;
 
-	float grad_weight = 0.05;
-	float ctrl_weight = 0.05;
-	int to_max_iter = 3;
-	int sor_iter = 10;
+	float grad_weight = 0.07;
+	float ctrl_weight = 0.03;
+	int to_max_iter = 5;
+	int sor_iter = 20;
 	clock_t t1 = clock();
 	to.SynthesisWithoutControl(borderWidth,reduce_factor,max_level,grad_weight,to_max_iter,sor_iter,output1);
 	clock_t t2 = clock();

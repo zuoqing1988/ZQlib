@@ -38,13 +38,13 @@ int main(int argc, const char** argv)
 		printf("failed to set input!\n");
 		return -1;
 	}
-	if (!sampler.RandomSynthesis(width, height))
+	if (!sampler.RandomSynthesis(width, height, 64))
 	{
 		printf("failed to random synthesis!\n");
 		return -1;
 	}
 	printf("random synthesis done!\n");
-	if (!sampler.Optimize(100))
+	if (!sampler.Optimize(1000))
 	{
 		printf("failed to optimize!\n");
 		return -1;
