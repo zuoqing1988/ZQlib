@@ -11,7 +11,7 @@ int main(int argc, const char** argv)
 	if (argc != 6)
 	{
 		printf(".exe infile outfile out_width out_height rand_seed\n");
-		return -1;
+		return EXIT_FAILURE;
 	}
 	const char* infile = argv[1];
 	const char* outfile = argv[2];
@@ -25,7 +25,7 @@ int main(int argc, const char** argv)
 	if (!ZQ_ImageIO::loadImage(in_img, infile, 1))
 	{
 		printf("failed to load %s\n", infile);
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	int in_width = in_img.width();
@@ -36,31 +36,31 @@ int main(int argc, const char** argv)
 	if (!sampler.SetInputTexture(in_img.data(), in_width, in_height, in_nChannels))
 	{
 		printf("failed to set input!\n");
-		return -1;
+		return EXIT_FAILURE;
 	}
 	if (!sampler.RandomSynthesis(width, height, 64))
 	{
 		printf("failed to random synthesis!\n");
-		return -1;
+		return EXIT_FAILURE;
 	}
 	printf("random synthesis done!\n");
 	if (!sampler.Optimize(1000))
 	{
 		printf("failed to optimize!\n");
-		return -1;
+		return EXIT_FAILURE;
 	}
 	printf("optimize done!\n");
 	if (!sampler.ExportOutputTexture(out_img.data()))
 	{
 		printf("failed to export!\n");
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	if (!ZQ_ImageIO::saveImage(out_img, outfile))
 	{
 		printf("failed to save %s\n", outfile);
-		return -1;
+		return EXIT_FAILURE;
 	}
 	printf("done! %s saved!\n",outfile);
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -7,7 +7,7 @@
 using namespace ZQ;
 typedef ZQ_DImage<float> DImage;
 
-void main()
+int main()
 {
 	const char* input_file = "input.jpg";
 	const char* ctrl_file = "ctrl.jpg";
@@ -17,13 +17,13 @@ void main()
 	if(!ZQ_ImageIO::loadImage(input,input_file,1))
 	{
 		printf("failed to load image %s\n",input_file);
-		return;
+		return EXIT_FAILURE;
 	}
 
 	if(!ZQ_ImageIO::loadImage(ctrl,ctrl_file,1))
 	{
 		printf("failed to load image %s\n",ctrl_file);
-		return;
+		return EXIT_FAILURE;
 	}
 
 	int nChannels = input.nchannels();
@@ -50,4 +50,5 @@ void main()
 
 	ZQ_ImageIO::saveImage(output1,output_file1);
 	ZQ_ImageIO::saveImage(output,output_file);
+	return EXIT_SUCCESS;
 }
