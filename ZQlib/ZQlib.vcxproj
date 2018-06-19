@@ -77,6 +77,8 @@
     <ClInclude Include="ZQ_Advection3D.h" />
     <ClInclude Include="ZQ_BilateralFilter.h" />
     <ClInclude Include="ZQ_BilateralFilterOptions.h" />
+    <ClInclude Include="ZQ_BilateralTextureFilter.h" />
+    <ClInclude Include="ZQ_BilateralTextureFilterOptions.h" />
     <ClInclude Include="ZQ_BinaryImageContour.h" />
     <ClInclude Include="ZQ_BinaryImageProcessing.h" />
     <ClInclude Include="ZQ_BitonicSort.h" />

@@ -88,10 +88,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ZQ_BilateralTextureFilter.h" />
-    <ClInclude Include="ZQ_BilateralTextureFilterOptions.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="SampleBilateralTextureFilter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -393,5 +393,11 @@
     <ClInclude Include="ZQ_CameraCalibrationMulti.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ZQ_BilateralTextureFilter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_BilateralTextureFilterOptions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
