@@ -9,8 +9,8 @@ typedef ZQ_DImage<BaseType> DImage;
 
 int main()
 {
-	const char* inputfile = "input2.png";
-	const char* outputfile = "output2.png";
+	const char* inputfile = "input2.jpg";
+	const char* outputfile = "output2.jpg";
 
 
 
@@ -23,7 +23,7 @@ int main()
 	}
 
 	clock_t t1 = clock();
-	ZQ_BilateralTextureFilter::BilateralTextureFilter(input, output, 3, 3);
+	ZQ_BilateralTextureFilter::BilateralTextureFilter(input, output, 3, 5);
 	clock_t t2 = clock();
 	printf("time:%f\n", 0.001*(t2 - t1));
 

@@ -11,8 +11,8 @@ void main(/*const int argc, const char** argv*/)
 		return;
 	const char* inputfile = argv[1];
 	const char* outputfile = argv[2];*/
-	const char* inputfile = "input2.png";
-	const char* outputfile = "output2.png";
+	const char* inputfile = "input2.jpg";
+	const char* outputfile = "output2.jpg";
 	const char* opt_args[] = {
 		"fsize","5",
 		"sigma_s","2",
