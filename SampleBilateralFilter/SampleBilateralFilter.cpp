@@ -5,10 +5,10 @@ using namespace ZQ;
 typedef float BaseType;
 typedef ZQ_DImage<BaseType> DImage;
 
-void main(/*const int argc, const char** argv*/)
+int main(/*const int argc, const char** argv*/)
 {
 	/*if(argc < 3)
-		return;
+		return EXIT_FAILURE;
 	const char* inputfile = argv[1];
 	const char* outputfile = argv[2];*/
 	const char* inputfile = "input2.jpg";
@@ -25,7 +25,7 @@ void main(/*const int argc, const char** argv*/)
 	if(!ZQ_ImageIO::loadImage(input,inputfile,1))
 	{
 		printf("failed to load %s\n",inputfile);
-		return;
+		return EXIT_FAILURE;
 	}
 
 
@@ -36,14 +36,14 @@ void main(/*const int argc, const char** argv*/)
 	{
 		printf("failed to handle args\n");
 		opt.showArgs();
-		return;
+		return EXIT_FAILURE;
 	}
 
 	clock_t t1 = clock();
 	if(!ZQ_BilateralFilter::BilateralFilter(input,output,opt))
 	{
 		printf("failed to bilateral filtering\n");
-		return;
+		return EXIT_FAILURE;
 	}
 	clock_t t2 = clock();
 	printf("time:%f\n",0.001*(t2-t1));
@@ -51,6 +51,7 @@ void main(/*const int argc, const char** argv*/)
 	if(!ZQ_ImageIO::saveImage(output,outputfile))
 	{
 		printf("failed to save %s\n",outputfile);
-		return;
+		return EXIT_FAILURE;
 	}
+	return EXIT_SUCCESS;
 }

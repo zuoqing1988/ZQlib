@@ -5,9 +5,8 @@
 
 using namespace ZQ;
 
-
 template<class T>
-void test(const int argc, const char** argv)
+int test(const int argc, const char** argv)
 {
 	if(argc < 3)
 		return;
@@ -19,7 +18,7 @@ void test(const int argc, const char** argv)
 	if(!ZQ_ImageIO::loadImage(input,inputfile,1))
 	{
 		printf("failed to load %s\n",inputfile);
-		return;
+		return EXIT_FAILURE;
 	}
 
 
@@ -28,14 +27,14 @@ void test(const int argc, const char** argv)
 	{
 		printf("failed to handle args\n");
 		opt.showArgs();
-		return;
+		return EXIT_FAILURE;
 	}
 
 	clock_t t1 = clock();
 	if(!ZQ_StructureFromTexture::StructureFromTexture(input,output,opt))
 	{
 		printf("failed to extract structure from texture\n");
-		return;
+		return EXIT_FAILURE;
 	}
 	clock_t t2 = clock();
 	printf("time:%f\n",0.001*(t2-t1));
@@ -43,37 +42,18 @@ void test(const int argc, const char** argv)
 	if(!ZQ_ImageIO::saveImage(output,outputfile))
 	{
 		printf("failed to save %s\n",outputfile);
-		return;
+		return EXIT_FAILURE;
 	}
+	return EXIT_SUCCESS;
 }
 
-void main(const int argc, const char** argv)
+int main(const int argc, const char** argv)
 {
 	/*Sample args, copy the following to a .bat file
-	SampleStructureFromTexture input1.jpg  output1_wei_mix40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
 	SampleStructureFromTexture input2.jpg  output2_wei_mix40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input3.jpg  output3_wei_mix40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input4.jpg  output4_wei_mix40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input5.jpg  output5_wei_mix40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input6.jpg  output6_wei_mix40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input7.jpg  output7_wei_mix40.jpg  weight 0.01 sigma 3 fsize 5 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input8.jpg  output8_wei_mix40.jpg  weight 0.01 sigma 3 fsize 5 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input9.jpg  output9_wei_mix40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input10.jpg output10_wei_mix40.jpg weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV_MIX nSolverIteration 10 nOuterIteration 40
-
-	SampleStructureFromTexture input1.jpg  output1_wei_rtv40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
 	SampleStructureFromTexture input2.jpg  output2_wei_rtv40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input3.jpg  output3_wei_rtv40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input4.jpg  output4_wei_rtv40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input5.jpg  output5_wei_rtv40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input6.jpg  output6_wei_rtv40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input7.jpg  output7_wei_rtv40.jpg  weight 0.01 sigma 3 fsize 5 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input8.jpg  output8_wei_rtv40.jpg  weight 0.01 sigma 3 fsize 5 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input9.jpg  output9_wei_rtv40.jpg  weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
-	SampleStructureFromTexture input10.jpg output10_wei_rtv40.jpg weight 0.01 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_RTV     nSolverIteration 10 nOuterIteration 40
-
+	SampleStructureFromTexture input2.jpg  output2_wei_wls40.jpg  weight 1.0 methodType PENALTY_GRADIENT_WEIGHT penaltyweighttype WEIGHT_WLS   fsize 5 sigma 3  nSolverIteration 10 nOuterIteration 40
 	*/
-
-
-	test<double>(argc,argv);
+	
+	return test<double>(argc,argv);
 }
