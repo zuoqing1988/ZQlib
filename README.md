@@ -6,6 +6,7 @@ ZQlibÊÇ×óÇìÔÚ±±º½¶Á²©Ê¿ÆÚ¼äÀÛ»ýµÄÒ»¸ö¿â£¬ÀïÃæ°üº¬¸÷ÖÖÐ¡¹¤¾ß£¬ÔÚÑéÖ¤Ëã·¨Ê±¿ÉÒÔºÜ¿
 ZQlibÀïÃæÈ«ÊÇÍ·ÎÄ¼þ£¬ÓÐÐ©²»ÐèÒªÒÀÀµÆäËû¿â£¬ÓÐÐ©ÐèÒªÒÀÀµopencv£¬ÇëÊ¹ÓÃÕß¸ù¾ÝÊµ¼ÊÇé¿öÌí¼ÓÏàÓ¦µÄµÚÈý·½¿â¡£
 
 ½Ì³Ì
+
 (1)ZQlib¶¼ÄÜ¸ÉÐ©Ê²Ã´Ö®Ò»£º¾ØÕó¡¢½â·½³ÌÓë×îÓÅ»¯
 https://zhuanlan.zhihu.com/p/37769420
 
