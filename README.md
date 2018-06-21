@@ -26,3 +26,6 @@ https://zhuanlan.zhihu.com/p/38115469
 
 (6)ZQlib都能干些什么之六：双边滤波
 https://zhuanlan.zhihu.com/p/38230613
+
+(7)ZQlib都能干些什么之七：散点插值
+https://zhuanlan.zhihu.com/p/38309819
