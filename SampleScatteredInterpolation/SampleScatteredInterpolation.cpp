@@ -9,7 +9,7 @@ using namespace ZQ;
 template<class T>
 void test2d()
 {
-	const char* file = "input.png";
+	const char* file = "input.jpg";
 	IplImage* img = cvLoadImage(file,1);
 
 	if(img == 0)
@@ -26,14 +26,14 @@ void test2d()
 	IplImage* scattered_img = cvCreateImage(cvSize(width,height),IPL_DEPTH_8U,nchannels);
 	cvZero(scattered_img);
 
-	int npoints = width*height/16;
+	int npoints = width*height;
 	T* points = new T[npoints*2];
 	T* val = new T[npoints*3];
 
 	int offset = 0;
-	for(int i = 0;i < height;i+=4)
+	for(int i = 0, ic = 0;i < height && ic*8 < height;)
 	{
-		for(int j = 0;j < width;j+=4)
+		for(int j = 0, jc = 0;j < width && jc*8 < width;)
 		{
 			int x = j;
 			int y = i;
@@ -45,7 +45,10 @@ void test2d()
 			val[offset*3+1] = scalar.val[1];
 			val[offset*3+2] = scalar.val[2];
 			offset ++;
+
+			j += 4 + rand() % 9;
 		}
+		i += 4 + rand() % 9;
 	}
 
 	T* inter_pts = new T[width*height*2];
@@ -62,7 +65,7 @@ void test2d()
 
 	ZQ_ScatteredInterpolationRBF<T>* rbf = new ZQ_ScatteredInterpolationRBF<T>();
 
-	rbf->SetLandmarks(npoints,2,points,val,3);
+	rbf->SetLandmarks(offset,2,points,val,3);
 
 	clock_t t1 = clock();
 	rbf->SolveCoefficient(4,3,1000,ZQ_RBFKernel::COMPACT_CPC6);	
@@ -211,9 +214,9 @@ void test3d()
 
 int main()
 {
-	test2d<float>();
+	//test2d<float>();
 	test2d<double>();
-	test3d<float>();
-	test3d<double>();
+	//test3d<float>();
+	//test3d<double>();
 	return 0;
 }
