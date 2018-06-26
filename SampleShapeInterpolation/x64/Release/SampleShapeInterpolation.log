@@ -1,0 +1,218 @@
+﻿  SampleShapeInterpolation.cpp
+F:\Code\OpenCV3.1.0\opencv\build\include\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:\Code\OpenCV3.1.0\opencv\build\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:\Code\OpenCV3.1.0\opencv\build\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\code\projects\zqlib\zqlib\ZQ_TaucsBase.h(71): warning C4244: “=”: 从“const double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\ZQ_TaucsBase.h(284): note: 参见对正在编译的函数 模板 实例化“taucs_ccs_matrix *ZQ::ZQ_TaucsBase::ZQ_taucs_ccs_CreateMatrixFromColumns<double>(std::vector<std::map<int,double,std::less<int>,std::allocator<std::pair<const _Kty,_Ty>>>,std::allocator<std::map<_Kty,_Ty,std::less<int>,std::allocator<std::pair<const _Kty,_Ty>>>>> &,int,int)”的引用
+          with
+          [
+              _Kty=int,
+              _Ty=double
+          ]
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(344): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(308): note: 编译类 模板 成员函数“bool ZQ::ZQ_ShapeInterpolation<T>::Interpolation(float,T *,int)”时
+          with
+          [
+              T=float
+          ]
+  SampleShapeInterpolation.cpp(61): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_ShapeInterpolation<T>::Interpolation(float,T *,int)”的引用
+          with
+          [
+              T=float
+          ]
+  SampleShapeInterpolation.cpp(43): note: 参见对正在编译的类 模板 实例化“ZQ::ZQ_ShapeInterpolation<T>”的引用
+          with
+          [
+              T=float
+          ]
+  SampleShapeInterpolation.cpp(105): note: 参见对正在编译的函数 模板 实例化“void test<float>(void)”的引用
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(345): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+SampleShapeInterpolation.cpp(95): warning C4244: “参数”: 从“const float”转换到“int”，可能丢失数据
+  SampleShapeInterpolation.cpp(67): note: 参见对正在编译的函数 模板 实例化“void _show<T>(const char *,int,int,const int *,const T *)”的引用
+          with
+          [
+              T=float
+          ]
+SampleShapeInterpolation.cpp(96): warning C4244: “参数”: 从“const float”转换到“int”，可能丢失数据
+SampleShapeInterpolation.cpp(97): warning C4244: “参数”: 从“const float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(402): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(375): note: 编译类 模板 成员函数“bool ZQ::ZQ_ShapeInterpolation<T>::_compute_A(const T *,const T *,const T *,const T *,const T *,const T *,ZQ::ZQ_ShapeInterpolation<T>::_mat22 &)”时
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(160): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_ShapeInterpolation<T>::_compute_A(const T *,const T *,const T *,const T *,const T *,const T *,ZQ::ZQ_ShapeInterpolation<T>::_mat22 &)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(90): note: 编译类 模板 成员函数“ZQ::ZQ_ShapeInterpolation<T>::ZQ_ShapeInterpolation(void)”时
+          with
+          [
+              T=float
+          ]
+  SampleShapeInterpolation.cpp(43): note: 参见对正在编译的函数 模板 实例化“ZQ::ZQ_ShapeInterpolation<T>::ZQ_ShapeInterpolation(void)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(403): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(404): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(405): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(447): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(417): note: 编译类 模板 成员函数“bool ZQ::ZQ_ShapeInterpolation<T>::_compute_Coeff_of_B(const T *,const T *,const T *,ZQ::ZQ_ShapeInterpolation<T>::_mat46 &)”时
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(171): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_ShapeInterpolation<T>::_compute_Coeff_of_B(const T *,const T *,const T *,ZQ::ZQ_ShapeInterpolation<T>::_mat46 &)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(447): warning C4244: “=”: 从“const double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(448): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(448): warning C4244: “=”: 从“const double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(449): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(449): warning C4244: “=”: 从“const double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(450): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(450): warning C4244: “=”: 从“const double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(473): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(456): note: 编译类 模板 成员函数“bool ZQ::ZQ_ShapeInterpolation<T>::_compute_R_S_from_A(const ZQ::ZQ_ShapeInterpolation<T>::_mat22 &,ZQ::ZQ_ShapeInterpolation<T>::_mat22 &,ZQ::ZQ_ShapeInterpolation<T>::_mat22 &)”时
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(166): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_ShapeInterpolation<T>::_compute_R_S_from_A(const ZQ::ZQ_ShapeInterpolation<T>::_mat22 &,ZQ::ZQ_ShapeInterpolation<T>::_mat22 &,ZQ::ZQ_ShapeInterpolation<T>::_mat22 &)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(474): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(475): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(476): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(477): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(478): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(479): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(480): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_PCGSolver.h(263): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(340): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_PCGSolver::PCG_sparse_unsquare<double>(const taucs_ccs_matrix *,const T *,const T *,const int,const double,T *,int &,bool)”的引用
+          with
+          [
+              T=double
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(308): note: 编译类 模板 成员函数“bool ZQ::ZQ_ShapeInterpolation<T>::Interpolation(float,T *,int)”时
+          with
+          [
+              T=float
+          ]
+  SampleShapeInterpolation.cpp(61): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_ShapeInterpolation<T>::Interpolation(float,T *,int)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(254): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(238): note: 编译类 模板 成员函数“ZQ::ZQ_Quaternion<T> ZQ::ZQ_Quaternion<T>::Slerp(const ZQ::ZQ_Quaternion<T>,const ZQ::ZQ_Quaternion<T>,double)”时
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(501): note: 参见对正在编译的函数 模板 实例化“ZQ::ZQ_Quaternion<T> ZQ::ZQ_Quaternion<T>::Slerp(const ZQ::ZQ_Quaternion<T>,const ZQ::ZQ_Quaternion<T>,double)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(499): note: 参见对正在编译的类 模板 实例化“ZQ::ZQ_Quaternion<T>”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(486): note: 编译类 模板 成员函数“void ZQ::ZQ_ShapeInterpolation<T>::_compute_A_from_R_S_t(const ZQ::ZQ_ShapeInterpolation<T>::_mat22 &,const ZQ::ZQ_ShapeInterpolation<T>::_mat22 &,float,ZQ::ZQ_ShapeInterpolation<T>::_mat22 &)”时
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(325): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_ShapeInterpolation<T>::_compute_A_from_R_S_t(const ZQ::ZQ_ShapeInterpolation<T>::_mat22 &,const ZQ::ZQ_ShapeInterpolation<T>::_mat22 &,float,ZQ::ZQ_ShapeInterpolation<T>::_mat22 &)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(275): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(81): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(39): note: 编译类 模板 成员函数“bool ZQ::ZQ_Quaternion<T>::Rot2Quat(const T [],ZQ::ZQ_Quaternion<T> &)”时
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(500): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_Quaternion<T>::Rot2Quat(const T [],ZQ::ZQ_Quaternion<T> &)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(82): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(83): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(84): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(96): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(97): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(98): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(99): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(139): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(140): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(141): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(142): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(27): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(16): note: 编译类 模板 成员函数“void ZQ::ZQ_Quaternion<T>::Quat2Rot(const ZQ::ZQ_Quaternion<T> &,T [])”时
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(502): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_Quaternion<T>::Quat2Rot(const ZQ::ZQ_Quaternion<T> &,T [])”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(28): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(29): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(30): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(31): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(32): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(33): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(34): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_Quaternion.h(35): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+F:\Code\Projects\ZQlib\ZQlib\ZQ_SparseMatrix.h(134): warning C4267: “+=”: 从“size_t”转换到“int”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_SparseMatrix.h(131): note: 编译类 模板 成员函数“int ZQ::ZQ_SparseMatrix<float>::GetNNZ(void) const”时
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_SparseMatrix.h(207): note: 参见对正在编译的函数 模板 实例化“int ZQ::ZQ_SparseMatrix<float>::GetNNZ(void) const”的引用
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_SparseMatrix.h(71): note: 编译类 模板 成员函数“ZQ::ZQ_SparseMatrix<float>::ZQ_SparseMatrix(int,int,int)”时
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(152): note: 参见对正在编译的函数 模板 实例化“ZQ::ZQ_SparseMatrix<float>::ZQ_SparseMatrix(int,int,int)”的引用
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(152): note: 参见对正在编译的类 模板 实例化“ZQ::ZQ_SparseMatrix<float>”的引用
+  f:\code\projects\zqlib\sampleshapeinterpolation\ZQ_ShapeInterpolation.h(105): note: 编译类 模板 成员函数“bool ZQ::ZQ_ShapeInterpolation<T>::BuildMatrix(int,const int *,int,const T *,const T *,bool,int)”时
+          with
+          [
+              T=float
+          ]
+  SampleShapeInterpolation.cpp(44): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_ShapeInterpolation<T>::BuildMatrix(int,const int *,int,const T *,const T *,bool,int)”的引用
+          with
+          [
+              T=float
+          ]
+F:\Code\Projects\ZQlib\ZQlib\ZQ_SparseMatrix.h(401): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_SparseMatrix.h(400): note: 编译类 模板 成员函数“void ZQ::ZQ_SparseMatrix<float>::_addto(std::vector<ZQ::ZQ_SparseMatrix<float>::SparseMatrixElement,std::allocator<_Ty>> &,int,T)”时
+          with
+          [
+              _Ty=ZQ::ZQ_SparseMatrix<float>::SparseMatrixElement,
+              T=float
+          ]
+  F:\Code\Projects\ZQlib\ZQlib\ZQ_SparseMatrix.h(145): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_SparseMatrix<float>::_addto(std::vector<ZQ::ZQ_SparseMatrix<float>::SparseMatrixElement,std::allocator<_Ty>> &,int,T)”的引用
+          with
+          [
+              _Ty=ZQ::ZQ_SparseMatrix<float>::SparseMatrixElement,
+              T=float
+          ]
+  正在生成代码
+  6 of 478 functions ( 1.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    7 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  SampleShapeInterpolation.vcxproj -> F:\Code\Projects\ZQlib\x64\Release\SampleShapeInterpolation.exe
+  SampleShapeInterpolation.vcxproj -> F:\Code\Projects\ZQlib\x64\Release\SampleShapeInterpolation.pdb (Full PDB)

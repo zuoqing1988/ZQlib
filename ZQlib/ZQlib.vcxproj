@@ -96,6 +96,7 @@
     <ClInclude Include="ZQ_ClosedFormImageMattingOptions.h" />
     <ClInclude Include="ZQ_CompressedImage.h" />
     <ClInclude Include="ZQ_CompressedImageRaw.h" />
+    <ClInclude Include="ZQ_ConstrainedDelaunayTriangulation.h" />
     <ClInclude Include="ZQ_CPURaycasting.h" />
     <ClInclude Include="ZQ_CPURenderer2DWorkspace.h" />
     <ClInclude Include="ZQ_CPURenderer3DWorkSpace.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="ZQ_SemaphoreEx.h" />
     <ClInclude Include="ZQ_ShapeDeformation.h" />
     <ClInclude Include="ZQ_ShapeDeformationOptions.h" />
+    <ClInclude Include="ZQ_ShapeInterpolation.h" />
     <ClInclude Include="ZQ_SparseLevMar.h" />
     <ClInclude Include="ZQ_SparseMatrix.h" />
     <ClInclude Include="ZQ_Spline.h" />
@@ -187,6 +189,7 @@
     <ClInclude Include="ZQ_TextureSampler.h" />
     <ClInclude Include="ZQ_TextureSampler3D.h" />
     <ClInclude Include="ZQ_TextureSynthesisProbe.h" />
+    <ClInclude Include="ZQ_TriangleMeshMedialAxis.h" />
     <ClInclude Include="ZQ_UmfpackSolver.h" />
     <ClInclude Include="ZQ_Vec2D.h" />
     <ClInclude Include="ZQ_Vec3D.h" />

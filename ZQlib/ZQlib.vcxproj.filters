@@ -399,5 +399,14 @@
     <ClInclude Include="ZQ_BilateralTextureFilterOptions.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ZQ_ConstrainedDelaunayTriangulation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_TriangleMeshMedialAxis.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_ShapeInterpolation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

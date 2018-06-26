@@ -9,7 +9,7 @@ int main()
 	if(!ZQ_ImageIO::loadImage(im,inputfile,0))
 	{
 		printf("failed to load %s\n",inputfile);
-		return 0;
+		return EXIT_FAILURE;
 	}
 
 	int width = im.width();
@@ -21,41 +21,55 @@ int main()
 	for(int i = 0;i < width*height;i++)
 		mask_data[i] = im_data[i] > 0.5;
 
-	std::vector<std::vector<ZQ_Vec2D>> contours;
+	std::vector<ZQ_BinaryImageContour::Contour> contours;
 
 	if(!ZQ_BinaryImageContour::GetBinaryImageContour(mask_data,width,height,contours))
 	{
 		printf("failed to find contours\n");
-		return 0;
+		return EXIT_FAILURE;
 	}
 
-	IplImage* show_img = cvCreateImage(cvSize(width,height),IPL_DEPTH_8U,3);
-	cvZero(show_img);
+	cv::Mat show_img = cv::Mat(height, width, CV_MAKETYPE(8, 3),cv::Scalar(0));
 
 	for(int i = 0;i < height;i++)
 	{
 		for(int j = 0;j < width;j++)
 		{
-			if(mask_data[i*width+j])
-				cvSet2D(show_img,i,j,cvScalar(255,255,255));
+			if (mask_data[i*width + j])
+			{
+				show_img.data[i*show_img.step[0] + j * 3] = 255;
+				show_img.data[i*show_img.step[0] + j * 3 + 1] = 255;
+				show_img.data[i*show_img.step[0] + j * 3 + 2] = 255;
+			}
 			else
-				cvSet2D(show_img,i,j,cvScalar(0,0,0));
+			{
+				show_img.data[i*show_img.step[0] + j * 3] = 0;
+				show_img.data[i*show_img.step[0] + j * 3 + 1] = 0;
+				show_img.data[i*show_img.step[0] + j * 3 + 2] = 0;
+			}	
 		}
 	}
 
 	for(int cc = 0;cc < contours.size();cc++)
 	{
-		for(int i = 0;i < contours[cc].size()-1;i++)
+		for(int i = 0;i < contours[cc].outer_polygon.size();i++)
 		{
-			ZQ_Vec2D pt1 = contours[cc][i];
-			ZQ_Vec2D pt2 = contours[cc][i+1];
-			cvLine(show_img,cvPoint(pt1.x,pt1.y),cvPoint(pt2.x,pt2.y),cvScalar(0,200,0));
+			ZQ_Vec2D pt1 = contours[cc].outer_polygon[i];
+			ZQ_Vec2D pt2 = contours[cc].outer_polygon[(i+1)%contours[cc].outer_polygon.size()];
+			cv::line(show_img,cv::Point(pt1.x,pt1.y),cv::Point(pt2.x,pt2.y),cv::Scalar(0,0,255),2);
+		}
+		for (int nn = 0; nn < contours[cc].hole_polygon.size(); nn++)
+		{
+			for (int i = 0; i < contours[cc].hole_polygon[nn].size(); i++)
+			{
+				ZQ_Vec2D pt1 = contours[cc].hole_polygon[nn][i];
+				ZQ_Vec2D pt2 = contours[cc].hole_polygon[nn][(i + 1) % contours[cc].hole_polygon[nn].size()];
+				cv::line(show_img, cv::Point(pt1.x, pt1.y), cv::Point(pt2.x, pt2.y), cv::Scalar(0, 255, 0), 2);
+			}
 		}
 	}
-	cvNamedWindow("show");
-	cvShowImage("show",show_img);
-	cvWaitKey(0);
-	cvReleaseImage(&show_img);
-	cvDestroyAllWindows();
-	return 0;
+	cv::namedWindow("show");
+	cv::imshow("show",show_img);
+	cv::waitKey(0);
+	return EXIT_SUCCESS;
 }
