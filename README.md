@@ -29,3 +29,12 @@ https://zhuanlan.zhihu.com/p/38230613
 
 (7)ZQlib都能干些什么之七：散点插值
 https://zhuanlan.zhihu.com/p/38309819
+
+(8)ZQlib都能干些什么之八：二值图像轮廓提取
+https://zhuanlan.zhihu.com/p/38513182
+
+(9)ZQlib都能干些什么之九：二维轮廓三角化
+https://zhuanlan.zhihu.com/p/38514317
+
+(10)ZQlib都能干些什么之十：提取二维轮廓的中线(Medial Axis)
+https://zhuanlan.zhihu.com/p/38515510

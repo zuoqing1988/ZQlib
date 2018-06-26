@@ -156,8 +156,6 @@ int main(int argc, char** argv)
 	cv::imshow("CDT", cdt_img);
 	cv::waitKey(0);
 
-	cv::destroyWindow("CDT");
-	
 	delete[]data;
 	return EXIT_SUCCESS;
 }
@@ -195,6 +193,5 @@ void DrawCDT(cv::Mat& img, const std::vector<ZQ_Vec2D>& pts, const std::vector<i
 			cv::line(img, cv::Point(pts[id0].x, pts[id0].y), cv::Point(pts[id1].x, pts[id1].y), hole_color, 2);
 		}
 	}
-	
 }
 
