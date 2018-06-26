@@ -77,7 +77,6 @@ int main(int argc, char** argv)
 			printf("vertex num of contours [%d] < 4\n", i);
 			continue;
 		}
-
 		double vertex_per_line = (double)out_len / out_len1;
 
 		std::vector<ZQ_Vec2D> pts;
@@ -151,14 +150,12 @@ int main(int argc, char** argv)
 	cv::waitKey(0);
 
 	return EXIT_SUCCESS;
-
 }
 
 void DrawCDT(cv::Mat& img, const std::vector<ZQ_Vec2D>& pts, const std::vector<int>& poly_indices,
 	const std::vector<std::vector<int>>& hole_indices,
 	std::vector<int>& triangles, cv::Scalar out_color, cv::Scalar hole_color, cv::Scalar interior_color)
 {
-
 	for (int i = 0; i < triangles.size(); i += 3)
 	{
 		ZQ_Vec2D p0 = pts[triangles[i]];
@@ -187,7 +184,6 @@ void DrawCDT(cv::Mat& img, const std::vector<ZQ_Vec2D>& pts, const std::vector<i
 			cv::line(img, cv::Point(pts[id0].x, pts[id0].y), cv::Point(pts[id1].x, pts[id1].y), hole_color, 2);
 		}
 	}
-
 }
 
 
