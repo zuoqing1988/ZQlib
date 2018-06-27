@@ -1,82 +1,120 @@
 
 #include "ZQ_ShapeDeformation.h"
-#include "opencv\cv.h"
-#include "opencv\highgui.h"
+#include "opencv2\opencv.hpp"
+#include <vector>
 
 using namespace ZQ;
 
 template<class T>
-void _show(int nTri, int nPts, const int* indices, const T* vert, int waittime = 0);
+void _show(const char* winName, int nTri, int nPts, const int* indices, const T* vert, bool* fixed);
 
 template<class T>
 void test()
 {
-	int triangle_num = 6;
-	int pts_num = 8;
-	int indices[36] = {
-		0,1,4, 1,5,4, //0,1,5, 0,4,5, 
-		1,2,5, 2,6,5, //1,2,6, 1,5,6, 
-		2,3,6, 3,7,6//, 2,3,7, 2,6,7
-	};
-	T p[16] = {100,100,200,100,300,100,400,100,100,200,200,200,300,200,400,200};
-	T q[16] = {100,100,180,150,250,220,300,250,100,200,200,250,300,300,400,300};
-	bool fixed[8] = {1,0,0,0,1,0,0,1};
-	/*int triangle_num = 2;
-	int pts_num = 4;
-	int indices[6] = {0,1,3, 0,2,3};
-	T p[16] = {100,100, 300,100, 100,200, 250,250};
-	T q[16] = {100,100, 300,100, 100,200, 400,400};
-	bool fixed[8] = {1,0,0,1};*/
+	int NW = 8;
+	int NH = 5;
+	int pt_num = NH*NW;
+	std::vector<int> indices;
+	std::vector<T> p(pt_num * 2);
+	std::vector<T> q(pt_num * 2);
+	for (int h = 0; h < NH; h++)
+	{
+		for (int w = 0; w < NW; w++)
+		{
+			int idx = h*NW + w;
+			p[idx * 2 + 0] = w * 100 + 50;
+			p[idx * 2 + 1] = h * 100 + 100;
+		}
+	}
+	for (int h = 0; h < NH - 1; h++)
+	{
+		for (int w = 0; w < NW - 1; w++)
+		{
+			indices.push_back(h*NW + w + 0);
+			indices.push_back(h*NW + w + 1);
+			indices.push_back((h + 1)*NW + w);
+			indices.push_back(h*NW + w + 1);
+			indices.push_back((h + 1)*NW + w);
+			indices.push_back((h + 1)*NW + w + 1);
+			indices.push_back(h*NW + w + 0);
+			indices.push_back(h*NW + w + 1);
+			indices.push_back((h + 1)*NW + w + 1);
+			indices.push_back(h*NW + w + 0);
+			indices.push_back((h + 1)*NW + w);
+			indices.push_back((h + 1)*NW + w + 1);
+		}
+	}
+	int triangle_num = indices.size() / 3;
 
-	T out[16];
+	bool* fixed = new bool[pt_num];
+	memset(fixed, 0, sizeof(bool)*pt_num);
+	fixed[NH / 2 * NW + 0] = 1;
+	fixed[NH / 2 * NW + NW/2] = 1;
+	fixed[NH / 2 * NW + NW-1] = 1;
+	int pivot_id = NH / 2 * NW + NW - 1;
+	std::vector<T> out(pt_num*2);
 
 	ZQ_ShapeDeformationOptions opt;
-	opt.methodType = ZQ_ShapeDeformationOptions::METHOD_ARAP_TRIANGLE_AS_CENTER;
-	opt.FPIteration = 3;
-	opt.Iteration = 100;
+	//opt.methodType = ZQ_ShapeDeformationOptions::METHOD_ARAP_TRIANGLE_AS_CENTER;
+	opt.methodType = ZQ_ShapeDeformationOptions::METHOD_ARAP_VERT_AS_CENTER;
+	//opt.methodType = ZQ_ShapeDeformationOptions::METHOD_LAPLACIAN;
+	opt.FPIteration = 5;
+	opt.Iteration = 200;
 	ZQ_ShapeDeformation<T> deform;
-	if(!deform.BuildMatrix(triangle_num,indices,pts_num,p,fixed,opt))
+	if(!deform.BuildMatrix(triangle_num,&indices[0],pt_num,&p[0],fixed,opt))
 	{
 		printf("failed to set source\n");
 		return;
 	}
-
-
-	if(!deform.Deformation(q,out))
+	const char* winName = "show";
+	cv::namedWindow(winName);
+	const double M_PI = 3.1415926535;
+	const double radius = 100;
+	for (int t = 0; ; t++)
 	{
-		printf("failed to deform ARAP\n");
-		return;
+		double angle = t / 100.0*M_PI;
+		q = p;
+		q[pivot_id * 2 + 0] = p[pivot_id * 2 + 0] + radius*cos(angle);
+		q[pivot_id * 2 + 1] = p[pivot_id * 2 + 1] + radius*sin(angle);
+		if (!deform.Deformation(&q[0], &out[0]))
+		{
+			printf("failed to deform ARAP\n");
+			break;
+		}
+		_show(winName, triangle_num, pt_num, &indices[0], &out[0], fixed);
+		int key = cvWaitKey(20);
+		if (key == 'q')
+			break;
 	}
-	_show(triangle_num,pts_num,indices,out,0);
-
+	delete[]fixed;
 }
 
 template<class T>
-void _show(int nTri, int nPts, const int* indices, const T* vert, int waittime)
+void _show(const char* winName, int nTri, int nPts, const int* indices, const T* vert, bool* fixed)
 {
-	IplImage* img = cvCreateImage(cvSize(500,500),IPL_DEPTH_8U,3);
-	cvZero(img);
+	cv::Mat img = cv::Mat(600, 1000, CV_MAKETYPE(8, 3), cv::Scalar(0));
 
-	CvScalar color = cvScalar(250,0,0);
-	for(int tr = 0;tr < nTri;tr++)
+	cv::Scalar color(0, 0, 255);
+	for (int tr = 0; tr < nTri; tr++)
 	{
-		int id0 = indices[tr*3+0];
-		int id1 = indices[tr*3+1];
-		int id2 = indices[tr*3+2];
+		int id0 = indices[tr * 3 + 0];
+		int id1 = indices[tr * 3 + 1];
+		int id2 = indices[tr * 3 + 2];
 
-		cvLine(img,cvPoint(vert[id0*2+0],vert[id0*2+1]),cvPoint(vert[id1*2+0],vert[id1*2+1]),color,1);
-		cvLine(img,cvPoint(vert[id1*2+0],vert[id1*2+1]),cvPoint(vert[id2*2+0],vert[id2*2+1]),color,1);
-		cvLine(img,cvPoint(vert[id2*2+0],vert[id2*2+1]),cvPoint(vert[id0*2+0],vert[id0*2+1]),color,1);
+		cv::line(img, cv::Point(vert[id0 * 2 + 0], vert[id0 * 2 + 1]), cv::Point(vert[id1 * 2 + 0], vert[id1 * 2 + 1]), color, 2);
+		cv::line(img, cv::Point(vert[id1 * 2 + 0], vert[id1 * 2 + 1]), cv::Point(vert[id2 * 2 + 0], vert[id2 * 2 + 1]), color, 2);
+		cv::line(img, cv::Point(vert[id2 * 2 + 0], vert[id2 * 2 + 1]), cv::Point(vert[id0 * 2 + 0], vert[id0 * 2 + 1]), color, 2);
 	}
-
-	cvNamedWindow("show");
-	cvShowImage("show",img);
-	cvWaitKey(waittime);
-	cvReleaseImage(&img);
+	for (int i = 0; i < nPts; i++)
+	{
+		if (fixed[i])
+			cv::circle(img, cv::Point(vert[i * 2 + 0], vert[i * 2 + 1]), 2, cv::Scalar(0, 255, 0), 2);
+	}
+	cv::imshow(winName, img);
 }
 
 void main()
 {
 	test<float>();
-	test<double>();
+	//test<double>();
 }

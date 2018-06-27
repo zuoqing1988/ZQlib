@@ -14,6 +14,11 @@
 
 namespace ZQ
 {
+	/*
+	I write the method ARAP_Triangle referring to the paper:
+	As-Rigid-As-Possible Shape Manipulation, 2005.
+	The ARAP_Vert is similary to ARAP_Triangle.
+	*/
 	template<class T>
 	class ZQ_ShapeDeformation
 	{
@@ -139,7 +144,6 @@ namespace ZQ
 		{
 		case ZQ_ShapeDeformationOptions::METHOD_LAPLACIAN:
 			{
-
 			}
 			break;
 		case ZQ_ShapeDeformationOptions::METHOD_ARAP_VERT_AS_CENTER:

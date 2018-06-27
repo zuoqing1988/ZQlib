@@ -41,3 +41,6 @@ https://zhuanlan.zhihu.com/p/38515510
 
 (11)ZQlib都能干些什么之十一：形状插值（Shape Interpolation）
 https://zhuanlan.zhihu.com/p/38552980
+
+(12)ZQlib都能干些什么之十二：形状变形（Shape Deformation）
+https://zhuanlan.zhihu.com/p/38555528
