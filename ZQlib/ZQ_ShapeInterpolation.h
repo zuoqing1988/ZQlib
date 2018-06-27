@@ -296,9 +296,7 @@ namespace ZQ
 				}
 			}
 		}
-		
 		mat_from_u_to_B = map_u_to_B.ExportCCS(TAUCS_DOUBLE);
-
 		return true;
 	}
 
@@ -344,7 +342,6 @@ namespace ZQ
 			out_verts[i * 2 + 0] = x_index[i] >= 0 ? x[x_index[i]] : pivot_vert[0];
 			out_verts[i * 2 + 1] = y_index[i] >= 0 ? x[y_index[i]] : pivot_vert[1];
 		}
-
 		return true;
 	}
 

@@ -1,7 +1,5 @@
-
 #include "ZQ_ShapeInterpolation.h"
-#include "opencv\cv.h"
-#include "opencv\highgui.h"
+#include "opencv2\opencv.hpp"
 
 using namespace ZQ;
 
@@ -29,17 +27,6 @@ void test()
 		100,200,200,200,300,220,370,350,400,450,400,550};
 	T out1[24],out2[24];
 	
-	/*int triangle_num = 1;
-	int pts_num = 3;
-	int indices[3] = {
-		0,1,2
-	};
-	T p[6] = { 100,100,200,100,200,200 };
-	T q[6] = { 300,200,300,100,400,100 };
-
-	T out[6];*/
-
-	
 	ZQ_ShapeInterpolation<T> deform1,deform2;
 	if (!deform1.BuildMatrix(triangle_num, indices, pts_num, p, q, false, 0)
 		|| !deform2.BuildMatrix(triangle_num, indices, pts_num, p, q, true, 0))
@@ -50,11 +37,10 @@ void test()
 
 	const char* winName1 = "show1";
 	const char* winName2 = "show2";
-	cvNamedWindow(winName1);
-	cvNamedWindow(winName2);
+	cv::namedWindow(winName1);
+	cv::namedWindow(winName2);
 	float ori_step = 0.01f;
 	float step = ori_step;
-	//float t = 1.0;
 	for (float t = 0; ; t += step)
 	{
 		printf("t = %.2f\n", t);
@@ -82,26 +68,26 @@ void test()
 template<class T>
 void _show(const char* winName, int nTri, int nPts, const int* indices, const T* vert)
 {
-	IplImage* img = cvCreateImage(cvSize(800, 600), IPL_DEPTH_8U, 3);
-	cvZero(img);
+	cv::Mat img = cv::Mat(600, 800, CV_MAKETYPE(8, 3), cv::Scalar(0));
 
-	CvScalar color = cvScalar(250, 0, 0);
+	cv::Scalar color(0, 0, 255);
 	for (int tr = 0; tr < nTri; tr++)
 	{
 		int id0 = indices[tr * 3 + 0];
 		int id1 = indices[tr * 3 + 1];
 		int id2 = indices[tr * 3 + 2];
 
-		cvLine(img, cvPoint(vert[id0 * 2 + 0], vert[id0 * 2 + 1]), cvPoint(vert[id1 * 2 + 0], vert[id1 * 2 + 1]), color, 1);
-		cvLine(img, cvPoint(vert[id1 * 2 + 0], vert[id1 * 2 + 1]), cvPoint(vert[id2 * 2 + 0], vert[id2 * 2 + 1]), color, 1);
-		cvLine(img, cvPoint(vert[id2 * 2 + 0], vert[id2 * 2 + 1]), cvPoint(vert[id0 * 2 + 0], vert[id0 * 2 + 1]), color, 1);
+		cv::line(img, cv::Point(vert[id0 * 2 + 0], vert[id0 * 2 + 1]), cv::Point(vert[id1 * 2 + 0], vert[id1 * 2 + 1]), color, 2);
+		cv::line(img, cv::Point(vert[id1 * 2 + 0], vert[id1 * 2 + 1]), cv::Point(vert[id2 * 2 + 0], vert[id2 * 2 + 1]), color, 2);
+		cv::line(img, cv::Point(vert[id2 * 2 + 0], vert[id2 * 2 + 1]), cv::Point(vert[id0 * 2 + 0], vert[id0 * 2 + 1]), color, 2);
 	}
-	cvShowImage(winName, img);
-	cvReleaseImage(&img);
+	cv::imshow(winName, img);
 }
 
-void main()
+int main()
 {
 	test<float>();
 	//test<double>();
+
+	return EXIT_SUCCESS;
 }
