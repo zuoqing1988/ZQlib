@@ -1,6 +1,5 @@
 #include "ZQ_Warping.h"
-#include "opencv\cv.h"
-#include "opencv\highgui.h"
+#include "opencv2\opencv.hpp"
 
 using namespace ZQ;
 
@@ -8,7 +7,7 @@ template<class T>
 class GlobalData
 {
 public:
-	static const int npts = 8;
+	static const int npts = 9;
 	static T* before_pts;
 	static T* after_pts;
 	static int cur_pt_num;
@@ -44,13 +43,13 @@ void test2d()
 				cvSet2D(img,i,j,cvScalar(255,255,255));
 		}
 	}
-
+	
 	IplImage* dstimg = cvCloneImage(img);
-	cvNamedWindow("source");
-	cvShowImage("source",img);
+	cvNamedWindow("src");
+	cvShowImage("src",img);
 
 
-	cvSetMouseCallback("source",mousehanler<T>);
+	cvSetMouseCallback("src",mousehanler<T>);
 
 	IplImage* copy_img;
 
@@ -76,7 +75,7 @@ void test2d()
 				cvCircle(copy_img,cvPoint(GlobalData<T>::after_pts[i*2],GlobalData<T>::after_pts[i*2+1]),2,cvScalar(0,255,0),2);
 			}
 		}
-		cvShowImage("source",copy_img);
+		cvShowImage("src",copy_img);
 
 		int k = cvWaitKey(10);
 		if(k == 'y' || k == 'Y')
@@ -88,7 +87,7 @@ void test2d()
 	}
 
 	ZQ_Warping<T,2>* m_warp = new ZQ_Warping<T,2>();
-	m_warp->Solve(GlobalData<T>::npts,GlobalData<T>::before_pts,GlobalData<T>::after_pts,GlobalData<T>::npts*2000,10);
+	m_warp->Solve(GlobalData<T>::npts,GlobalData<T>::after_pts,GlobalData<T>::before_pts,GlobalData<T>::npts*2000,10);
 
 	for(int i = 0;i < 600;i++)
 	{
@@ -240,7 +239,7 @@ void test3d()
 		tmp_after_pts[i] = after_pts[i];
 		tmp_before_pts[i] = before_pts[i];
 	}
-	m_warp->Solve(26,tmp_before_pts,tmp_after_pts,1000,6,3);
+	m_warp->Solve(26,tmp_after_pts,tmp_before_pts,1000,6,3);
 
 	int N = 100;
 	for(int k = 0;k < N;k++)

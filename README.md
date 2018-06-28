@@ -44,3 +44,6 @@ https://zhuanlan.zhihu.com/p/38552980
 
 (12)ZQlib都能干些什么之十二：形状变形（Shape Deformation）
 https://zhuanlan.zhihu.com/p/38555528
+
+(13)ZQlib都能干些什么之十三：Warping and Morphing
+https://zhuanlan.zhihu.com/p/38589469

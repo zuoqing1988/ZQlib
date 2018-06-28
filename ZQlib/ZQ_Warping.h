@@ -33,10 +33,5 @@ namespace ZQ
 			return rbf_solver.Interpolate(npts,input_pts,output_pts);
 		}
 	};
-
-	/*typedef ZQ_Warping<float,2> ZQ_Warping2Df;
-	typedef ZQ_Warping<double,2> ZQ_Warping2Dd;
-	typedef ZQ_Warping<float,3> ZQ_Warping3Df;
-	typedef ZQ_Warping<double,3> ZQ_Warping3Dd;*/
 }
 #endif
