@@ -80,15 +80,13 @@ void advectScalar(float dt);
 
 void show(float wait_time);
 
-void main()
+int main()
 {
 	if(!initFromImage("scene.jpg"))
 	{
 		init(64,128);
 	}
-
 	printf("solver type = %d\n",solver_type);
-
 	for(int i = 0;i < 100000;i++)
 	{
 		reinject();
@@ -103,8 +101,8 @@ void main()
 		advectScalar(dt);
 		show(10);
 	}
-
 	shutdown();
+	return EXIT_SUCCESS;
 }
 
 void init(int w, int h)
