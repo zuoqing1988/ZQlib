@@ -47,3 +47,6 @@ https://zhuanlan.zhihu.com/p/38555528
 
 (13)ZQlib都能干些什么之十三：Warping and Morphing
 https://zhuanlan.zhihu.com/p/38589469
+
+(14)ZQlib都能干些什么之十四：烟模拟（Smoke Simulation）2D基础版
+https://zhuanlan.zhihu.com/p/38842504
