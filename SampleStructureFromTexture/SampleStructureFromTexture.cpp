@@ -9,7 +9,7 @@ template<class T>
 int test(const int argc, const char** argv)
 {
 	if(argc < 3)
-		return;
+		return EXIT_FAILURE;
 	const char* inputfile = argv[1];
 	const char* outputfile = argv[2];
 
