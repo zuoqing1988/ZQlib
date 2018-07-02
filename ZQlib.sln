@@ -156,6 +156,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleTriangleMeshMedialAxi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleFaceMorphing", "SampleFaceMorphing\SampleFaceMorphing.vcxproj", "{B833831E-EF8F-4F69-982E-BD3A973A3702}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamplePIVSimulator", "SamplePIVSimulator\SamplePIVSimulator.vcxproj", "{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -779,6 +781,14 @@ Global
 		{B833831E-EF8F-4F69-982E-BD3A973A3702}.Release|Win32.Build.0 = Release|x64
 		{B833831E-EF8F-4F69-982E-BD3A973A3702}.Release|x64.ActiveCfg = Release|x64
 		{B833831E-EF8F-4F69-982E-BD3A973A3702}.Release|x64.Build.0 = Release|x64
+		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Debug|Win32.ActiveCfg = Debug|x64
+		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Debug|Win32.Build.0 = Debug|x64
+		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Debug|x64.ActiveCfg = Debug|x64
+		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Debug|x64.Build.0 = Debug|x64
+		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Release|Win32.ActiveCfg = Release|x64
+		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Release|Win32.Build.0 = Release|x64
+		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Release|x64.ActiveCfg = Release|x64
+		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

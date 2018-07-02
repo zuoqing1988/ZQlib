@@ -33,10 +33,10 @@ bool display_running_info = true;
 float buoy_coeff = 1;
 float fconf_coeff = 50;
 float diffuse_temperature_coeff = 0;
-float vel_atten_coeff = 3;
+float vel_atten_coeff = 2;
 float temp_atten_coeff = 0;
 int substeps = 10;
-int max_iter = 20;
+int max_iter = 100;
 float source_center_x = 0.5;
 float source_center_y = 0.05;
 float source_center_z = 0.5;
@@ -46,8 +46,8 @@ float source_half_zlen = 0.1;
 float dt = 0.03;
 
 
-int width = 32;
-int height = 32;
+int width = 16;
+int height = 16;
 int depth = 32;
 bool* occupy = 0;
 MyType* density = 0;
@@ -158,34 +158,34 @@ void init(int w, int h, int d)
 	}
 	else
 	{
-		if(add_boundary_occupy_for_closed)
-		{
-			occupy = new bool[width*height*depth];
-			memset(occupy,0,sizeof(bool)*width*height*depth);
-			for(int k = 0;k < depth;k++)
-			{
-				for(int j = 0;j < height;j++)
-				{
-					for(int i = 0;i < width;i++)
-					{
-						if(k == 0 || k == depth-1 || /*j == 0 ||*/ j == height-1 || i == 0 || i == width-1)
-							occupy[k*height*width+j*width+i] = true;
-					}
-				}
-			}
+		//if(add_boundary_occupy_for_closed)
+		//{
+		//	occupy = new bool[width*height*depth];
+		//	memset(occupy,0,sizeof(bool)*width*height*depth);
+		//	for(int k = 0;k < depth;k++)
+		//	{
+		//		for(int j = 0;j < height;j++)
+		//		{
+		//			for(int i = 0;i < width;i++)
+		//			{
+		//				if(k == 0 || k == depth-1 || /*j == 0 ||*/ j == height-1 || i == 0 || i == width-1)
+		//					occupy[k*height*width+j*width+i] = true;
+		//			}
+		//		}
+		//	}
 
-			if(use_sor_for_open)
-			{
-				solver_type = use_redblack_for_sor ? OPEN_POISSON_REDBLACK_WITH_OCCUPY : OPEN_POISSON_SOR_WITH_OCCUPY;
-			}
-			else
-			{
-				BuildOpenPoisson<MyType>(width,height,depth,occupy,&A,display_running_info);
-				solver_type = OPEN_POISSON_WITH_OCCUPY;
-			}
+		//	if(use_sor_for_open)
+		//	{
+		//		solver_type = use_redblack_for_sor ? OPEN_POISSON_REDBLACK_WITH_OCCUPY : OPEN_POISSON_SOR_WITH_OCCUPY;
+		//	}
+		//	else
+		//	{
+		//		BuildOpenPoisson<MyType>(width,height,depth,occupy,&A,display_running_info);
+		//		solver_type = OPEN_POISSON_WITH_OCCUPY;
+		//	}
 
-		}
-		else
+		//}
+		//else
 		{
 			if(use_sor_for_open)
 			{
@@ -292,7 +292,7 @@ bool initFromImage(const char* file)
 
 void initRaycating()
 {
-	const float densityScale = 10.0f;
+	const float densityScale = 3.0f;
 	const float opacityScale = 0.0001f;
 
 	const float pi = 3.1415926f;
@@ -314,7 +314,7 @@ void initRaycating()
 		0.0f,		0.0f,	0.0f,		1.0f
 	};
 
-	float fovy = pi/6;
+	float fovy = pi/10;
 	float focal_len = win_height/tan(fovy*0.5);
 	m_CPURaycast.SetWindowSize(win_width,win_height);
 	m_CPURaycast.SetInnerPara(win_width/2,win_height/2,focal_len,focal_len);
@@ -779,7 +779,7 @@ void advectVelocity(float dt)
 	}
 
 
-	ZQ_BactTraceAdvection_MACGrid(mac_u,mac_v,mac_w,occupy,width,height,depth,voxel_len,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
+	ZQ_BacktraceAdvection_MACGrid(mac_u,mac_v,mac_w,occupy,width,height,depth,voxel_len,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
 
 	for(int k = 0;k < depth;k++)
 	{
@@ -825,7 +825,7 @@ void advectVelocity(float dt)
 	}
 
 
-	ZQ_BactTraceAdvection_MACGrid(mac_u,mac_v,mac_w,occupy,width,height,depth,voxel_len,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
+	ZQ_BacktraceAdvection_MACGrid(mac_u,mac_v,mac_w,occupy,width,height,depth,voxel_len,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
 
 	for(int k = 0;k < depth;k++)
 	{
@@ -871,7 +871,7 @@ void advectVelocity(float dt)
 	}
 
 
-	ZQ_BactTraceAdvection_MACGrid(mac_u,mac_v,mac_w,occupy,width,height,depth,voxel_len,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
+	ZQ_BacktraceAdvection_MACGrid(mac_u,mac_v,mac_w,occupy,width,height,depth,voxel_len,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
 
 	for(int k = 0;k <= depth;k++)
 	{
@@ -969,7 +969,7 @@ void advectScalar(float dt)
 	}
 
 
-	ZQ_BactTraceAdvection_MACGrid(mac_u,mac_v,mac_w,occupy,width,height,depth,voxel_len,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
+	ZQ_BacktraceAdvection_MACGrid(mac_u,mac_v,mac_w,occupy,width,height,depth,voxel_len,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
 
 	for(int k = 0;k < depth;k++)
 	{

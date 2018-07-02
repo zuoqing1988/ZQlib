@@ -408,5 +408,11 @@
     <ClInclude Include="ZQ_ShapeInterpolation.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ZQ_PIVMovingObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_PIVSimulator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

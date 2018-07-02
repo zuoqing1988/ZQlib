@@ -152,6 +152,8 @@
     <ClInclude Include="ZQ_OpticalFlow3D.h" />
     <ClInclude Include="ZQ_OpticalFlowOptions.h" />
     <ClInclude Include="ZQ_PCGSolver.h" />
+    <ClInclude Include="ZQ_PIVMovingObject.h" />
+    <ClInclude Include="ZQ_PIVSimulator.h" />
     <ClInclude Include="ZQ_PoissonEditing.h" />
     <ClInclude Include="ZQ_PoissonEditing3D.h" />
     <ClInclude Include="ZQ_PoissonEditing3DOptions.h" />

@@ -29,28 +29,28 @@ const int CLOSED_POISSON_SOR_WITH_OCCUPY = closed_boundary | sor_solver | with_o
 
 #define MyType float
 
-int solver_type = OPEN_POISSON_WITH_OCCUPY;
+int solver_type = -1;// OPEN_POISSON_WITH_OCCUPY;
 
 
-bool is_open_boundary = false;
+bool is_open_boundary = true;
 bool add_boundary_occupy_for_closed = true;
 bool use_sor_for_open = true;
 bool use_redblack_for_sor = false;
 
 bool display_running_info = true;
 
-float buoy_coeff = 3;
-float fconf_coeff = 30;
+float buoy_coeff = 5;
+float fconf_coeff = 200;
 float diffuse_temperature_coeff = 10;
-float vel_atten_coeff = 8;
+float vel_atten_coeff = 10;
 float temp_atten_coeff = 0;
-int substeps = 20;
+int substeps = 30;
 int max_iter = 200;
 float source_center_x = 0.5;
 float source_center_y = 0.05;
-float source_half_xlen = 0.02;
-float source_half_ylen = 0.02;
-float dt = 0.03;
+float source_half_xlen = 0.05;
+float source_half_ylen = 0.05;
+float dt = 0.01;
 
 
 int width = 256;
@@ -188,12 +188,12 @@ void init(int w, int h)
 
 bool initFromImage(const char* file)
 {
-	IplImage* img = cvLoadImage(file,0);
-	if(img == 0)
+	cv::Mat img = cv::imread(file, 0);
+	if (img.empty())
 		return false;
 
-	width = img->width;
-	height = img->height;
+	width = img.cols;
+	height = img.rows;
 
 	density = new MyType[width*height];
 	temperature = new MyType[width*height];
@@ -209,22 +209,11 @@ bool initFromImage(const char* file)
 	for(int i = 0;i < height;i++)
 	{
 		for(int j = 0;j < width;j++)
-			occupy[i*width+j] = cvGetReal2D(img,height-1-i,j) > 128;
+			occupy[i*width+j] = *(img.data + (height-1-i)*img.step[0] + j) > 128;
 	}
 
 	if(is_open_boundary)
 	{
-		if(add_boundary_occupy_for_closed)
-		{
-			for(int i = 0;i < height;i++)
-			{
-				for(int j = 0;j < width;j++)
-				{
-					if(/*i == 0 ||*/ i == height-1 || j == 0 || j == width-1)
-						occupy[i*width+j] = true;
-				}
-			}
-		}
 		if(use_sor_for_open)
 		{
 			solver_type = use_redblack_for_sor ? OPEN_POISSON_REDBLACK_WITH_OCCUPY : OPEN_POISSON_SOR_WITH_OCCUPY;
@@ -505,7 +494,6 @@ void addForce(float dt)
 
 	if(!is_open_boundary)
 	{
-
 		for(int i = 0;i < height;i++)
 		{
 			mac_u[i*(width+1)+0] = 0;
@@ -624,7 +612,7 @@ void advectVelocity(float dt)
 		}
 	}
 
-	ZQ_BactTraceAdvection_MACGrid(mac_u,mac_v,occupy,width,height,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
+	ZQ_BacktraceAdvection_MACGrid(mac_u,mac_v,occupy,width,height,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
 
 	for(int i = 0;i < height;i++)
 	{
@@ -660,7 +648,7 @@ void advectVelocity(float dt)
 		}
 	}
 
-	ZQ_BactTraceAdvection_MACGrid(mac_u,mac_v,occupy,width,height,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
+	ZQ_BacktraceAdvection_MACGrid(mac_u,mac_v,occupy,width,height,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
 
 	for(int i = 0;i <= height;i++)
 	{
@@ -746,7 +734,7 @@ void advectScalar(float dt)
 		}
 	}
 
-	ZQ_BactTraceAdvection_MACGrid(mac_u,mac_v,occupy,width,height,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
+	ZQ_BacktraceAdvection_MACGrid(mac_u,mac_v,occupy,width,height,voxel_len,voxel_len,dt,substeps,nPts,in_pos,out_pos);
 
 	for(int i = 0;i < height;i++)
 	{
@@ -774,8 +762,8 @@ void advectScalar(float dt)
 
 void show(float wait_time)
 {
-	cvNamedWindow("show");
-	IplImage* showimg = cvCreateImage(cvSize(width,height),IPL_DEPTH_8U,3);
+	cv::Mat show_img = cv::Mat(height, width, CV_MAKETYPE(8, 3));
+	
 	for(int i = 0;i < height;i++)
 	{
 		for(int j = 0;j < width;j++)
@@ -783,30 +771,40 @@ void show(float wait_time)
 			int offset = i*width+j;
 			if(occupy && occupy[offset])
 			{
-				CvScalar sca = cvScalar(0,255,0);
-				cvSet2D(showimg,height-1-i,j,sca);
+				show_img.ptr<uchar>(height - 1 - i)[j * 3 + 0] = 0;
+				show_img.ptr<uchar>(height - 1 - i)[j * 3 + 1] = 255;
+				show_img.ptr<uchar>(height - 1 - i)[j * 3 + 2] = 0;
 			}
 			else
 			{
-				CvScalar sca = cvScalar(density[offset]*255,density[offset]*255,density[offset]*255);
-				cvSet2D(showimg,height-1-i,j,sca);
+				show_img.ptr<uchar>(height - 1 - i)[j * 3 + 0] = density[offset] * 255;
+				show_img.ptr<uchar>(height - 1 - i)[j * 3 + 1] = density[offset] * 255;
+				show_img.ptr<uchar>(height - 1 - i)[j * 3 + 2] = density[offset] * 255;
 			}	
 		}
 	}
 
 	const float max_div = 0.1;
 	const float divshow_scale = 255.0/max_div;
-	IplImage* div_img = cvCreateImage(cvSize(width,height),IPL_DEPTH_8U,3);
+	cv::Mat div_img = cv::Mat(height, width, CV_MAKETYPE(8, 3));
 	for(int i = 0;i < height;i++)
 	{
 		for(int j = 0;j < width;j++)
 		{
 			float cur_div = mac_u[i*(width+1)+j+1] - mac_u[i*(width+1)+j] + mac_v[(i+1)*width+j] - mac_v[i*width+j];
 			cur_div *= divshow_scale;
-			if(cur_div > 0)
-				cvSet2D(div_img,height-1-i,j,cvScalar(0,cur_div,0));
+			if (cur_div > 0)
+			{
+				div_img.ptr<uchar>(height - 1 - i)[j * 3 + 0] = 0;
+				div_img.ptr<uchar>(height - 1 - i)[j * 3 + 1] = cur_div;
+				div_img.ptr<uchar>(height - 1 - i)[j * 3 + 2] = 0;
+			}
 			else
-				cvSet2D(div_img,height-1-i,j,cvScalar(0,0,-cur_div));
+			{
+				div_img.ptr<uchar>(height - 1 - i)[j * 3 + 0] = 0;
+				div_img.ptr<uchar>(height - 1 - i)[j * 3 + 1] = 0;
+				div_img.ptr<uchar>(height - 1 - i)[j * 3 + 2] = -cur_div;
+			}
 		}
 	}
 
@@ -821,19 +819,20 @@ void show(float wait_time)
 			vv.data()[(height-1-i)*width+j] = -0.5*( mac_v[i*width+j] + mac_v[(i+1)*width+j]);
 		}
 	}
-	IplImage* flowimg = ZQ::ZQ_ImageIO::SaveFlowToColorImage(uu,vv,false,0,64,1,display_running_info);
-	cvNamedWindow("flow");
-	cvShowImage("flow",flowimg);
+	cv::Mat flow_img = ZQ::ZQ_ImageIO::SaveFlowToColorImage(uu,vv,false,0,64,1,display_running_info);
+	
+	
+	cv::Mat scaled_img;
+	float scale = 4;
+	cv::resize(flow_img, scaled_img, cv::Size(), scale, scale);
+	cv::namedWindow("flow");
+	cv::imshow("flow", scaled_img);
 
+	cv::resize(div_img, scaled_img, cv::Size(), scale, scale);
+	cv::namedWindow("div");
+	cv::imshow("div",scaled_img);
 
-	cvNamedWindow("div");
-	cvShowImage("div",div_img);
-
-	cvShowImage("show",showimg);
+	cv::resize(show_img, scaled_img, cv::Size(), scale, scale);
+	cv::imshow("show",scaled_img);
 	cvWaitKey(wait_time);
-	cvReleaseImage(&showimg);
-
-	cvReleaseImage(&flowimg);
-
-	cvReleaseImage(&div_img);
 }

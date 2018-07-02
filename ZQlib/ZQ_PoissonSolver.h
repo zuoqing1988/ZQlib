@@ -90,6 +90,37 @@ namespace ZQ
 		template<class T>
 		void SolveOpenPoissonRedBlack_MACGrid(T* mac_u, T* mac_v, int width, int height, const bool* occupy, int nIterations, bool display = false);
 
+		//field decompose
+
+		/* u,v : height*width
+		* h_u,h_v : height*width, the curl part of the field
+		* l_u,l_v : height*width, the rest part of the field
+		*/
+		template<class T>
+		void FlowFieldDecomposeRegularGrid(int width, int height, const T* u, const T* v, T* h_u, T* h_v, T* l_u, T* l_v, int maxiter, bool display = false);
+
+		/* mac_u : height*(width+1)
+		* mac_v : (height+1)*width
+		* vorticity : (height-1)*(width-1), the vorticity values are stored at the inner corners
+		* curl_u,curl_v :the same size of mac_u,mac_v, it's the curl field recovered from the vorticity
+		* l_u,l_v : the rest part of the field
+		*/
+		template<class T>
+		void FlowFieldDecomposeMAC(int width, int height, const T* mac_u, const T* mac_v, T* vorticity, T* curl_u, T* curl_v, T* l_u, T* l_v, int maxiter, bool display = false);
+
+		/* mac_u : height*(width+1)
+		* mac_v : (height+1)*width
+		* vorticity : (height-1)*(width-1)
+		*/
+		template<class T>
+		void GetVorticityofMAC(int width, int height, const T* mac_u, const T* mac_v, T* vorticity, bool display = false);
+
+		/* vorticity : (width-1)*(height-1)
+		* u : (width+1)*height
+		* v : width*(height+1)
+		*/
+		template<class T>
+		void ReconstructCurlField(int width, int height, const T* vorticity, T* u, T* v, int maxiter, bool display = false);
 
 		/***************************************************************************************************/
 		/***************************************************************************************************/
@@ -1481,6 +1512,214 @@ namespace ZQ
 			delete []p;
 
 		}
+	}
+
+
+
+	/**********************************       field   decomposition       ************************************/
+
+	template<class T>
+	void ZQ_PoissonSolver::FlowFieldDecomposeRegularGrid(int width, int height, const T* u, const T* v, T* h_u, T* h_v, T* l_u, T* l_v, int maxiter, bool display)
+	{
+		T* mac_u = new T[(width + 1)*height];
+		T* mac_v = new T[width*(height + 1)];
+		T* vorticity = new T[(width - 1)*(height - 1)];
+		T* curl_u = new T[(width + 1)*height];
+		T* curl_v = new T[width*(height + 1)];
+
+		RegularGridtoMAC(width, height, u, v, mac_u, mac_v, datatype);
+
+		GetVorticityofMAC(width, height, mac_u, mac_v, vorticity, datatype, display);
+
+		ReconstructCurlField(width, height, vorticity, curl_u, curl_v, maxiter, datatype, display);
+
+		MACtoRegularGrid(width, height, curl_u, curl_v, h_u, h_v, datatype);
+
+		for (int i = 0; i < width*height; i++)
+		{
+			l_u[i] = u[i] - h_u[i];
+			l_v[i] = v[i] - h_v[i];
+		}
+
+		//check divergece
+		double max_div = 0;
+		double sum_div = 0;
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				double cur_div = curl_u[i*(width + 1) + (j + 1)] - curl_u[i*(width + 1) + j] + curl_v[(i + 1)*width + j] - curl_v[i*width + j];
+				if (fabs(max_div) < fabs(cur_div))
+					max_div = cur_div;
+				sum_div += fabs(cur_div);
+			}
+		}
+		if (display)
+			printf("max_div = %f,sum_div = %f\n", max_div, sum_div);
+
+		delete[]curl_u;
+		delete[]curl_v;
+		delete[]mac_u;
+		delete[]mac_v;
+	}
+
+
+	template<class T>
+	void ZQ_PoissonSolver::FlowFieldDecomposeMAC(int width, int height, const T* mac_u, const T* mac_v, T* vorticity, T* curl_u, T* curl_v, T* l_u, T* l_v, 
+		int maxiter, bool display)
+	{
+		GetVorticityofMAC(width, height, mac_u, mac_v, vorticity, datatype, display);
+		ReconstructCurlField(width, height, vorticity, curl_u, curl_v, maxiter, datatype, display);
+
+		for (int i = 0; i < height*(width + 1); i++)
+			l_u[i] = mac_u[i] - curl_u[i];
+		for (int i = 0; i < (height + 1)*width; i++)
+			l_v[i] = mac_v[i] - curl_v[i];
+	}
+
+	template<class T>
+	void ZQ_PoissonSolver::GetVorticityofMAC(int width, int height, const T* mac_u, const T* mac_v, T* vorticity, bool display)
+	{
+		for (int i = 0; i < height - 1; i++)
+		{
+			for (int j = 0; j < width - 1; j++)
+			{
+				vorticity[i*(width - 1) + j] = mac_v[(i + 1)*width + j + 1] - mac_v[(i + 1)*width + j + 0] - mac_u[(i + 1)*(width + 1) + j + 1] + mac_u[(i + 0)*(width + 1) + j + 1];
+			}
+		}
+	}
+
+	template<class T>
+	void ZQ_PoissonSolver::ReconstructCurlField(int width, int height, const T* vorticity, T* u, T* v, int maxiter, bool display)
+	{
+		
+		/*div(u) = 0;
+		*s.t. curl(u) = vorticity
+		*/
+
+		/********************* least square method ***************/
+
+		memset(u, 0, sizeof(T)*height*(width + 1));
+		memset(v, 0, sizeof(T)*width*(height + 1));
+
+		int* u_idx = new int[(width + 1)*height];
+		int* v_idx = new int[width*(height + 1)];
+
+		int idx = 0;
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j <= width; j++)
+			{
+				if (j == 0 || j == width)
+				{
+					u_idx[i*(width + 1) + j] = -1;
+				}
+				else
+				{
+					u_idx[i*(width + 1) + j] = idx++;
+				}
+			}
+		}
+
+		for (int i = 0; i <= height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				if (i == 0 || i == height)
+				{
+					v_idx[i*width + j] = -1;
+				}
+				else
+				{
+					v_idx[i*width + j] = idx++;
+				}
+			}
+		}
+
+		int dim = idx;
+
+		ZQ_SparseMatrix<float> mat(dim + 1, dim);
+
+
+
+
+		double* b = new double[dim + 1];
+		memset(b, 0, sizeof(double)*(dim + 1));
+
+		idx = 0;
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				if (u_idx[i*(width + 1) + j + 1] >= 0)
+					mat.SetValue(idx, u_idx[i*(width + 1) + j + 1], 1);
+				else
+					b[idx] -= u[i*(width + 1) + j + 1];
+
+				if (u_idx[i*(width + 1) + j] >= 0)
+					mat.SetValue(idx, u_idx[i*(width + 1) + j], -1);
+				else
+					b[idx] += u[i*(width + 1) + j];
+
+				if (v_idx[(i + 1)*width + j] >= 0)
+					mat.SetValue(idx, v_idx[(i + 1)*width + j], 1);
+				else
+					b[idx] -= v[(i + 1)*width + j];
+
+				if (v_idx[i*width + j] >= 0)
+					mat.SetValue(idx, v_idx[i*width + j], -1);
+				else
+					b[idx] += v[i*width + j];
+
+				idx++;
+			}
+		}
+
+		for (int i = 0; i < height - 1; i++)
+		{
+			for (int j = 0; j < width - 1; j++)
+			{
+				mat.SetValue(idx, v_idx[(i + 1)*width + j + 1], 1);
+				mat.SetValue(idx, v_idx[(i + 1)*width + j + 0], -1);
+				mat.SetValue(idx, u_idx[(i + 1)*(width + 1) + j + 1], -1);
+				mat.SetValue(idx, u_idx[(i + 0)*(width + 1) + j + 1], 1);
+				b[idx] += vorticity[i*(width - 1) + j];
+				idx++;
+			}
+		}
+
+		taucs_ccs_matrix* A = mat.ExportCCS(TAUCS_DOUBLE);
+
+		ZQ_PCGSolver solver;
+		int max_iter = maxiter;
+		double tol = 1e-9;
+		int it = 0;
+		double* x0 = new double[dim];
+		double* x = new double[dim];
+		memset(x0, 0, sizeof(double)*dim);
+		memset(x, 0, sizeof(double)*dim);
+		solver.PCG_sparse_unsquare(A, b, x0, max_iter, tol, x, it, display);
+
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 1; j < width; j++)
+				u[i*(width + 1) + j] = x[u_idx[i*(width + 1) + j]];
+		}
+
+		for (int i = 1; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+				v[i*width + j] = x[v_idx[i*width + j]];
+		}
+
+		ZQ_TaucsBase::ZQ_taucs_ccs_free(A);
+		delete[]x0;
+		delete[]x;
+		delete[]b;
+
+		
+		delete[]u_idx;
+		delete[]v_idx;
 	}
 
 }

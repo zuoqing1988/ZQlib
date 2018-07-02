@@ -16,7 +16,7 @@ namespace ZQ
 		if occupy == NULL, it means no obstacles in the scene
 		*/
 		template<class T>  
-		void ZQ_BactTraceAdvection(const T* u, const T* v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time, const int substeps, 
+		void ZQ_BacktraceAdvection(const T* u, const T* v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time, const int substeps, 
 			const int nPts, const T* in_pos, T* out_pos);
 
 		template<class T>  
@@ -25,7 +25,7 @@ namespace ZQ
 
 
 		template<class T>
-		void ZQ_BactTraceAdvection_MACGrid(const T* mac_u, const T* mac_v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time, const int substeps, 
+		void ZQ_BacktraceAdvection_MACGrid(const T* mac_u, const T* mac_v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time, const int substeps, 
 			const int nPts, const T* in_pos, T* out_pos);
 
 		template<class T>
@@ -33,7 +33,7 @@ namespace ZQ
 			const int nPts, const T* in_pos, T* out_pos);
 
 		template<class T>
-		void ZQ_BactTraceAdvectionOnePositionOneStep(const T* u, const T* v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time,
+		void ZQ_BacktraceAdvectionOnePositionOneStep(const T* u, const T* v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time,
 			const T* in_pos, T* out_pos);
 
 		template<class T>
@@ -41,7 +41,7 @@ namespace ZQ
 			const T* in_pos, T* out_pos);
 
 		template<class T>
-		void ZQ_BactTraceAdvectionOnePositionOneStep_MACGrid(const T* mac_u, const T* mac_v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time,
+		void ZQ_BacktraceAdvectionOnePositionOneStep_MACGrid(const T* mac_u, const T* mac_v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time,
 			const T* in_pos, T* out_pos);
 
 		template<class T>
@@ -70,7 +70,7 @@ namespace ZQ
 		/*********************************************************************************/
 
 		template<class T>
-		void ZQ_BactTraceAdvection(const T* u, const T* v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time, const int substeps, 
+		void ZQ_BacktraceAdvection(const T* u, const T* v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time, const int substeps, 
 			const int nPts, const T* in_pos, T* out_pos)
 		{
 			memcpy(out_pos,in_pos,sizeof(T)*2*nPts);
@@ -92,7 +92,7 @@ namespace ZQ
 
 				for(int ss = 0;ss < substeps;ss++)
 				{
-					ZQ_BactTraceAdvectionOnePositionOneStep(u,v,occupy,width,height,voxel_xlen,voxel_ylen,substepTime,last_pos,out_pos+i*2);
+					ZQ_BacktraceAdvectionOnePositionOneStep(u,v,occupy,width,height,voxel_xlen,voxel_ylen,substepTime,last_pos,out_pos+i*2);
 					cur_x = out_pos[i*2+0]/voxel_xlen;
 					cur_y = out_pos[i*2+1]/voxel_ylen;
 					ix = __min(width-1,__max(0,(int)cur_x));
@@ -156,7 +156,7 @@ namespace ZQ
 		}
 
 		template<class T>
-		void ZQ_BactTraceAdvection_MACGrid(const T* mac_u, const T* mac_v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time, const int substeps, 
+		void ZQ_BacktraceAdvection_MACGrid(const T* mac_u, const T* mac_v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time, const int substeps, 
 			const int nPts, const T* in_pos, T* out_pos)
 		{
 			memcpy(out_pos,in_pos,sizeof(T)*2*nPts);
@@ -178,7 +178,7 @@ namespace ZQ
 
 				for(int ss = 0;ss < substeps;ss++)
 				{
-					ZQ_BactTraceAdvectionOnePositionOneStep_MACGrid(mac_u,mac_v,occupy,width,height,voxel_xlen,voxel_ylen,substepTime,last_pos,out_pos+i*2);
+					ZQ_BacktraceAdvectionOnePositionOneStep_MACGrid(mac_u,mac_v,occupy,width,height,voxel_xlen,voxel_ylen,substepTime,last_pos,out_pos+i*2);
 					cur_x = out_pos[i*2+0]/voxel_xlen;
 					cur_y = out_pos[i*2+1]/voxel_ylen;
 					ix = __min(width-1,__max(0,(int)cur_x));
@@ -243,7 +243,7 @@ namespace ZQ
 		}
 
 		template<class T>
-		void ZQ_BactTraceAdvectionOnePositionOneStep(const T* u, const T* v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time,
+		void ZQ_BacktraceAdvectionOnePositionOneStep(const T* u, const T* v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time,
 			const T* in_pos, T* out_pos)
 		{
 			float cur_x = in_pos[0]/voxel_xlen;
@@ -273,7 +273,7 @@ namespace ZQ
 		}
 
 		template<class T>
-		void ZQ_BactTraceAdvectionOnePositionOneStep_MACGrid(const T* mac_u, const T* mac_v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time,
+		void ZQ_BacktraceAdvectionOnePositionOneStep_MACGrid(const T* mac_u, const T* mac_v, const bool* occupy, const int width, const int height, const float voxel_xlen, const float voxel_ylen, const float time,
 			const T* in_pos, T* out_pos)
 		{
 			float cur_x = in_pos[0]/voxel_xlen;

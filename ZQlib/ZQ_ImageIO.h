@@ -274,7 +274,7 @@ namespace ZQ
 
 		/*save flow field, color_type is 0 or 1*/
 		template<class T>
-		static IplImage* SaveFlowToColorImage(const ZQ_DImage<T>& u, const ZQ_DImage<T>& v, bool user_input, float max_rad, int wheelSize, int color_type, bool display = false)
+		static cv::Mat SaveFlowToColorImage(const ZQ_DImage<T>& u, const ZQ_DImage<T>& v, bool user_input, float max_rad, int wheelSize, int color_type, bool display = false)
 		{
 			int width = u.width();
 			int height = v.height();
@@ -286,20 +286,21 @@ namespace ZQ
 				img = FlowToColor1(width, height, u.data(), v.data(), user_input, max_rad, display);
 			int show_width = width + wheelSize;
 			int show_height = MAX(height, wheelSize);
-			IplImage* show_img = cvCreateImage(cvSize(show_width, show_height), IPL_DEPTH_8U, 3);
-			cvZero(show_img);
+			cv::Mat show_img = cv::Mat(show_height, show_width, CV_MAKETYPE(8, 3),cv::Scalar(0,0,0));
 			for (int i = 0; i < height; i++)
 			{
 				for (int j = 0; j < width; j++)
 				{
-					cvSet2D(show_img, i, j, cvScalar(img[(i*width + j) * 3 + 2], img[(i*width + j) * 3 + 1], img[(i*width + j) * 3 + 0]));
+					show_img.ptr<uchar>(i)[j * 3 + 0] = img[(i*width + j) * 3 + 2];
+					show_img.ptr<uchar>(i)[j * 3 + 1] = img[(i*width + j) * 3 + 1];
+					show_img.ptr<uchar>(i)[j * 3 + 2] = img[(i*width + j) * 3 + 0];
 				}
 			}
 
 			delete[]img;
 			img = 0;
 
-			IplImage* colorwheel;
+			cv::Mat colorwheel;
 			if (color_type == 0)
 				colorwheel = MakeColorWheelImage0(wheelSize, user_input, max_rad);
 			else
@@ -309,16 +310,17 @@ namespace ZQ
 			{
 				for (int j = 0; j < wheelSize; j++)
 				{
-					cvSet2D(show_img, i, j + width, cvGet2D(colorwheel, i, j));
+					show_img.ptr<uchar>(i)[(j + width) * 3 + 0] = colorwheel.ptr<uchar>(i)[j * 3 + 0];
+					show_img.ptr<uchar>(i)[(j + width) * 3 + 1] = colorwheel.ptr<uchar>(i)[j * 3 + 1];
+					show_img.ptr<uchar>(i)[(j + width) * 3 + 2] = colorwheel.ptr<uchar>(i)[j * 3 + 2];
 				}
 			}
-			cvReleaseImage(&colorwheel);
 			return show_img;
 		}
 
 
 		template<class T>
-		static IplImage* SaveFlowToColorImage(const ZQ_DImage<T>& u1, const ZQ_DImage<T>& v1, const ZQ_DImage<T>& u2, const ZQ_DImage<T>& v2,
+		static cv::Mat SaveFlowToColorImage(const ZQ_DImage<T>& u1, const ZQ_DImage<T>& v1, const ZQ_DImage<T>& u2, const ZQ_DImage<T>& v2,
 			bool user_input, float max_rad, int wheelSize, int color_type, bool display = false)
 		{
 			int width1 = u1.width();
@@ -358,20 +360,21 @@ namespace ZQ
 
 			int show_width = width + wheelSize;
 			int show_height = MAX(height, wheelSize);
-			IplImage* show_img = cvCreateImage(cvSize(show_width, show_height), IPL_DEPTH_8U, 3);
-			cvZero(show_img);
+			cv::Mat show_img = cv::Mat(show_height, show_width, CV_MAKETYPE(8, 3), cv::Scalar(0, 0, 0));
 			for (int i = 0; i < height; i++)
 			{
 				for (int j = 0; j < width; j++)
 				{
-					cvSet2D(show_img, i, j, cvScalar(img[(i*width + j) * 3 + 2], img[(i*width + j) * 3 + 1], img[(i*width + j) * 3 + 0]));
+					show_img.ptr<uchar>(i)[j * 3 + 0] = img[(i*width + j) * 3 + 2];
+					show_img.ptr<uchar>(i)[j * 3 + 1] = img[(i*width + j) * 3 + 1];
+					show_img.ptr<uchar>(i)[j * 3 + 2] = img[(i*width + j) * 3 + 0];
 				}
 			}
 
 			delete[]img;
 			img = 0;
 
-			IplImage* colorwheel;
+			cv::Mat colorwheel;
 			if (color_type == 0)
 				colorwheel = MakeColorWheelImage0(wheelSize, user_input, max_rad);
 			else
@@ -381,11 +384,11 @@ namespace ZQ
 			{
 				for (int j = 0; j < wheelSize; j++)
 				{
-					cvSet2D(show_img, i, j + width, cvGet2D(colorwheel, i, j));
+					show_img.ptr<uchar>(i)[(j + width) * 3 + 0] = colorwheel.ptr<uchar>(i)[j * 3 + 0];
+					show_img.ptr<uchar>(i)[(j + width) * 3 + 1] = colorwheel.ptr<uchar>(i)[j * 3 + 1];
+					show_img.ptr<uchar>(i)[(j + width) * 3 + 2] = colorwheel.ptr<uchar>(i)[j * 3 + 2];
 				}
 			}
-
-			cvReleaseImage(&colorwheel);
 			return show_img;
 		}
 
@@ -724,7 +727,7 @@ namespace ZQ
 			delete[]b;
 		}
 
-		static IplImage* MakeColorWheelImage0(int N, bool user_input, float max_rad)
+		static cv::Mat MakeColorWheelImage0(int N, bool user_input, float max_rad)
 		{
 			float cx = (N - 1)*0.5;
 			float cy = (N - 1)*0.5;
@@ -752,12 +755,14 @@ namespace ZQ
 				}
 			}
 			float* img = FlowToColor0(N, N, u, v, user_input, max_rad, false);
-			IplImage* show_img = cvCreateImage(cvSize(N, N), IPL_DEPTH_8U, 3);
+			cv::Mat show_img = cv::Mat(N, N, CV_MAKETYPE(8, 3));
 			for (int i = 0; i < N; i++)
 			{
 				for (int j = 0; j < N; j++)
 				{
-					cvSet2D(show_img, i, j, cvScalar(img[(i*N + j) * 3 + 2], img[(i*N + j) * 3 + 1], img[(i*N + j) * 3 + 0]));
+					show_img.ptr<uchar>(i)[j * 3 + 0] = img[(i*N + j) * 3 + 2];
+					show_img.ptr<uchar>(i)[j * 3 + 1] = img[(i*N + j) * 3 + 1];
+					show_img.ptr<uchar>(i)[j * 3 + 2] = img[(i*N + j) * 3 + 0];
 				}
 			}
 			delete[]u;
@@ -766,7 +771,7 @@ namespace ZQ
 			return show_img;
 		}
 
-		static IplImage* MakeColorWheelImage1(int N, bool user_input, float max_rad)
+		static cv::Mat MakeColorWheelImage1(int N, bool user_input, float max_rad)
 		{
 			float cx = (N - 1)*0.5;
 			float cy = (N - 1)*0.5;
@@ -794,12 +799,14 @@ namespace ZQ
 				}
 			}
 			float* img = FlowToColor1(N, N, u, v, user_input, max_rad, false);
-			IplImage* show_img = cvCreateImage(cvSize(N, N), IPL_DEPTH_8U, 3);
+			cv::Mat show_img = cv::Mat(N, N, CV_MAKETYPE(8, 3));
 			for (int i = 0; i < N; i++)
 			{
 				for (int j = 0; j < N; j++)
 				{
-					cvSet2D(show_img, i, j, cvScalar(img[(i*N + j) * 3 + 2], img[(i*N + j) * 3 + 1], img[(i*N + j) * 3 + 0]));
+					show_img.ptr<uchar>(i)[j * 3 + 0] = img[(i*N + j) * 3 + 2];
+					show_img.ptr<uchar>(i)[j * 3 + 1] = img[(i*N + j) * 3 + 1];
+					show_img.ptr<uchar>(i)[j * 3 + 2] = img[(i*N + j) * 3 + 0];
 				}
 			}
 			delete[]u;
