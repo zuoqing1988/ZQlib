@@ -8,9 +8,7 @@ using namespace ZQ_PoissonSolver;
 typedef ZQ_PIVMovingObject::BaseType BaseType;
 typedef ZQ_DImage<BaseType> DImage;
 
-int datatype = sizeof(BaseType) == sizeof(double) ? ZQ_DOUBLE : ZQ_FLOAT;
-
-IplImage* ParImageToIplImage(DImage& img);
+cv::Mat ParImageToIplImage(DImage& img);
 
 void main_Regular(int idx);
 
@@ -49,7 +47,6 @@ void main_Regular(int idx)
 	double base_vel_u = 0;
 	double base_vel_v = 0;
 	int skip_frames = 0;
-
 	int coarse_len = 16;
 
 	ZQ_PIVMovingObject* mvobj = 0;
@@ -304,7 +301,7 @@ void main_Regular(int idx)
 		min_vort_radius = 20;
 		use_peroid_coord = true;
 
-		mvobj = new ZQ_PIVMovingObject(48,48,ZQ_PIV_MOVOB_CIRCLE_STATIC,"wenli.di2");
+		mvobj = new ZQ_PIVMovingObject(48,48,ZQ_PIVMovingObject::ZQ_PIV_MOVOB_CIRCLE_STATIC,"wenli.di2");
 
 		/*has_occupy = true;
 		occupy = new bool[width*height];
@@ -356,7 +353,7 @@ void main_Regular(int idx)
 		min_vort_radius = 20;
 		use_peroid_coord = true;
 
-		mvobj = new ZQ_PIVMovingObject(48,48,ZQ_PIV_MOVOB_RECT_UPDOWN,"wenli.di2");
+		mvobj = new ZQ_PIVMovingObject(48,48, ZQ_PIVMovingObject::ZQ_PIV_MOVOB_RECT_UPDOWN,"wenli.di2");
 		
 
 		coarse_len = 32;
@@ -388,7 +385,7 @@ void main_Regular(int idx)
 		min_vort_radius = 20;
 		use_peroid_coord = true;
 
-		mvobj = new ZQ_PIVMovingObject(48,48,ZQ_PIV_MOVOB_CIRCLE_CIRCULAR,"wenli.di2");
+		mvobj = new ZQ_PIVMovingObject(48,48, ZQ_PIVMovingObject::ZQ_PIV_MOVOB_CIRCLE_CIRCULAR,"wenli.di2");
 
 
 		coarse_len = 32;
@@ -491,7 +488,7 @@ void main_Regular(int idx)
 		min_vort_radius = 10;
 		use_peroid_coord = true;
 
-		mvobj = new ZQ_PIVMovingObject(48,48,ZQ_PIV_MOVOB_CIRCLE_STATIC,"wenli.di2");
+		mvobj = new ZQ_PIVMovingObject(48,48, ZQ_PIVMovingObject::ZQ_PIV_MOVOB_CIRCLE_STATIC,"wenli.di2");
 	
 		par_mask.allocate(width,height);
 		
@@ -520,7 +517,7 @@ void main_Regular(int idx)
 		min_vort_radius = 10;
 		use_peroid_coord = true;
 
-		mvobj = new ZQ_PIVMovingObject(48,48,ZQ_PIV_MOVOB_RECT_STATIC,"wenli.di2");
+		mvobj = new ZQ_PIVMovingObject(48,48, ZQ_PIVMovingObject::ZQ_PIV_MOVOB_RECT_STATIC,"wenli.di2");
 
 		par_mask.allocate(width,height);
 
@@ -603,11 +600,7 @@ void main_Regular(int idx)
 		base_vel_v = 0;
 		skip_frames = 20;
 		break;
-
-
-
 	}
-	
 
 	/*suggest values*/
 	/*
@@ -645,7 +638,6 @@ void main_Regular(int idx)
 	}
 
 	ZQ_PoissonSolver::ReconstructCurlField(width,height,vort_pData,macu_pData,macv_pData,100,false);
-
 	ZQ_PoissonSolver::MACtoRegularGrid(width,height,macu_pData,macv_pData,u_pData,v_pData);
 
 	if(use_peroid_coord)
@@ -688,7 +680,6 @@ void main_Regular(int idx)
 	{
 		printf("frame [%3d] ...\n",frame);
 		
-
 		if(cut_boarder)
 		{
 			piv_simu.ExportVelocity(u_img,v_img);
@@ -722,10 +713,12 @@ void main_Regular(int idx)
 				}
 			}
 
-			IplImage* show_par_img = ParImageToIplImage(cut_par_img);
+			cv::Mat show_par_img = ParImageToIplImage(cut_par_img);
 			sprintf_s(buf,"%s\\par_%d.png",out_par_fold,frame);
-			cvSaveImage(buf,show_par_img);
-			cvReleaseImage(&show_par_img);
+			cv::imwrite(buf,show_par_img);
+			cv::namedWindow("show");
+			cv::imshow("show", show_par_img);
+			cv::waitKey(10);
 		}
 		else
 		{
@@ -742,42 +735,41 @@ void main_Regular(int idx)
 			par_img.reset();
 			piv_simu.ExportParticleImage(par_img);
 
-			IplImage* show_par_img = ParImageToIplImage(par_img);
+			cv::Mat show_par_img = ParImageToIplImage(par_img);
 			sprintf_s(buf,"%s\\par_%d.png",out_par_fold,frame);
-			cvSaveImage(buf,show_par_img);
-			cvReleaseImage(&show_par_img);
-
-			
+			cv::imwrite(buf,show_par_img);
+			cv::namedWindow("show");
+			cv::imshow("show", show_par_img);
+			cv::waitKey(10);
 		}
 		
 		piv_simu.RunOneFrame(1.0,use_peroid_coord,true);
 		frame++;
 
-	} while (frame < 100);
+	} while (frame < 400);
 
 	if(mvobj)
 		delete mvobj;
 }
 
 
-IplImage* ParImageToIplImage(DImage& img)
+cv::Mat ParImageToIplImage(DImage& img)
 {
 	int width = img.width();
 	int height = img.height();
 	int nChannels = img.nchannels();
 
 	if(width <= 0 || height <= 0 || nChannels != 1)
-		return 0;
+		return cv::Mat();
 
 	BaseType*& pData = img.data();
-	IplImage* image = cvCreateImage(cvSize(width,height),IPL_DEPTH_8U,1);
+	cv::Mat image = cv::Mat(height, width, CV_MAKETYPE(8, 1));
 	for(int i = 0;i < height;i++)
 	{
 		for(int j = 0;j < width;j++)
 		{
-			cvSetReal2D(image,i,j,pData[i*width+j]*255);
+			image.ptr<uchar>(i)[j] = pData[i*width + j] * 255;
 		}
 	}
-
 	return image;
 }

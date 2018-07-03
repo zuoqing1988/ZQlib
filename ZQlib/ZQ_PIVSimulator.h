@@ -59,7 +59,6 @@ namespace ZQ
 
 		bool RandomInit(int particle_num, DImage& u, DImage& v, DImage& par_mask)
 		{
-
 			if (u.matchDimension(width, height, 1) == false)
 				return false;
 			if (v.matchDimension(width, height, 1) == false)
@@ -357,8 +356,6 @@ namespace ZQ
 				delete[]cur_occupy;
 			}
 		}
-
-
 
 	public:
 		static double GaussianKernel(double distance, double radius)
