@@ -9,9 +9,8 @@
 
 namespace ZQ
 {
-
 	// right-hand coordinates
- 	class ZQ_CPURaycasting
+ 	class ZQ_CPURayCasting
 	{
 	public:
 		enum ColorFormat{COLOR_RGB,COLOR_RGBA,COLOR_BGR,COLOR_BGRA};
@@ -75,7 +74,7 @@ namespace ZQ
 		}
 
 	public:
-		ZQ_CPURaycasting()
+		ZQ_CPURayCasting()
 		{
 			/*window's width and height, focus is the center*/
 			width = 400;
@@ -94,7 +93,7 @@ namespace ZQ
 			opacityThreshold = 0.98f;
 		}
 
-		~ZQ_CPURaycasting(){}
+		~ZQ_CPURayCasting(){}
 
 	private:
 		/*window's width and height, focus is the center*/
