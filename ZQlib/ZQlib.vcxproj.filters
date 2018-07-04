@@ -48,9 +48,6 @@
     <ClInclude Include="ZQ_CompressedImageRaw.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ZQ_CPURaycasting.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ZQ_CubicInterpolation.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -412,6 +409,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ZQ_PIVSimulator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_PIVMovingObject3D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_PIVSimulator3D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_CPURayCasting.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

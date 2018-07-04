@@ -62,7 +62,7 @@ unsigned int win_width = 400;
 unsigned int win_height = 400;
 
 float* volumeData = 0;
-ZQ_CPURaycasting m_CPURaycast;
+ZQ_CPURayCasting m_CPURaycast;
 
 
 void init(int w,int h, int depth);
@@ -1003,7 +1003,7 @@ void advectScalar(float dt)
 void show(float wait_time)
 {
 	float* renderBuffer = new float[win_height*win_width*4];
-	ZQ_CPURaycasting::ColorFormat color_fmt = ZQ_CPURaycasting::COLOR_BGRA;
+	ZQ_CPURayCasting::ColorFormat color_fmt = ZQ_CPURayCasting::COLOR_BGRA;
 
 	m_CPURaycast.RenderToBuffer(renderBuffer,50,color_fmt);
 
