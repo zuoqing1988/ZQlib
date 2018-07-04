@@ -8,8 +8,8 @@
 
 using namespace ZQ;
 
-unsigned int win_width = 400;
-unsigned int win_height = 400;
+unsigned int win_width = 320;
+unsigned int win_height = 320;
 
 float* volumeData = 0;
 ZQ_CPURayCasting m_CPURaycast;
@@ -28,12 +28,20 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	while(true)
+	int count = 0;
+	while(count ++ < 1000)
 	{
 		float* renderBuffer = new float[win_height*win_width*4];
 		ZQ_CPURayCasting::ColorFormat color_fmt = ZQ_CPURayCasting::COLOR_BGRA;
+		float angle = count * 0.05f;
+		float worldMatrix[16] = {
+			cos(angle), 0.0f, sin(angle), 0.0f,
+			0.0f,		1.0f,  0.0f, 0.0f,
+			-sin(angle), 0.0f, cos(angle), 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f };
+		m_CPURaycast.SetWorldMatrix(worldMatrix);
 
-		m_CPURaycast.RenderToBuffer(renderBuffer,100,color_fmt);
+		m_CPURaycast.RenderToBuffer(renderBuffer,64,color_fmt);
 
 		cv::Mat rc_im = cv::Mat(win_height, win_width, CV_MAKETYPE(8, 4));
 		for(int h = 0;h < win_height;h++)
@@ -48,7 +56,7 @@ int main()
 			}
 		}
 		delete []renderBuffer;
-
+		cv::flip(rc_im, rc_im, 0);
 		cv::namedWindow("ZQ_RayCasting");
 		cv::imshow("ZQ_RayCasting", rc_im);
 		cv::waitKey(30);
@@ -61,8 +69,8 @@ int main()
 
 bool Init()
 {
-	int volumeSize = 64;
-	const float densityScale = 0.50f;
+	int volumeSize = 32;
+	const float densityScale = 0.80f;
 	const float opacityScale = 0.0001f;
 	if(!initVolumeData(volumeData,volumeSize,"ball"))
 		return false;
@@ -71,16 +79,16 @@ bool Init()
 
 	ZQ_Vec3D boxmin(-1,-1,-1),boxmax(1,1,1);
 
-	float worldMatrix[16] = {   
+	float worldMatrix[16] = {
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f};
+		0.0f, 0.0f, 0.0f, 1.0f };
 	
 	float viewMatrix[16] = {   
-		cos(0.0f),	0.0f,	sin(0.0f),	0.0f,
-		0.0f,		1.0f,	0.0f,		0.0f,
-		-sin(0.0f), 0.0f,	cos(0.0f),	-10.0f,
+		1.0f,	0.0f,		0.0f,		0.0f,
+		0.0f,	cos(0.2f),	sin(0.2f),	0.0f,
+		0.0f,	-sin(0.2f), cos(0.2f),	-10.0f,
 		0.0f,		0.0f,	0.0f,		1.0f};
 
 	float fovy = pi/6;
