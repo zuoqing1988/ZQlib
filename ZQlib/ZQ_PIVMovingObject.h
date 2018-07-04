@@ -10,7 +10,7 @@ namespace ZQ
 	{
 	public:
 		typedef float BaseType;
-		typedef ZQ::ZQ_DImage<BaseType> DImage;
+		typedef ZQ_DImage<BaseType> DImage;
 		enum MOVOBJ_TYPE
 		{
 			ZQ_PIV_MOVOB_RECT_STATIC = 0,

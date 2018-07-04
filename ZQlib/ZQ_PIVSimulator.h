@@ -13,7 +13,7 @@ namespace ZQ
 	{
 	public:
 		typedef ZQ_PIVMovingObject::BaseType BaseType;
-		typedef ZQ::ZQ_DImage<BaseType> DImage;
+		typedef ZQ_DImage<BaseType> DImage;
 	public:
 		ZQ_PIVSimulator(int width, int height, ZQ_PIVMovingObject* mvobj = 0)
 		{
