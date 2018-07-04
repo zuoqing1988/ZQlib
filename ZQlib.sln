@@ -158,6 +158,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleFaceMorphing", "Sampl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamplePIVSimulator", "SamplePIVSimulator\SamplePIVSimulator.vcxproj", "{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamplePIVSimulator3D", "SamplePIVSimulator3D\SamplePIVSimulator3D.vcxproj", "{B10555AC-F1B7-4B41-9C1C-2990DB4D2828}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleCPURayCasting", "SampleCPURayCasting\SampleCPURayCasting.vcxproj", "{C93C9595-0099-48D6-AB8D-2A57433AD385}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -789,6 +793,22 @@ Global
 		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Release|Win32.Build.0 = Release|x64
 		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Release|x64.ActiveCfg = Release|x64
 		{9708EAB4-4135-423A-B2CD-BAF1EDD93E32}.Release|x64.Build.0 = Release|x64
+		{B10555AC-F1B7-4B41-9C1C-2990DB4D2828}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B10555AC-F1B7-4B41-9C1C-2990DB4D2828}.Debug|Win32.Build.0 = Debug|Win32
+		{B10555AC-F1B7-4B41-9C1C-2990DB4D2828}.Debug|x64.ActiveCfg = Debug|x64
+		{B10555AC-F1B7-4B41-9C1C-2990DB4D2828}.Debug|x64.Build.0 = Debug|x64
+		{B10555AC-F1B7-4B41-9C1C-2990DB4D2828}.Release|Win32.ActiveCfg = Release|Win32
+		{B10555AC-F1B7-4B41-9C1C-2990DB4D2828}.Release|Win32.Build.0 = Release|Win32
+		{B10555AC-F1B7-4B41-9C1C-2990DB4D2828}.Release|x64.ActiveCfg = Release|x64
+		{B10555AC-F1B7-4B41-9C1C-2990DB4D2828}.Release|x64.Build.0 = Release|x64
+		{C93C9595-0099-48D6-AB8D-2A57433AD385}.Debug|Win32.ActiveCfg = Debug|x64
+		{C93C9595-0099-48D6-AB8D-2A57433AD385}.Debug|Win32.Build.0 = Debug|x64
+		{C93C9595-0099-48D6-AB8D-2A57433AD385}.Debug|x64.ActiveCfg = Debug|x64
+		{C93C9595-0099-48D6-AB8D-2A57433AD385}.Debug|x64.Build.0 = Debug|x64
+		{C93C9595-0099-48D6-AB8D-2A57433AD385}.Release|Win32.ActiveCfg = Release|x64
+		{C93C9595-0099-48D6-AB8D-2A57433AD385}.Release|Win32.Build.0 = Release|x64
+		{C93C9595-0099-48D6-AB8D-2A57433AD385}.Release|x64.ActiveCfg = Release|x64
+		{C93C9595-0099-48D6-AB8D-2A57433AD385}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
