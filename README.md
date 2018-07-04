@@ -53,3 +53,6 @@ https://zhuanlan.zhihu.com/p/38842504
 
 (15)ZQlib都能干些什么之十五：PIV模拟2D（光流分析的数据生成）
 https://zhuanlan.zhihu.com/p/38884507
+
+(16)ZQlib都能干些什么之十六：CPU Ray Casting
+https://zhuanlan.zhihu.com/p/39004801
