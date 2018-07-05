@@ -75,5 +75,5 @@ int main(/*int argc, const char** argv*/)
 
 	test<float>(m_argc1, m_argv1);
 	test<float>(m_argc2, m_argv2);
-	return 0;
+	return EXIT_SUCCESS;
 }
