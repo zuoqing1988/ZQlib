@@ -32,8 +32,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleKahansum", "SampleKah
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleBitonicSort", "SampleBitonicSort\SampleBitonicSort.vcxproj", "{803E041F-C0E0-4D82-BAC1-C587D3A71377}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleCalibration", "SampleCalibration\SampleCalibration.vcxproj", "{727EF5B3-370F-48CD-B988-FCF85A866823}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleScatteredInterpolation", "SampleScatteredInterpolation\SampleScatteredInterpolation.vcxproj", "{FE620EA2-8319-4B95-AACE-EFE5547379D7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleSparseLevMar", "SampleSparseLevMar\SampleSparseLevMar.vcxproj", "{8B0C4F36-7AA7-4930-8ECD-BF129C9DCBCF}"
@@ -288,14 +286,6 @@ Global
 		{803E041F-C0E0-4D82-BAC1-C587D3A71377}.Release|Win32.Build.0 = Release|Win32
 		{803E041F-C0E0-4D82-BAC1-C587D3A71377}.Release|x64.ActiveCfg = Release|x64
 		{803E041F-C0E0-4D82-BAC1-C587D3A71377}.Release|x64.Build.0 = Release|x64
-		{727EF5B3-370F-48CD-B988-FCF85A866823}.Debug|Win32.ActiveCfg = Debug|x64
-		{727EF5B3-370F-48CD-B988-FCF85A866823}.Debug|Win32.Build.0 = Debug|x64
-		{727EF5B3-370F-48CD-B988-FCF85A866823}.Debug|x64.ActiveCfg = Debug|x64
-		{727EF5B3-370F-48CD-B988-FCF85A866823}.Debug|x64.Build.0 = Debug|x64
-		{727EF5B3-370F-48CD-B988-FCF85A866823}.Release|Win32.ActiveCfg = Release|x64
-		{727EF5B3-370F-48CD-B988-FCF85A866823}.Release|Win32.Build.0 = Release|x64
-		{727EF5B3-370F-48CD-B988-FCF85A866823}.Release|x64.ActiveCfg = Release|x64
-		{727EF5B3-370F-48CD-B988-FCF85A866823}.Release|x64.Build.0 = Release|x64
 		{FE620EA2-8319-4B95-AACE-EFE5547379D7}.Debug|Win32.ActiveCfg = Debug|x64
 		{FE620EA2-8319-4B95-AACE-EFE5547379D7}.Debug|Win32.Build.0 = Debug|x64
 		{FE620EA2-8319-4B95-AACE-EFE5547379D7}.Debug|x64.ActiveCfg = Debug|x64
