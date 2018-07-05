@@ -105,7 +105,7 @@ void test(const int argc, const char** argv)
 	}
 
 	ZQ_PoissonEditing3DOptions opt3d;
-	opt3d.nSORIteration = 5000;
+	opt3d.nSORIteration = 500;
 	opt3d.display = true;
 	opt3d.grad_scale = 1;
 
@@ -133,19 +133,32 @@ void test(const int argc, const char** argv)
 
 int main(/*int argc, const char** argv*/)
 {
-	const char* m_argv[] = 
+	const char* m_argv1[] = 
 	{
 		"SamplePoissonEditing3D.exe",
 		"10",
-		"input",
+		"input1",
 		"png",
-		"copyin",
+		"copyin1",
 		"png",
-		"mask.png",
-		"output"
+		"mask1.png",
+		"output1"
 	};
-	int m_argc = sizeof(m_argv)/sizeof(char*);
-	test<float>(m_argc,m_argv);
-	test<double>(m_argc,m_argv);
+	const char* m_argv2[] =
+	{
+		"SamplePoissonEditing3D.exe",
+		"200",
+		"input2",
+		"jpg",
+		"copyin2",
+		"jpg",
+		"mask2.png",
+		"output2"
+	};
+	int m_argc1 = sizeof(m_argv1) / sizeof(char*);
+	int m_argc2 = sizeof(m_argv2) / sizeof(char*);
+	test<float>(m_argc1,m_argv1);
+	test<float>(m_argc2, m_argv2);
+	//test<double>(m_argc,m_argv);
 	return EXIT_SUCCESS;
 }
