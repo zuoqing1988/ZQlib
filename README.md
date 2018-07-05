@@ -62,3 +62,6 @@ https://zhuanlan.zhihu.com/p/39043735
 
 (18)ZQlib都能干些什么之十八：移花接木（Poisson Image Editing）
 https://zhuanlan.zhihu.com/p/39051223
+
+(19)ZQlib都能干些什么之十九：Poisson Image Editing 3D
+https://zhuanlan.zhihu.com/p/39063095
