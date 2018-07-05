@@ -204,7 +204,6 @@ namespace ZQ
 						printf("unknown methodType: %s\n",argv[i]);
 						return false;
 					}
-
 				}
 				else if(_strcmpi(argv[i],"featuretype") == 0)
 				{
