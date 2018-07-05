@@ -56,3 +56,6 @@ https://zhuanlan.zhihu.com/p/38884507
 
 (16)ZQlib都能干些什么之十六：CPU Ray Casting
 https://zhuanlan.zhihu.com/p/39004801
+
+(17)ZQlib都能干些什么之十七：光流分析(optical flow)与流体光流分析(fluid flow)
+https://zhuanlan.zhihu.com/p/39043735
