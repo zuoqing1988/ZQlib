@@ -10,11 +10,6 @@ namespace ZQ
 	class ZQ_PoissonEditing
 	{
 	public:
-		
-		ZQ_PoissonEditing(){}
-		~ZQ_PoissonEditing(){}
-
-	public:
 		template<class T>
 		static bool PoissonEditing(const ZQ_DImage<T>& mask, const ZQ_DImage<T>& copy_in, const ZQ_DImage<T>& input, ZQ_DImage<T>& output, const ZQ_PoissonEditingOptions& opt);
 
@@ -199,7 +194,6 @@ namespace ZQ
 
 							output_data[(h*width+w)*nChannels+c] = sigma/coeff;
 						}
-
 					}
 				}
 			}

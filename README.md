@@ -59,3 +59,6 @@ https://zhuanlan.zhihu.com/p/39004801
 
 (17)ZQlib都能干些什么之十七：光流分析(optical flow)与流体光流分析(fluid flow)
 https://zhuanlan.zhihu.com/p/39043735
+
+(18)ZQlib都能干些什么之十八：移花接木（Poisson Image Editing）
+https://zhuanlan.zhihu.com/p/39051223

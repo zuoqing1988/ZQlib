@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 namespace ZQ
 {
 	class ZQ_PoissonEditingOptions
@@ -120,7 +119,6 @@ namespace ZQ
 			}
 			return true;
 		}
-
 	};
 }
 
