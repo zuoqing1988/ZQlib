@@ -9,13 +9,11 @@ using namespace ZQ;
 
 typedef ZQ_DImage<float> DImage;
 
-void main_Pair(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char* prefix, const char* suffix, const int image_num, const int base_id,const char* out_fold);
+int main_Pair(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char* prefix, const char* suffix, const int image_num, const int base_id,const char* out_fold);
 
-void main_Seq(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char* prefix, const char* suffix, const int image_num, const int base_id,const char* out_fold);
+int main_Seq(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char* prefix, const char* suffix, const int image_num, const int base_id,const char* out_fold);
 
-
-
-void main()
+int main()
 {
 	const char* opt_argv[] = {
 		"methodtype", "HS_L2",
@@ -40,7 +38,7 @@ void main()
 	if(!opt.HandleParas(sizeof(opt_argv)/sizeof(char*),opt_argv))
 	{
 		printf("option args error\n");
-		return;
+		return EXIT_FAILURE;
 	}
 
 	const char* input_fold = "INPUT";
@@ -159,15 +157,17 @@ void main()
 	opt.nInnerFixedPointIterations = 1;
 	std::cout << "METHOD_TWODIR_DEC_DL1: omp = " << opt.use_omp << "\n";
 	main_Seq(opt,input_fold,prefix,suffix,image_num,base_id,TWODIR_DEC_DL1_fold);
+
+	return EXIT_SUCCESS;
 }
 
 
-void main_Pair(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char* prefix, const char* suffix, const int image_num, const int base_id,const char* out_fold)
+int main_Pair(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char* prefix, const char* suffix, const int image_num, const int base_id,const char* out_fold)
 {
 	if(image_num < 2)
 	{
 		printf("error: image num < 2\n");
-		return ;
+		return EXIT_FAILURE;
 	}
 
 	char buf[2000];
@@ -181,11 +181,10 @@ void main_Pair(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char
 		if(!flag)
 		{
 			printf("fail to load image %s\n",buf);
-			return ;
+			return EXIT_FAILURE;
 		}
 		Images.push_back(Im);
 	}
-
 
 	double max_rad = 12;
 	bool user_input = true;
@@ -216,7 +215,6 @@ void main_Pair(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char
 			ZQ_OpticalFlow::Coarse2Fine_ADMM_DL1(u[i],v[i],warpIm[i],Images[i],Images[i+1],opt1);
 			break;
 		}
-
 	}	
 
 	double end = omp_get_wtime();
@@ -229,15 +227,13 @@ void main_Pair(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char
 		sprintf_s(buf,"%s\\flow%d_%d.di2",out_fold,i+base_id,i+1+base_id);
 		flow.saveImage(buf);
 
-
 		int wheelSize = 64;
 		int color_type = 1;
-		IplImage* flow_img =  ZQ_ImageIO::SaveFlowToColorImage(u[i],v[i],user_input,max_rad,wheelSize,color_type);
+		cv::Mat flow_img =  ZQ_ImageIO::SaveFlowToColorImage(u[i],v[i],user_input,max_rad,wheelSize,color_type);
 
 		sprintf_s(buf,"%s\\flow%d_%d.%s",out_fold,i+base_id,i+1+base_id,suffix);
-		cvSaveImage(buf,flow_img);
-		cvReleaseImage(&flow_img);
-
+		cv::imwrite(buf,flow_img);
+		
 		DImage warp,other;
 		warpIm[i].separate(1,warp,other);
 		sprintf_s(buf,"%s\\warp%d_%d.%s",out_fold,i+1+base_id,i+base_id,suffix);
@@ -247,18 +243,17 @@ void main_Pair(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char
 
 	printf("total_cost = %f \n",(end-start) );
 
-	return ;
+	return EXIT_SUCCESS;
 }
 
 
-void main_Seq(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char* prefix, const char* suffix, const int image_num, const int base_id,const char* out_fold)
+int main_Seq(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char* prefix, const char* suffix, const int image_num, const int base_id,const char* out_fold)
 {
 	if(image_num < 3)
 	{
 		printf("error: image num < 3\n");
-		return ;
+		return EXIT_FAILURE;
 	}
-	
 	char buf[2000];
 
 	std::vector<DImage> Images;
@@ -270,12 +265,10 @@ void main_Seq(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char*
 		if(!flag)
 		{
 			printf("fail to load image %s\n",buf);
-			return ;
+			return EXIT_FAILURE;
 		}
 		Images.push_back(Im);
-
 	}
-	
 	
 	double max_rad = 12;
 	bool user_input = true;
@@ -319,29 +312,24 @@ void main_Seq(const ZQ_OpticalFlowOptions& opt, const char* in_fold, const char*
 	
 	for(int i = 0;i < image_num-1;i++)
 	{
-		
-		
 		DImage flow;
 		flow.assemble(u[i],v[i]);
 		sprintf_s(buf,"%s\\flow%d_%d.di2",out_fold,i+base_id,i+1+base_id);
 		flow.saveImage(buf);
-		
 			
 		int wheelSize = 64;
 		int color_type = 1;
-		IplImage* flow_img =  ZQ_ImageIO::SaveFlowToColorImage(u[i],v[i],user_input,max_rad,wheelSize,color_type);
+		cv::Mat flow_img =  ZQ_ImageIO::SaveFlowToColorImage(u[i],v[i],user_input,max_rad,wheelSize,color_type);
 
 		sprintf_s(buf,"%s\\flow%d_%d.%s",out_fold,i+base_id,i+1+base_id,suffix);
-		cvSaveImage(buf,flow_img);
-		cvReleaseImage(&flow_img);
+		cv::imwrite(buf,flow_img);
 		
 		DImage warp,other;
 		warpIm[i].separate(1,warp,other);
 		sprintf_s(buf,"%s\\warp%d_%d.%s",out_fold,i+1+base_id,i+base_id,suffix);
 		ZQ_ImageIO::saveImage(warp,buf);
-
 	}
 
 	printf("total_time = %f\n", total_time);
-	return ;
+	return EXIT_SUCCESS;
 }
