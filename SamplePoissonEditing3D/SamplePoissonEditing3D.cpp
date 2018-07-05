@@ -9,8 +9,6 @@
 
 using namespace ZQ;
 
-
-
 template<class T>
 void test(const int argc, const char** argv)
 {
@@ -130,7 +128,6 @@ void test(const int argc, const char** argv)
 			printf("failed to save %s\n",buf);
 		}
 	}
-
 	return;
 }
 
@@ -140,15 +137,15 @@ int main(/*int argc, const char** argv*/)
 	{
 		"SamplePoissonEditing3D.exe",
 		"10",
-		"merge",
+		"input",
 		"png",
-		"detail",
+		"copyin",
 		"png",
 		"mask.png",
-		"pe"
+		"output"
 	};
 	int m_argc = sizeof(m_argv)/sizeof(char*);
 	test<float>(m_argc,m_argv);
 	test<double>(m_argc,m_argv);
-	return 0;
+	return EXIT_SUCCESS;
 }
