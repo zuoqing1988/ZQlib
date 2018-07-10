@@ -65,3 +65,6 @@ https://zhuanlan.zhihu.com/p/39051223
 
 (19)ZQlib都能干些什么之十九：Poisson Image Editing 3D
 https://zhuanlan.zhihu.com/p/39063095
+
+(20)ZQlib都能干些什么之二十：WinSock编程
+https://zhuanlan.zhihu.com/p/39407639

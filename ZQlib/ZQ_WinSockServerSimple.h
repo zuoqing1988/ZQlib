@@ -4,7 +4,6 @@
 
 #include "ZQ_WinSockServerImpl.h"
 #include "ZQ_WinSockIOPoolSimple.h"
-
 namespace ZQ
 {
 	class ZQ_WinSockServerSimple : public ZQ_EventSocketServerImpl
@@ -21,7 +20,7 @@ namespace ZQ
 			BindIOObj(0);
 		}
 
-		void BroadCast(/*_in_*/ std::string& msg)
+		void BroadCast(/*_in_*/ const std::string& msg)
 		{
 			for (int i = 0; i < m_nSocket; i++)
 			{
@@ -29,7 +28,7 @@ namespace ZQ
 			}
 		}
 
-		bool Send(/*_in_*/ const SOCKET sock, /*_in_*/ std::string& msg)
+		bool Send(/*_in_*/ const SOCKET sock, /*_in_*/ const std::string& msg)
 		{
 			size_t len = msg.length();
 			if (len == 0)
@@ -87,8 +86,9 @@ namespace ZQ
 			{
 				return false;
 			}
-			
-			char* ip_s = inet_ntoa(addr.sin_addr);
+			char buf[100];
+			PCSTR ip_s = inet_ntop(AF_INET, &addr.sin_addr, buf, 100);
+			//char* ip_s = inet_ntoa(addr.sin_addr);
 			ip.assign(ip_s);
 			port = addr.sin_port;
 			return true;

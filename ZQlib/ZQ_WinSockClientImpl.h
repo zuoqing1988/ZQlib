@@ -31,7 +31,8 @@ namespace ZQ
 			}
 
 			m_sockAddr.sin_family = AF_INET;
-			m_sockAddr.sin_addr.s_addr = inet_addr(szIP);
+			//m_sockAddr.sin_addr.s_addr = inet_addr(szIP);
+			inet_pton(AF_INET, szIP, &m_sockAddr.sin_addr.s_addr);
 			m_sockAddr.sin_port = htons(port);
 
 			if (SOCKET_ERROR == (connect(m_socket, (sockaddr *)&m_sockAddr, sizeof(m_sockAddr))))
@@ -163,7 +164,8 @@ namespace ZQ
 			}
 
 			m_sockAddr.sin_family = AF_INET;
-			m_sockAddr.sin_addr.s_addr = inet_addr(szIP);
+			//m_sockAddr.sin_addr.s_addr = inet_addr(szIP);
+			inet_pton(AF_INET, szIP, &m_sockAddr.sin_addr.s_addr);
 			m_sockAddr.sin_port = htons(port);
 
 			if (WSA_INVALID_EVENT != m_hSocketEvent)
