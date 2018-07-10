@@ -84,8 +84,8 @@ namespace ZQ
 
 			struct jpeg_compress_struct cinfo;
 			struct jpeg_error_mgr jerr;
-			JSAMPROW row_pointer[1];  /* pointer to JSAMPLE row[s] */
-			int row_stride;    /* physical row width in image buffer */
+			//JSAMPROW row_pointer[1];  /* pointer to JSAMPLE row[s] */
+			//int row_stride;    /* physical row width in image buffer */
 			JSAMPIMAGE  buffer;
 			int buf_width[3];
 			int buf_height[3];
@@ -157,8 +157,9 @@ namespace ZQ
 		static bool SaveImage(const unsigned char* pSrc, const int width, const int height, const int nChannels, const int widthStep,
 			ZQ_JpegCodecColorType::ColorTypeInput type, const char* filename, int quality = 90)
 		{
-			FILE* out = fopen(filename, "wb");
-			if (out == 0)
+			FILE* out = 0;
+			
+			if (0 != fopen_s(&out,filename, "wb"))
 				return false;
 
 			unsigned char* pDst = 0;
