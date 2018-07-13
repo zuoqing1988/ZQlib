@@ -68,3 +68,6 @@ https://zhuanlan.zhihu.com/p/39063095
 
 (20)ZQlib都能干些什么之二十：WinSock编程
 https://zhuanlan.zhihu.com/p/39407639
+
+(21)ZQlib都能干些什么之二十一：懒人抠图（Lazy Snapping）
+https://zhuanlan.zhihu.com/p/39681777

@@ -15,8 +15,8 @@ namespace ZQ
 	public:
 		typedef double BaseType;
 		static const int MAX_CLUSTER_NUM = 32;
-		static const int standard_width = 960;
-		static const int standard_height = 540;
+		static const int standard_width = 640;
+		static const int standard_height = 480;
 	private:
 		static const char* winName;
 		static std::vector<CvPoint> forePts;

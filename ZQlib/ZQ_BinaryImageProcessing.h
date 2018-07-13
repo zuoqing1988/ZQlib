@@ -325,6 +325,68 @@ namespace ZQ
 			return true;
 		}
 
+		static bool ComputeDistance(const bool* flag, int width, int height, int* distance, int connect_N = 8)
+		{
+			if (connect_N != 4 && connect_N != 8 || flag == 0 || distance == 0)
+			{
+				return false;
+			}
+			int connect_dir[8][2] =
+			{
+				{ 1, 0 },{ -1, 0 },{ 0, -1 },{ 0,1 },
+				{ 1, 1 },{ 1, -1 },{ -1, -1 },{ -1,1 }
+			};
+			int* queue_x = new int[width*height];
+			int* queue_y = new int[width*height];
+			bool* visited = new bool[width*height];
+			memset(visited, 0, sizeof(bool)*width*height);
+			memset(distance, 0, sizeof(int)*width*height);
+			
+			int head = 0;
+			int tail = 0;
+			for (int h = 0; h < height; h++)
+			{
+				for (int w = 0; w < width; w++)
+				{
+					int offset = h*width + w;
+					if (flag[offset])
+					{
+						queue_x[tail] = w;
+						queue_y[tail] = h;
+						tail++;
+						visited[offset] = true;
+						distance[offset] = 0;
+					}
+				}
+			}
+			
+			while (head < tail)
+			{
+				int cur_x = queue_x[head];
+				int cur_y = queue_y[head];
+				head++;
+				int cur_dis = distance[cur_y*width + cur_x];
+				for (int dd = 0; dd < connect_N; dd++)
+				{
+					int tmp_x = cur_x + connect_dir[dd][0];
+					int tmp_y = cur_y + connect_dir[dd][1];
+					if (tmp_x >= 0 && tmp_x < width && tmp_y >= 0 && tmp_y < height && !visited[tmp_y*width + tmp_x])
+					{
+						queue_x[tail] = tmp_x;
+						queue_y[tail] = tmp_y;
+						tail++;
+						visited[tmp_y*width + tmp_x] = true;
+						distance[tmp_y*width + tmp_x] = cur_dis + 1;
+					}
+				}
+			}
+
+			delete[]queue_x;
+			delete[]queue_y;
+			delete[]visited;
+			return true;
+		}
+
 	private:
 
 		static void _bwlabel1_label_for_each_run(const bool* input, int width, int height, std::vector<int>& start_row, std::vector<int>& end_row,

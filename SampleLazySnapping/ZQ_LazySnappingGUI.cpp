@@ -48,21 +48,21 @@ bool ZQ_LazySnappingGUI::Run(const ZQ_DImage<BaseType>& ori_image, ZQ_DImage<Bas
 		int dst_height = ori_height*scale + 0.5;
 		ori_image.imresize(scaled_image, dst_width, dst_height);
 		im2 = scaled_image;
-		/*if (!ZQ_StructureFromTexture::StructureFromTexture(scaled_image, im2, opt))
+		if (!ZQ_StructureFromTexture::StructureFromTexture(scaled_image, im2, opt))
 		{
 			printf("failed to run StructureFromTexture\n");
 			return false;
-		}*/
+		}
 		has_scaled = true;
 	}
 	else
 	{
 		im2 = ori_image;
-		/*if (!ZQ_StructureFromTexture::StructureFromTexture(ori_image, im2, opt))
+		if (!ZQ_StructureFromTexture::StructureFromTexture(ori_image, im2, opt))
 		{
 			printf("failed to run StructureFromTexture\n");
 			return false;
-		}*/
+		}
 		has_scaled = false;
 	}
 
@@ -75,7 +75,8 @@ bool ZQ_LazySnappingGUI::Run(const ZQ_DImage<BaseType>& ori_image, ZQ_DImage<Bas
 	if (!use_old_method)
 	{
 		lazySnap = new ZQ_LazySnapping<BaseType, MAX_CLUSTER_NUM>(width, height);
-		lazySnap->SetImage(im2, ls_opt.lambda_for_E2, ls_opt.color_scale_for_E2);
+		//lazySnap->SetEnableE3(true);
+		lazySnap->SetImage(im2, ls_opt.lambda_for_E2, ls_opt.color_scale_for_E2, ls_opt.lambda_for_E3, ls_opt.sigma_for_E3);
 	}
 
 
@@ -105,9 +106,24 @@ bool ZQ_LazySnappingGUI::Run(const ZQ_DImage<BaseType>& ori_image, ZQ_DImage<Bas
 		{
 			break;
 		}
+		else if (c == 'e')
+		{
+			cvReleaseImage(&imageDraw);
+			imageDraw = cvCloneImage(image);
+			bool b = lazySnap->GetEnabledE3();
+			lazySnap->SetEnableE3(!b);
+			if (!ZQ_LazySnapping<BaseType, MAX_CLUSTER_NUM>::FilterMask(lazySnap->GetForegroundMaskPtr(), mask.data(), mask.width(), mask.height(),
+				ls_opt.area_thresh, ls_opt.dilate_erode_size))
+			{
+				memcpy(mask.data(), lazySnap->GetForegroundMaskPtr(), sizeof(bool)*mask.width()*mask.height());
+			}
+			_drawMask(imageDraw, mask);
+			_drawSelectPoints(imageDraw, forePts, backPts);
+			cvShowImage(winName, imageDraw);
+		}
 		else if (c == 'r')
 		{
-			lazySnap->SetImage(im2, ls_opt.lambda_for_E2, ls_opt.color_scale_for_E2);
+			lazySnap->SetImage(im2, ls_opt.lambda_for_E2, ls_opt.color_scale_for_E2, ls_opt.lambda_for_E3, ls_opt.sigma_for_E3);
 			imageDraw = cvCloneImage(image);
 			forePts.clear();
 			backPts.clear();
@@ -394,7 +410,8 @@ void ZQ_LazySnappingGUI::_drawMask(IplImage* imageDraw, const bool* mask)
 			int offset = h*width + w;
 			if (!mask[offset] && ((w > 0 && mask[offset - 1]) || (w < width - 1 && mask[offset + 1]) || (h > 0 && mask[offset - width]) || (h < height - 1 && mask[offset + width])))
 			{
-				cvSet2D(imageDraw, h, w, border_color);
+				//cvSet2D(imageDraw, h, w, border_color);
+				cvCircle(imageDraw, cvPoint(w, h), 2, border_color, 2);
 			}
 
 		}

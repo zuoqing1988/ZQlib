@@ -16,13 +16,17 @@ namespace ZQ
 	public:
 		float lambda_for_E2;
 		float color_scale_for_E2;
+		float lambda_for_E3;
+		float sigma_for_E3;
 		int dilate_erode_size;
 		int area_thresh;
 
 		void Reset()
 		{
-			lambda_for_E2 = 100;
+			lambda_for_E2 = 200;
 			color_scale_for_E2 = 255;
+			lambda_for_E3 = 10;
+			sigma_for_E3 = 0.7;
 			dilate_erode_size = 2;
 			area_thresh = 500;
 		}
@@ -50,6 +54,26 @@ namespace ZQ
 						return false;
 					}
 					color_scale_for_E2 = atof(argv[k]);
+				}
+				else if (_strcmpi(argv[k], "lambda_for_E3") == 0)
+				{
+					k++;
+					if (k >= argc)
+					{
+						printf("the value of %s ?\n", argv[k - 1]);
+						return false;
+					}
+					lambda_for_E3 = atof(argv[k]);
+				}
+				else if (_strcmpi(argv[k], "sigma_for_E3") == 0)
+				{
+					k++;
+					if (k >= argc)
+					{
+						printf("the value of %s ?\n", argv[k - 1]);
+						return false;
+					}
+					sigma_for_E3 = atof(argv[k]);
 				}
 				else if (_strcmpi(argv[k], "dilate_erode_size") == 0)
 				{

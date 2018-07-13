@@ -5,6 +5,7 @@
 #include "ZQ_StructureFromTexture.h"
 #include "ZQ_ScanLinePolygonFill.h"
 #include "ZQ_LazySnapping.h"
+#include "ZQ_LazySnappingOptions.h"
 #include <vector>
 #include <iostream>
 #include <cmath>
@@ -40,8 +41,8 @@ ZQ_DImage<BaseType> ori_image, scaled_image, im2;
 ZQ_LazySnappingOptions ls_opt;
 ZQ_StructureFromTextureOptions opt;
 ZQ_DImage<bool> mask;
-int standard_width = 960;
-int standard_height = 540;
+int standard_width = 640;
+int standard_height = 480;
 bool has_scaled = false;
 ZQ_LazySnapping<BaseType,MAX_CLUSTER_NUM>* lazySnap = 0;
 bool use_old_method = false;
@@ -157,7 +158,7 @@ int main2(int argc, const char** argv)
 	if (!use_old_method)
 	{
 		lazySnap = new ZQ_LazySnapping<BaseType, MAX_CLUSTER_NUM>(width, height);
-		lazySnap->SetImage(im2, ls_opt.lambda_for_E2, ls_opt.color_scale_for_E2);
+		lazySnap->SetImage(im2, ls_opt.lambda_for_E2, ls_opt.color_scale_for_E2, ls_opt.lambda_for_E3, ls_opt.sigma_for_E3);
 	}
 	
 	

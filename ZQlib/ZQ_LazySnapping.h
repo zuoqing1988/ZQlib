@@ -42,10 +42,17 @@ namespace ZQ
 			this->width = width;
 			this->height = height;
 			has_image = false;
-			FLOW_MAX_VALUE = 1e9;
+			FLOW_MAX_VALUE = 0;
 			fore_mask.allocate(width, height, 1);
 			tweights_source.allocate(width, height, 1);
 			tweights_sink.allocate(width, height, 1);
+			enabled_E3 = false;
+			tweights_E3_source.allocate(width, height, 1);
+			tweights_E3_source.reset();
+			tweights_E3_sink.allocate(width, height, 1);
+			tweights_E3_sink.reset();
+			lambda_for_E3 = 0;
+			sigma_for_E3 = 1;
 			cur_fore_k = 0;
 			cur_back_k = 0;
 		}
@@ -67,13 +74,36 @@ namespace ZQ
 		ZQ_DImage<bool> fore_mask;
 		ZQ_DImage<T> tweights_source;
 		ZQ_DImage<T> tweights_sink;
+		bool enabled_E3;
+		ZQ_DImage<T> tweights_E3_source;
+		ZQ_DImage<T> tweights_E3_sink;
+		float lambda_for_E3;
+		float sigma_for_E3;
 		int cur_fore_k;
 		int cur_back_k;
 		T fore_colors[MAX_CLUSTER_NUM * 3];
 		T back_colors[MAX_CLUSTER_NUM * 3];
 	public:
+		bool SetEnableE3(bool b)
+		{
+			bool old_b = enabled_E3;
+			enabled_E3 = b;
+			if (has_image)
+			{
+				if (!_update())
+				{
+					enabled_E3 = old_b;
+					return false;
+				}
+			}
+			
+			return true;
+		}
+
+		bool GetEnabledE3() const { return enabled_E3; }
+
 		const bool*& GetForegroundMaskPtr() const { return fore_mask.data(); }
-		bool SetImage(const ZQ_DImage<T>& image, float lambda, const float color_scale)
+		bool SetImage(const ZQ_DImage<T>& image, float lambda_for_E2, float color_scale_for_E2, float lambda_for_E3, float sigma_for_E3)
 		{
 			if (image.width() != width || image.height() != height || image.nchannels() == 0)
 				return false;
@@ -96,38 +126,40 @@ namespace ZQ
 					if (w > 0 && h > 0)
 					{
 						const T* val2 = image_data + (offset - 1)*nChannels;
-						T e2 = _getE2(cur_val, val2, lambda, color_scale);
+						T e2 = _getE2(cur_val, val2, lambda_for_E2, color_scale_for_E2);
 						max_edge_val = __max(e2, max_edge_val);
 						graph->add_edge(offset, offset - 1, e2, e2);
 						const T* val3 = image_data + (offset - width)*nChannels;
-						e2 = _getE2(cur_val, val3, lambda, color_scale);
+						e2 = _getE2(cur_val, val3, lambda_for_E2, color_scale_for_E2);
 						max_edge_val = __max(e2, max_edge_val);
 						graph->add_edge(offset, offset - width, e2, e2);
 						const T* val4 = image_data + (offset - width - 1)*nChannels;
-						e2 = _getE2(cur_val, val4, lambda, color_scale);
+						e2 = _getE2(cur_val, val4, lambda_for_E2, color_scale_for_E2);
 						max_edge_val = __max(e2, max_edge_val);
 						graph->add_edge(offset, offset - width - 1, e2, e2);
-						e2 = _getE2(val2, val3, lambda, color_scale);
+						e2 = _getE2(val2, val3, lambda_for_E2, color_scale_for_E2);
 						max_edge_val = __max(e2, max_edge_val);
 						graph->add_edge(offset - 1, offset - width, e2, e2);
 					}
 					else if (w > 0)
 					{
 						const T* val2 = image_data + (offset - 1)*nChannels;
-						T e2 = _getE2(cur_val, val2, lambda, color_scale);
+						T e2 = _getE2(cur_val, val2, lambda_for_E2, color_scale_for_E2);
 						max_edge_val = __max(e2, max_edge_val);
 						graph->add_edge(offset, offset - 1, e2, e2);
 					}
 					else if (h > 0)
 					{
 						const T* val3 = image_data + (offset - width)*nChannels;
-						T e2 = _getE2(cur_val, val3, lambda, color_scale);
+						T e2 = _getE2(cur_val, val3, lambda_for_E2, color_scale_for_E2);
 						max_edge_val = __max(e2, max_edge_val);
 						graph->add_edge(offset, offset - width, e2, e2);
 					}
 				}
 			}
-			FLOW_MAX_VALUE = max_edge_val * 8 + 1;
+			FLOW_MAX_VALUE = max_edge_val * 80 + 1;
+			this->lambda_for_E3 = lambda_for_E3;
+			this->sigma_for_E3 = sigma_for_E3;
 
 			////
 			T*& tweights_source_data = tweights_source.data();
@@ -218,7 +250,10 @@ namespace ZQ
 			}
 
 			////////////
-
+			if (enabled_E3)
+			{
+				_computeE3();
+			}
 			_recomputeFlow(cur_fore_k, ifore_k_id_num, fore_colors, cur_back_k, iback_k_id_num, back_colors);
 			delete[]ifore_k_id_num;
 			delete[]iback_k_id_num;
@@ -244,26 +279,11 @@ namespace ZQ
 			if (!has_changed)
 				return true;
 
-			int ifore_num = ifore_pts.size() / 2;
-			int iback_num = iback_pts.size() / 2;
-			
-			int nChannels = image.nchannels();
-			T*& image_data = image.data();
-			int* ifore_k_id_num = 0;
-			int* iback_k_id_num = 0;
-			if (!_getClusterColors(image_data, width, height, nChannels, ifore_num, ifore_num == 0 ? 0 : &ifore_pts[0], iback_num, iback_num == 0 ? 0 : &iback_pts[0], 
-				cur_fore_k, ifore_k_id_num, fore_colors, cur_back_k, iback_k_id_num, back_colors))
+			if (!_update())
 			{
 				ifore_pts = old_ifore_pts;
 				return false;
 			}
-
-			/*******************/
-
-			_recomputeFlow(cur_fore_k, ifore_k_id_num, fore_colors, cur_back_k, iback_k_id_num, back_colors);
-
-			if (ifore_k_id_num) delete[]ifore_k_id_num;
-			if (iback_k_id_num) delete[]iback_k_id_num;
 			return true;
 		}
 
@@ -286,26 +306,11 @@ namespace ZQ
 			if (!has_changed)
 				return true;
 
-			int ifore_num = ifore_pts.size() / 2;
-			int iback_num = iback_pts.size() / 2;
-
-			int nChannels = image.nchannels();
-			T*& image_data = image.data();
-			int* ifore_k_id_num = 0;
-			int* iback_k_id_num = 0;
-			if (!_getClusterColors(image_data, width, height, nChannels, ifore_num, ifore_num == 0 ? 0 : &ifore_pts[0], iback_num, iback_num == 0 ? 0 : &iback_pts[0], 
-				cur_fore_k, ifore_k_id_num, fore_colors, cur_back_k, iback_k_id_num, back_colors))
+			if (!_update())
 			{
 				iback_pts = old_iback_pts;
 				return false;
 			}
-
-			/*******************/
-
-			_recomputeFlow(cur_fore_k, ifore_k_id_num, fore_colors, cur_back_k, iback_k_id_num, back_colors);
-
-			if(ifore_k_id_num) delete[]ifore_k_id_num;
-			if(iback_k_id_num) delete[]iback_k_id_num;
 			return true;
 		}
 
@@ -338,40 +343,25 @@ namespace ZQ
 			if (!has_changed)
 				return true;
 
-			int ifore_num = ifore_pts.size() / 2;
-			int iback_num = iback_pts.size() / 2;
-
-			int nChannels = image.nchannels();
-			T*& image_data = image.data();
-			int* ifore_k_id_num = 0;
-			int* iback_k_id_num = 0;
-			if (!_getClusterColors(image_data, width, height, nChannels, ifore_num, ifore_num == 0 ? 0 : &ifore_pts[0], iback_num, iback_num == 0 ? 0 : &iback_pts[0], 
-				cur_fore_k, ifore_k_id_num, fore_colors, cur_back_k, iback_k_id_num, back_colors))
+			if (!_update())
 			{
 				ifore_pts = old_ifore_pts;
 				return false;
 			}
-
-			/*******************/
-
-			_recomputeFlow(cur_fore_k, ifore_k_id_num, fore_colors, cur_back_k, iback_k_id_num, back_colors);
-
-			if (ifore_k_id_num) delete[]ifore_k_id_num;
-			if (iback_k_id_num) delete[]iback_k_id_num;
 			return true;
 		}
 
-		bool EditSnappingEraseBackground(int fore_num, const int* back_pts)
+		bool EditSnappingEraseBackground(int back_num, const int* back_pts)
 		{
 			std::vector<int> old_iback_pts(iback_pts);
 			bool has_changed = false;
-			ifore_pts.clear();
+			iback_pts.clear();
 			for (int i = 0; i < old_iback_pts.size() / 2; i++)
 			{
 				int x = old_iback_pts[i * 2];
 				int y = old_iback_pts[i * 2 + 1];
 				bool erase_flag = false;
-				for (int j = 0; j < fore_num; j++)
+				for (int j = 0; j < back_num; j++)
 				{
 					if (x == back_pts[j * 2] && y == back_pts[j * 2 + 1])
 					{
@@ -381,8 +371,8 @@ namespace ZQ
 				}
 				if (!erase_flag)
 				{
-					ifore_pts.push_back(x);
-					ifore_pts.push_back(y);
+					iback_pts.push_back(x);
+					iback_pts.push_back(y);
 				}
 			}
 
@@ -390,6 +380,18 @@ namespace ZQ
 			if (!has_changed)
 				return true;
 
+			if (!_update())
+			{
+				iback_pts = old_iback_pts;
+				return false;
+			}
+			return true;
+		}
+
+	private:
+
+		bool _update()
+		{
 			int ifore_num = ifore_pts.size() / 2;
 			int iback_num = iback_pts.size() / 2;
 
@@ -397,23 +399,25 @@ namespace ZQ
 			T*& image_data = image.data();
 			int* ifore_k_id_num = 0;
 			int* iback_k_id_num = 0;
-			if (!_getClusterColors(image_data, width, height, nChannels, ifore_num, ifore_num == 0 ? 0 : &ifore_pts[0], iback_num, iback_num == 0 ? 0 : &iback_pts[0], 
-				cur_fore_k, ifore_k_id_num, fore_colors, cur_back_k, iback_k_id_num, back_colors))
+			int ifore_k, iback_k;
+			if (!_getClusterColors(image_data, width, height, nChannels, ifore_num, ifore_num == 0 ? 0 : &ifore_pts[0], iback_num, iback_num == 0 ? 0 : &iback_pts[0],
+				ifore_k, ifore_k_id_num, fore_colors, iback_k, iback_k_id_num, back_colors))
 			{
-				iback_pts = old_iback_pts;
 				return false;
 			}
 
 			/*******************/
-
-			_recomputeFlow(ifore_k, ifore_k_id_num, ifore_colors, iback_k, iback_k_id_num, iback_colors);
+			if (enabled_E3)
+			{
+				_computeE3();
+			}
+			_recomputeFlow(ifore_k, ifore_k_id_num, fore_colors, iback_k, iback_k_id_num, back_colors);
 
 			if (ifore_k_id_num) delete[]ifore_k_id_num;
 			if (iback_k_id_num) delete[]iback_k_id_num;
 			return true;
 		}
 
-	private:
 		void _recomputeFlow(int ifore_k, const int* ifore_k_id_num, const T* ifore_colors, int iback_k, const int* iback_k_id_num, const T* iback_colors)
 		{
 			int ifore_num = ifore_pts.size() / 2;
@@ -442,7 +446,8 @@ namespace ZQ
 			clock_t t1 = clock();
 			T*& tweights_source_data = tweights_source.data();
 			T*& tweights_sink_data = tweights_sink.data();
-
+			T*& E3_source_data = tweights_E3_source.data();
+			T*& E3_sink_data = tweights_E3_sink.data();
 			for (int h = 0; h < height; h++)
 			{
 				for (int w = 0; w < width; w++)
@@ -465,11 +470,24 @@ namespace ZQ
 					{
 						_getE1(cur_val, ifore_k, ifore_k_id_num, ifore_colors, iback_k, iback_k_id_num, iback_colors, nChannels, e1);
 					}
-					T add_weights_source = e1[0] - tweights_source_data[offset];
-					T add_weights_sink = e1[1] - tweights_sink_data[offset];
+
+					T cur_source, cur_sink;
+					if (enabled_E3)
+					{
+						cur_source = e1[0] + E3_source_data[offset];
+						cur_sink = e1[1] + E3_sink_data[offset];
+					}
+					else
+					{
+						cur_source = e1[0];
+						cur_sink = e1[1];
+					}
+					T add_weights_source = cur_source - tweights_source_data[offset];
+					T add_weights_sink = cur_sink - tweights_sink_data[offset];
 					graph->add_tweights(offset, add_weights_source, add_weights_sink);
-					tweights_source_data[offset] = e1[0];
-					tweights_sink_data[offset] = e1[1];
+					tweights_source_data[offset] = cur_source;
+					tweights_sink_data[offset] = cur_sink;
+					
 					graph->mark_node(offset);
 				}
 			}
@@ -488,6 +506,57 @@ namespace ZQ
 			clock_t t4 = clock();
 
 			printf("maxflow/recompute cost: %.3f/%.3f sec\n", 0.001*(t3 - t2), 0.001*(t4-t1));
+		}
+
+		void _computeE3()
+		{
+			if (ifore_pts.size() == 0 || iback_pts.size() == 0)
+				return;
+			int ifore_num = ifore_pts.size() / 2;
+			int iback_num = iback_pts.size() / 2;
+			ZQ_DImage<int> fore_distance(width, height, 1);
+			ZQ_DImage<int> back_distance(width, height, 1);
+			int*& fore_distance_data = fore_distance.data();
+			int*& back_distance_data = back_distance.data();
+
+			ZQ_DImage<bool> landmark_map(width, height, 1);
+			landmark_map.reset();
+			bool*& fore_map_data = landmark_map.data();
+			for (int i = 0; i < ifore_num; i++)
+			{
+				int x = ifore_pts[i * 2];
+				int y = ifore_pts[i * 2 + 1];
+				fore_map_data[y*width + x] = true;
+			}
+
+			ZQ_BinaryImageProcessing::ComputeDistance(fore_map_data, width, height, fore_distance_data, 8);
+			landmark_map.reset();
+			bool*& back_map_data = landmark_map.data();
+			for (int i = 0; i < iback_num; i++)
+			{
+				int x = iback_pts[i * 2];
+				int y = iback_pts[i * 2 + 1];
+				back_map_data[y*width + x] = true;
+			}
+			ZQ_BinaryImageProcessing::ComputeDistance(back_map_data, width, height, back_distance_data, 8);
+
+			float E3_cigma = sigma_for_E3;
+			float E3_coeff = lambda_for_E3;
+
+			T*& E3_source_data = tweights_E3_source.data();
+			T*& E3_sink_data = tweights_E3_sink.data();
+			for (int i = 0; i < height*width; i++)
+			{
+				float distance_to_fore = fore_distance_data[i];
+				float distance_to_back = back_distance_data[i];
+				float ratio = distance_to_fore / (distance_to_fore + distance_to_back + 1e-6);
+				float df = exp(E3_cigma*(-ratio));
+				float db = exp(E3_cigma*(ratio-1));
+				df /= (df + db);
+				db = 1 - df;
+				E3_sink_data[i] = E3_coeff * df;
+				E3_source_data[i] = E3_coeff * db;
+			}
 		}
 
 	};
