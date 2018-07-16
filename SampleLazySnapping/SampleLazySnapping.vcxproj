@@ -89,10 +89,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SampleLazySnapping.cpp" />
-    <ClCompile Include="ZQ_LazySnappingGUI.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ZQ_LazySnappingGUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

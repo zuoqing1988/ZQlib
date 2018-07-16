@@ -130,6 +130,7 @@
     <ClInclude Include="ZQ_KDTree.h" />
     <ClInclude Include="ZQ_Kmeans.h" />
     <ClInclude Include="ZQ_LazySnapping.h" />
+    <ClInclude Include="ZQ_LazySnappingGUI.h" />
     <ClInclude Include="ZQ_LazySnappingOptions.h" />
     <ClInclude Include="ZQ_LevMar.h" />
     <ClInclude Include="ZQ_Logger.h" />
