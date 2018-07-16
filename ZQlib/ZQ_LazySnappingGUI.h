@@ -108,13 +108,13 @@ namespace ZQ
 			int nChannels = im2.nchannels();
 			mask.allocate(width, height, 1);
 
-			lazySnap = new ZQ_LazySnapping<BaseType, MAX_CLUSTER_NUM>(width, height);
+			lazySnap = new ZQ_LazySnapping<T, MAX_CLUSTER_NUM>(width, height);
 			//lazySnap->SetEnableE3(true);
 			lazySnap->SetImage(im2, ls_opt.lambda_for_E2, ls_opt.color_scale_for_E2, ls_opt.lambda_for_E3, ls_opt.sigma_for_E3);
 
 
 			image = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 3);
-			BaseType*& im2_data = im2.data();
+			T*& im2_data = im2.data();
 			for (int h = 0; h < height; h++)
 			{
 				for (int w = 0; w < width; w++)
@@ -145,7 +145,7 @@ namespace ZQ
 					imageDraw = cvCloneImage(image);
 					bool b = lazySnap->GetEnabledE3();
 					lazySnap->SetEnableE3(!b);
-					if (!ZQ_LazySnapping<BaseType, MAX_CLUSTER_NUM>::FilterMask(lazySnap->GetForegroundMaskPtr(), mask.data(), mask.width(), mask.height(),
+					if (!ZQ_LazySnapping<T, MAX_CLUSTER_NUM>::FilterMask(lazySnap->GetForegroundMaskPtr(), mask.data(), mask.width(), mask.height(),
 						ls_opt.area_thresh, ls_opt.dilate_erode_size))
 					{
 						memcpy(mask.data(), lazySnap->GetForegroundMaskPtr(), sizeof(bool)*mask.width()*mask.height());
@@ -284,7 +284,7 @@ namespace ZQ
 						ptr->add_backPts.clear();
 					}
 				}
-				if (!ZQ_LazySnapping<BaseType, MAX_CLUSTER_NUM>::FilterMask(ptr->lazySnap->GetForegroundMaskPtr(), 
+				if (!ZQ_LazySnapping<T, MAX_CLUSTER_NUM>::FilterMask(ptr->lazySnap->GetForegroundMaskPtr(), 
 					ptr->mask.data(), ptr->mask.width(), ptr->mask.height(),
 					ptr->ls_opt.area_thresh, ptr->ls_opt.dilate_erode_size))
 				{
