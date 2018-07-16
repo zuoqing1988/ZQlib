@@ -71,3 +71,6 @@ https://zhuanlan.zhihu.com/p/39407639
 
 (21)ZQlib都能干些什么之二十一：懒人抠图（Lazy Snapping）
 https://zhuanlan.zhihu.com/p/39681777
+
+(22)ZQlib都能干些什么之二十二：带透明度的抠图(Image Matting)
+https://zhuanlan.zhihu.com/p/39840469

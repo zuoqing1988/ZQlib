@@ -423,5 +423,8 @@
     <ClInclude Include="ZQ_LazySnappingGUI.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ZQ_ImageMattingGUI.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

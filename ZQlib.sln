@@ -162,6 +162,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleCPURayCasting", "Samp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleWinSock", "SampleWinSock\SampleWinSock.vcxproj", "{AC00C09A-C869-4823-AE00-A4786CC7633B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleImageMattingGUI", "SampleImageMattingGUI\SampleImageMattingGUI.vcxproj", "{081EC151-9711-443E-BAD7-0EBD330812AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -809,6 +811,14 @@ Global
 		{AC00C09A-C869-4823-AE00-A4786CC7633B}.Release|Win32.Build.0 = Release|Win32
 		{AC00C09A-C869-4823-AE00-A4786CC7633B}.Release|x64.ActiveCfg = Release|x64
 		{AC00C09A-C869-4823-AE00-A4786CC7633B}.Release|x64.Build.0 = Release|x64
+		{081EC151-9711-443E-BAD7-0EBD330812AA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{081EC151-9711-443E-BAD7-0EBD330812AA}.Debug|Win32.Build.0 = Debug|Win32
+		{081EC151-9711-443E-BAD7-0EBD330812AA}.Debug|x64.ActiveCfg = Debug|x64
+		{081EC151-9711-443E-BAD7-0EBD330812AA}.Debug|x64.Build.0 = Debug|x64
+		{081EC151-9711-443E-BAD7-0EBD330812AA}.Release|Win32.ActiveCfg = Release|Win32
+		{081EC151-9711-443E-BAD7-0EBD330812AA}.Release|Win32.Build.0 = Release|Win32
+		{081EC151-9711-443E-BAD7-0EBD330812AA}.Release|x64.ActiveCfg = Release|x64
+		{081EC151-9711-443E-BAD7-0EBD330812AA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

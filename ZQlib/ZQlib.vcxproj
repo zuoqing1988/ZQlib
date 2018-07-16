@@ -119,6 +119,7 @@
     <ClInclude Include="ZQ_Huffman.h" />
     <ClInclude Include="ZQ_ICP.h" />
     <ClInclude Include="ZQ_ImageIO.h" />
+    <ClInclude Include="ZQ_ImageMattingGUI.h" />
     <ClInclude Include="ZQ_ImageProcessing.h" />
     <ClInclude Include="ZQ_ImageProcessing3D.h" />
     <ClInclude Include="ZQ_Inpainting.h" />
