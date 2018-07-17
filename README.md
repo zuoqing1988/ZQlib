@@ -77,3 +77,6 @@ https://zhuanlan.zhihu.com/p/39840469
 
 (23)ZQlib都能干些什么之二十三：CPU Renderer3D
 https://zhuanlan.zhihu.com/p/39908937
+
+(24)ZQlib都能干些什么之二十四：CPU Renderer2D
+https://zhuanlan.zhihu.com/p/39913208

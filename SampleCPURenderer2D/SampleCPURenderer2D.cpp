@@ -1,10 +1,9 @@
 #include "ZQ_CPURenderer2DWorkspace.h"
 #include "ZQ_DoubleImage.h"
-#include "opencv\cv.h"
-#include "opencv\highgui.h"
+#include <opencv2\opencv.hpp>
 using namespace ZQ;
 
-void main()
+int main()
 {
 	int tex_width = 10;
 	int tex_height = 10;
@@ -16,13 +15,9 @@ void main()
 		for (int j = 0; j < tex_width; j++)
 		{
 			if ((i + j) % 2 == 0)
-			{
 				memcpy(tex_img.data() + (i*tex_width + j) * 4, color_white, sizeof(float)* 4);
-			}
 			else
-			{
 				memcpy(tex_img.data() + (i*tex_width + j) * 4, color_black, sizeof(float)* 4);
-			}
 		}
 	}
 	ZQ_TextureSampler<float> sampler;
@@ -52,8 +47,9 @@ void main()
 	};
 	render2D.BindSampler(&sampler);
 	//render2D.EnableTextureSampleCubic();
-	render2D.DisableDepthTest();
-	render2D.EnableAlphaBlend();
+	render2D.EnableDepthTest();
+	//render2D.DisableDepthTest();
+	//render2D.EnableAlphaBlend();
 	render2D.SetAlphaBlendMode(ZQ_CPURenderer3DWorkspace::ALPHABLEND_SRC_ONE_DST_ONE_MINUS_SRC);
 	//render2D.SetAlphaBlendMode(ZQ_CPURenderer3DWorkspace::ALPHABLEND_SRC_PLUS_DST);
 	render2D.RenderIndexedTriangles(vertices, indices, 8, 4, ZQ_CPURenderer3DWorkspace::VERTEX_POSITION3_TEXCOORD2);
@@ -75,4 +71,6 @@ void main()
 	cvShowImage("show2D", show_img2D);
 	cvWaitKey(0);
 	cvReleaseImage(&show_img2D);
+
+	return EXIT_SUCCESS;
 }
