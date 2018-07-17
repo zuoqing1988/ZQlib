@@ -9,7 +9,6 @@
 
 namespace ZQ
 {
-	// right-hand coordinates
  	class ZQ_CPURayCasting
 	{
 	public:
@@ -74,7 +73,7 @@ namespace ZQ
 		}
 
 	public:
-		ZQ_CPURayCasting()
+		ZQ_CPURayCasting(bool zAxis_in)
 		{
 			/*window's width and height, focus is the center*/
 			width = 400;
@@ -91,6 +90,7 @@ namespace ZQ
 			densityScale = 1.0f;
 			opacityScale = 0.0f;
 			opacityThreshold = 0.98f;
+			this->zAxis_in = zAxis_in;
 		}
 
 		~ZQ_CPURayCasting(){}
@@ -110,6 +110,7 @@ namespace ZQ
 		/*bounding box: min and max, and size = max - min, in local coordinate system*/
 		ZQ_Vec3D boundingBoxMin;
 		ZQ_Vec3D boundingBoxMax;
+		bool zAxis_in;
 
 	private:
 		unsigned int xsize;
@@ -238,7 +239,7 @@ namespace ZQ
 			eyeRay.origin = eyepos;
 			eyeRay.dir.x = u*focal_x / focal_y;
 			eyeRay.dir.y = v;
-			eyeRay.dir.z = -focal_y;
+			eyeRay.dir.z = focal_y * (zAxis_in ? 1.0f : -1.0f);
 			eyeRay.dir.Normalized();
 
 			float old_eyedir4[4] = { eyeRay.dir.x, eyeRay.dir.y, eyeRay.dir.z, 0.0f };

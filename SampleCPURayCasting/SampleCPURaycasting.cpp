@@ -12,7 +12,8 @@ unsigned int win_width = 320;
 unsigned int win_height = 320;
 
 float* volumeData = 0;
-ZQ_CPURayCasting m_CPURaycast;
+bool zAxis_in = true;
+ZQ_CPURayCasting m_CPURaycast(zAxis_in);
 
 bool initVolumeData(float*& vdata, int size, char model[]);
 bool Init();
@@ -35,9 +36,9 @@ int main()
 		ZQ_CPURayCasting::ColorFormat color_fmt = ZQ_CPURayCasting::COLOR_BGRA;
 		float angle = count * 0.05f;
 		float worldMatrix[16] = {
-			cos(angle), 0.0f, sin(angle), 0.0f,
+			cos(angle), 0.0f, -sin(angle) * (zAxis_in ? 1 : -1), 0.0f,
 			0.0f,		1.0f,  0.0f, 0.0f,
-			-sin(angle), 0.0f, cos(angle), 0.0f,
+			sin(angle) * (zAxis_in ? 1 : -1), 0.0f, cos(angle), 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f };
 		m_CPURaycast.SetWorldMatrix(worldMatrix);
 
@@ -87,8 +88,8 @@ bool Init()
 	
 	float viewMatrix[16] = {   
 		1.0f,	0.0f,		0.0f,		0.0f,
-		0.0f,	cos(0.2f),	sin(0.2f),	0.0f,
-		0.0f,	-sin(0.2f), cos(0.2f),	-10.0f,
+		0.0f,	cos(0.2f),	-sin(0.2f) * (zAxis_in ? 1 : -1),	0.0f,
+		0.0f,	sin(0.2f) * (zAxis_in ? 1 : -1), cos(0.2f),	10.0f * (zAxis_in ? 1 : -1),
 		0.0f,		0.0f,	0.0f,		1.0f};
 
 	float fovy = pi/6;
@@ -121,8 +122,10 @@ bool initVolumeData(float*& vdata, int size, char model[])
 	int zsize = size;
 
 	vdata = new float[xsize*ysize*zsize];
-
-	for(int k = 0;k < zsize;k++)
+	int k_start = zAxis_in ? (zsize - 1) : 0;
+	int k_end = zAxis_in ? -1 : zsize;
+	int k_step = zAxis_in ? -1 : 1;
+	for(int k = k_start;k != k_end;k+= k_step)
 	{
 		for(int j = 0;j < ysize;j++)
 		{
