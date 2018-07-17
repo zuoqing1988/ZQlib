@@ -1,11 +1,10 @@
 #include "ZQ_CPURenderer3DWorkspace.h"
 #include "ZQ_DoubleImage.h"
-#include "opencv\cv.h"
-#include "opencv\highgui.h"
+#include <opencv2\opencv.hpp>
 
 using namespace ZQ;
 
-void main()
+int main()
 {
 	int tex_width = 10;
 	int tex_height = 10;
@@ -17,13 +16,9 @@ void main()
 		for (int j = 0; j < tex_width; j++)
 		{
 			if ((i + j) % 2 == 0)
-			{
 				memcpy(tex_img.data() + (i*tex_width + j) * 4, color_white, sizeof(float)* 4);
-			}
 			else
-			{
 				memcpy(tex_img.data() + (i*tex_width + j) * 4, color_black, sizeof(float)* 4);
-			}
 		}
 	}
 	ZQ_TextureSampler<float> sampler;
@@ -54,11 +49,11 @@ void main()
 	};
 	
 	render3D.BindSampler(&sampler);
-	//render3D.EnableTextureSampleCubic();
+	render3D.EnableTextureSampleCubic();
 	//render3D.DisableDepthTest();
 	render3D.EnableDepthTest();
-	//render3D.EnableAlphaBlend();
-	//render3D.SetAlphaBlendMode(ZQ_CPURenderer3DWorkspace::ALPHABLEND_SRC_ONE_DST_ONE_MINUS_SRC);
+	render3D.EnableAlphaBlend();
+	render3D.SetAlphaBlendMode(ZQ_CPURenderer3DWorkspace::ALPHABLEND_SRC_ONE_DST_ONE_MINUS_SRC);
 	//render3D.SetAlphaBlendMode(ZQ_CPURenderer3DWorkspace::ALPHABLEND_SRC_PLUS_DST);
 
 	render3D.RenderIndexedTriangles(vertices, indices, 8, 4, ZQ_CPURenderer3DWorkspace::VERTEX_POSITION3_TEXCOORD2);
@@ -78,4 +73,5 @@ void main()
 	cvShowImage("show3D", show_img3D);
 	cvWaitKey(0);
 	cvReleaseImage(&show_img3D);
+	return EXIT_SUCCESS;
 }

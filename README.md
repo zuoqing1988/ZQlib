@@ -74,3 +74,6 @@ https://zhuanlan.zhihu.com/p/39681777
 
 (22)ZQlib都能干些什么之二十二：带透明度的抠图(Image Matting)
 https://zhuanlan.zhihu.com/p/39840469
+
+(23)ZQlib都能干些什么之二十三：CPU Renderer3D
+https://zhuanlan.zhihu.com/p/39908937
