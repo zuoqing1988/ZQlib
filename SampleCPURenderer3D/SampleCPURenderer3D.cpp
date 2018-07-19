@@ -24,7 +24,7 @@ int main()
 	ZQ_TextureSampler<float> sampler;
 	sampler.BindImage(tex_img, false);
 
-	ZQ_CPURenderer3DWorkspace render3D(640, 480, false);
+	ZQ_CPURenderer3DWorkspace render3D(640, 480, true);
 	render3D.ClearColorBuffer(0, 0, 0, 0);
 	render3D.ClearDepthBuffer(1000);
 	render3D.SetClip(10, 10000);

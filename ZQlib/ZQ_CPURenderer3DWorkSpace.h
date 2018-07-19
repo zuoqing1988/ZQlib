@@ -16,10 +16,10 @@ namespace ZQ
 		friend class ZQ_CPURenderer2DWorkspace;
 	
 	public:
-		ZQ_CPURenderer3DWorkspace(unsigned int w, unsigned int h, bool rightHand)
+		ZQ_CPURenderer3DWorkspace(unsigned int w, unsigned int h, bool zAxis_in)
 		{
 			min_clip_near_depth = 1e-3;
-			right_hand = rightHand;
+			this->zAxis_in = zAxis_in;
 			opt.width = w;
 			opt.height = h;
 			opt.cx = w*0.5;
@@ -78,7 +78,7 @@ namespace ZQ
 
 	private:
 		float min_clip_near_depth;
-		bool right_hand;
+		bool zAxis_in;
 		float view_matrix[16];
 		float world_matrix[16];
 		ZQ_DImage<float> color_buffer;
@@ -157,10 +157,11 @@ namespace ZQ
 		bool LookAt(ZQ_Vec3D eyepos, ZQ_Vec3D target, ZQ_Vec3D updir)
 		{
 			ZQ_Vec3D z_dir;
-			if (right_hand)
-				z_dir = eyepos - target;
-			else
+			if (zAxis_in)
 				z_dir = target - eyepos;
+			else
+				z_dir = eyepos - target;
+				
 			z_dir.Normalized();
 			ZQ_Vec3D x_dir = updir.CrossProduct(z_dir);
 			if (x_dir.Length() == 0)
@@ -242,7 +243,7 @@ namespace ZQ
 				new_vertices[i*nChannels + 0] = model_view[0] * vertices[i*nChannels + 0] + model_view[1] * vertices[i*nChannels + 1] + model_view[2] * vertices[i*nChannels + 2] + model_view[3];
 				new_vertices[i*nChannels + 1] = model_view[4] * vertices[i*nChannels + 0] + model_view[5] * vertices[i*nChannels + 1] + model_view[6] * vertices[i*nChannels + 2] + model_view[7];
 				new_vertices[i*nChannels + 2] = model_view[8] * vertices[i*nChannels + 0] + model_view[9] * vertices[i*nChannels + 1] + model_view[10] * vertices[i*nChannels + 2] + model_view[11];
-				if (right_hand)
+				if (!zAxis_in)
 					new_vertices[i*nChannels + 2] *= -1;
 			}
 

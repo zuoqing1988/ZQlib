@@ -88,31 +88,30 @@ namespace ZQ
 			mMyAlloc = false;
 
 			FILE* in = 0;
-			if(0 != fopen_s(&in,fname, "rb"))
-			{
-				fseek(in, 0L, SEEK_END);
-				mLen = ftell(in);
-				fseek(in, 0L, SEEK_SET);
-				if (mLen)
-				{
-					mData = (char *)malloc(sizeof(char)*(mLen + 1));
-					int ok = int(fread(mData, 1, mLen, in));
-					if (!ok)
-					{
-						delete[]mData;
-						mData = 0;
-					}
-					else
-					{
-						mData[mLen] = '\0';
-						mMyAlloc = true;
-					}
-				}
-				fclose(in);
-				return true;
-			}
-			else
+			if (0 != fopen_s(&in, fname, "r"))
 				return false;
+
+
+			fseek(in, 0L, SEEK_END);
+			mLen = ftell(in);
+			fseek(in, 0L, SEEK_SET);
+			if (mLen)
+			{
+				mData = (char *)malloc(sizeof(char)*(mLen + 1));
+				int ok = int(fread(mData, 1, mLen, in));
+				if (!ok)
+				{
+					delete[]mData;
+					mData = 0;
+				}
+				else
+				{
+					mData[mLen] = '\0';
+					mMyAlloc = true;
+				}
+			}
+			fclose(in);
+			return true;
 		}
 		
 		void SetSourceData(char *data, int len)
@@ -340,23 +339,23 @@ namespace ZQ
 
 		void SetHardSeparator(char c) // add a hard separator
 		{
-			mHard[(unsigned int)c] = ST_HARD;
+			mHard[(unsigned char)c] = ST_HARD;
 		}
 
 		void SetHard(char c) // add a hard separator
 		{
-			mHard[(unsigned int)c] = ST_HARD;
+			mHard[(unsigned char)c] = ST_HARD;
 		}
 
 
 		void SetCommentSymbol(char c) // comment character, treated as 'end of string'
 		{
-			mHard[(unsigned int)c] = ST_EOS;
+			mHard[(unsigned char)c] = ST_EOS;
 		}
 
 		void ClearHardSeparator(char c)
 		{
-			mHard[(unsigned int)c] = ST_DATA;
+			mHard[(unsigned char)c] = ST_DATA;
 		}
 
 
@@ -376,7 +375,7 @@ namespace ZQ
 
 		bool EOS(char c)
 		{
-			return mHard[(unsigned int)c] == ST_EOS;
+			return mHard[(unsigned char)c] == ST_EOS;
 		}
 
 		void SetQuoteChar(char c)
@@ -389,7 +388,7 @@ namespace ZQ
 	private:
 		bool _isHard(char c)
 		{
-			return mHard[(unsigned int)c] == ST_HARD;
+			return mHard[(unsigned char)c] == ST_HARD;
 		}
 
 		char * _addHard(int &argc, const char **argv, char *foo)
@@ -408,7 +407,7 @@ namespace ZQ
 
 		bool _isWhiteSpace(char c)
 		{
-			return mHard[(unsigned int)c] == ST_SOFT;
+			return mHard[(unsigned char)c] == ST_SOFT;
 		}
 
 		char * _skipSpaces(char *foo)
