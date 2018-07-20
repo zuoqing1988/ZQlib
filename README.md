@@ -83,3 +83,6 @@ https://zhuanlan.zhihu.com/p/39913208
 
 (25)ZQlib都能干些什么之二十五：读取简单的obj三维模型
 https://zhuanlan.zhihu.com/p/40114745
+
+(26)ZQlib都能干些什么之二十六：样条插值与旋转矩阵样条插值
+https://zhuanlan.zhihu.com/p/40165320
