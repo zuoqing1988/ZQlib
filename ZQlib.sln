@@ -166,6 +166,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleImageMattingGUI", "Sa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleShowMVSResult", "SampleShowMVSResult\SampleShowMVSResult.vcxproj", "{7CE24B6D-F6DE-4444-88FA-FB77A4DE30BC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleSplinePCHIP", "SampleSplinePCHIP\SampleSplinePCHIP.vcxproj", "{BFA3EFAA-C166-443D-90E9-B24103401FF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -827,6 +829,14 @@ Global
 		{7CE24B6D-F6DE-4444-88FA-FB77A4DE30BC}.Release|Win32.Build.0 = Release|Win32
 		{7CE24B6D-F6DE-4444-88FA-FB77A4DE30BC}.Release|x64.ActiveCfg = Release|x64
 		{7CE24B6D-F6DE-4444-88FA-FB77A4DE30BC}.Release|x64.Build.0 = Release|x64
+		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Debug|Win32.Build.0 = Debug|Win32
+		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Debug|x64.ActiveCfg = Debug|x64
+		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Debug|x64.Build.0 = Debug|x64
+		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Release|Win32.ActiveCfg = Release|Win32
+		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Release|Win32.Build.0 = Release|Win32
+		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Release|x64.ActiveCfg = Release|x64
+		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
