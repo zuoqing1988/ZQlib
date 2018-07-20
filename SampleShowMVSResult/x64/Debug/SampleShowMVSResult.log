@@ -1,0 +1,193 @@
+﻿  SampleShowMVSResult.cpp
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(139): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(151): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(152): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(157): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(174): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(185): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(216): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(240): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(248): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(249): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(261): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(277): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(287): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(305): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(379): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_scanlinepolygonfill.h(393): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(21): warning C4305: “=”: 从“double”到“float”截断
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(25): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(26): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(27): warning C4244: “=”: 从“unsigned int”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(272): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(280): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(365): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(366): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(378): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(559): warning C4305: “=”: 从“double”到“float”截断
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(567): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(802): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(816): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_spline.h(81): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_spline.h(247): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_spline.h(257): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_spline.h(261): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\opencv3.1.0\opencv\build\include\opencv2\core\mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\code\opencv3.1.0\opencv\build\include\opencv2\core\persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\code\opencv3.1.0\opencv\build\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\code\opencv3.1.0\opencv\build\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\code\projects\zqlib\zqlib\zq_imageio.h(25): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(34): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(732): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(733): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(763): warning C4244: “=”: 从“float”转换到“uchar”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(764): warning C4244: “=”: 从“float”转换到“uchar”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(765): warning C4244: “=”: 从“float”转换到“uchar”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(776): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(777): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(807): warning C4244: “=”: 从“float”转换到“uchar”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(808): warning C4244: “=”: 从“float”转换到“uchar”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(809): warning C4244: “=”: 从“float”转换到“uchar”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(111): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(112): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(131): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(134): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(182): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(186): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(187): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(188): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(194): warning C4244: “参数”: 从“int”转换到“const float”，可能丢失数据
+f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(195): warning C4305: “参数”: 从“double”到“const float”截断
+f:\code\projects\zqlib\zqlib\zq_texturesampler.h(125): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\zq_texturesampler.h(113): note: 编译类 模板 成员函数“bool ZQ::ZQ_TextureSampler<float>::Sample_NormalizedCoord(float,float,T *,bool) const”时
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(416): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_TextureSampler<float>::Sample_NormalizedCoord(float,float,T *,bool) const”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(416): note: 参见对正在编译的类 模板 实例化“ZQ::ZQ_TextureSampler<float>”的引用
+f:\code\projects\zqlib\zqlib\zq_texturesampler.h(129): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_texturesampler.h(134): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_texturesampler.h(138): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_mathbase.h(444): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(185): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_MathBase::MatrixInverse<float>(const T *,int,T *)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\zq_imageio.h(448): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\zq_imageio.h(757): note: 参见对正在编译的函数 模板 实例化“T *ZQ::ZQ_ImageIO::FlowToColor0<float>(const int,const int,const T *,const T *,bool,float,bool)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\zq_imageio.h(449): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(468): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(469): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(488): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(607): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\zq_imageio.h(801): note: 参见对正在编译的函数 模板 实例化“T *ZQ::ZQ_ImageIO::FlowToColor1<float>(const int,const int,const T *,const T *,bool,float,bool)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\zq_imageio.h(639): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_quaternionspline.h(54): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(108): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_QuaternionSpline::SetPoints<double>(const std::vector<double,std::allocator<_Ty>> &,const std::vector<ZQ::ZQ_Quaternion<double>,std::allocator<ZQ::ZQ_Quaternion<double>>> &,int)”的引用
+          with
+          [
+              _Ty=double
+          ]
+f:\code\projects\zqlib\zqlib\zq_quaternionspline.h(139): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(117): note: 参见对正在编译的函数 模板 实例化“ZQ::ZQ_Quaternion<double> ZQ::ZQ_QuaternionSpline::operator ()<double>(T) const”的引用
+          with
+          [
+              T=double
+          ]
+f:\code\projects\zqlib\zqlib\zq_imageio.h(209): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\sampleshowmvsresult\sampleshowmvsresult.cpp(147): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_ImageIO::loadImage<float>(ZQ::ZQ_DImage<float> &,const char *,int)”的引用
+f:\code\projects\zqlib\zqlib\zq_imageio.h(221): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(205): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\zq_texturesampler.h(142): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_ImageProcessing::BicubicInterpolate<T>(const T *,const int,const int,const int,const float,const float,T *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\zq_texturesampler.h(113): note: 编译类 模板 成员函数“bool ZQ::ZQ_TextureSampler<float>::Sample_NormalizedCoord(float,float,T *,bool) const”时
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\zq_cpurenderer3dworkspace.h(416): note: 参见对正在编译的函数 模板 实例化“bool ZQ::ZQ_TextureSampler<float>::Sample_NormalizedCoord(float,float,T *,bool) const”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(206): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(232): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(233): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(253): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(150): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\zq_texturesampler.h(144): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_ImageProcessing::BilinearInterpolate<T>(const T *,const int,const int,const int,const float,const float,T *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(151): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(175): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(176): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(191): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(525): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\zq_imageio.h(455): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_ImageIO::MakeColorWheel<T>(int &,T *&)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\zq_imageio.h(757): note: 参见对正在编译的函数 模板 实例化“T *ZQ::ZQ_ImageIO::FlowToColor0<float>(const int,const int,const T *,const T *,bool,float,bool)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\zq_imageio.h(532): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(541): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(549): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(559): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(566): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(686): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\zq_imageio.h(649): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_ImageIO::HSV2RGB<T>(const int,const T *,T *)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\zq_imageio.h(801): note: 参见对正在编译的函数 模板 实例化“T *ZQ::ZQ_ImageIO::FlowToColor1<float>(const int,const int,const T *,const T *,bool,float,bool)”的引用
+          with
+          [
+              T=float
+          ]
+f:\code\projects\zqlib\zqlib\zq_imageio.h(688): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(689): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(690): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(694): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_imageio.h(709): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\code\projects\zqlib\zqlib\zq_cubicinterpolation.h(47): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+  f:\code\projects\zqlib\zqlib\zq_cubicinterpolation.h(54): note: 参见对正在编译的函数 模板 实例化“T ZQ::ZQ_CubicInterpolate<T>(const T *,float)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\zq_imageprocessing.h(222): note: 参见对正在编译的函数 模板 实例化“T ZQ::ZQ_BicubicInterpolate<T>(const T *,float,float)”的引用
+          with
+          [
+              T=float
+          ]
+  f:\code\projects\zqlib\zqlib\zq_texturesampler.h(142): note: 参见对正在编译的函数 模板 实例化“void ZQ::ZQ_ImageProcessing::BicubicInterpolate<T>(const T *,const int,const int,const int,const float,const float,T *,bool)”的引用
+          with
+          [
+              T=float
+          ]
+  SampleShowMVSResult.vcxproj -> F:\Code\Projects\ZQlib\x64\Debug\SampleShowMVSResult.exe
+  SampleShowMVSResult.vcxproj -> F:\Code\Projects\ZQlib\x64\Debug\SampleShowMVSResult.pdb (Full PDB)
