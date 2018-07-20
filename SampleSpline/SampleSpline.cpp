@@ -1,7 +1,7 @@
 #include "ZQ_Spline.h"
 
 using namespace ZQ;
-int main(int argc, const char** argv)
+int main()
 {
 	ZQ_Spline spline;
 	std::vector<double> x;

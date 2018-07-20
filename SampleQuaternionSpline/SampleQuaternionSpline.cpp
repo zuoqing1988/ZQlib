@@ -3,7 +3,7 @@
 using namespace ZQ;
 using namespace std;
 
-int main(int argc, const char** argv)
+int main()
 {
 	ZQ_QuaternionSpline qspline;
 	vector<double> ts;
@@ -26,5 +26,5 @@ int main(int argc, const char** argv)
 		ZQ_Quaternion<double> q = qspline(j);
 		printf("t=%8.3f, q = %.3f %.3f %.3f %.3f\n", j, q.x, q.y, q.z, q.w);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }
