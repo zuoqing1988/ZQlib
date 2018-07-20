@@ -154,6 +154,7 @@
     <ClInclude Include="ZQ_OpticalFlow3D.h" />
     <ClInclude Include="ZQ_OpticalFlowOptions.h" />
     <ClInclude Include="ZQ_PCGSolver.h" />
+    <ClInclude Include="ZQ_SplinePCHIP.h" />
     <ClInclude Include="ZQ_PIVMovingObject.h" />
     <ClInclude Include="ZQ_PIVMovingObject3D.h" />
     <ClInclude Include="ZQ_PIVSimulator.h" />
