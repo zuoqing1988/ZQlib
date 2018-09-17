@@ -168,6 +168,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleShowMVSResult", "Samp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleSplinePCHIP", "SampleSplinePCHIP\SampleSplinePCHIP.vcxproj", "{BFA3EFAA-C166-443D-90E9-B24103401FF7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleMergeSort", "SampleMergeSort\SampleMergeSort.vcxproj", "{098DBF81-04FC-4886-A594-B0D015E6737B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -837,6 +839,14 @@ Global
 		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Release|Win32.Build.0 = Release|Win32
 		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Release|x64.ActiveCfg = Release|x64
 		{BFA3EFAA-C166-443D-90E9-B24103401FF7}.Release|x64.Build.0 = Release|x64
+		{098DBF81-04FC-4886-A594-B0D015E6737B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{098DBF81-04FC-4886-A594-B0D015E6737B}.Debug|Win32.Build.0 = Debug|Win32
+		{098DBF81-04FC-4886-A594-B0D015E6737B}.Debug|x64.ActiveCfg = Debug|x64
+		{098DBF81-04FC-4886-A594-B0D015E6737B}.Debug|x64.Build.0 = Debug|x64
+		{098DBF81-04FC-4886-A594-B0D015E6737B}.Release|Win32.ActiveCfg = Release|Win32
+		{098DBF81-04FC-4886-A594-B0D015E6737B}.Release|Win32.Build.0 = Release|Win32
+		{098DBF81-04FC-4886-A594-B0D015E6737B}.Release|x64.ActiveCfg = Release|x64
+		{098DBF81-04FC-4886-A594-B0D015E6737B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
