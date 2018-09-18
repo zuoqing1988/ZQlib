@@ -89,3 +89,6 @@ https://zhuanlan.zhihu.com/p/40165320
 
 (27)ZQlib都能干些什么之二十七：单调样条插值
 https://zhuanlan.zhihu.com/p/40203081
+
+(28)ZQlib都能干些什么之二十八：外排序
+https://zhuanlan.zhihu.com/p/44792366
