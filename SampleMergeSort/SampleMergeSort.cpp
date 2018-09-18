@@ -58,7 +58,7 @@ int main()
 	printf("\n");
 
 	/*test ooc*/
-	test_ooc(5000);
+	test_ooc(100);
 
 	return EXIT_SUCCESS;
 }
@@ -165,10 +165,11 @@ void test_ooc(int nBlock)
 		for (__int64 i = 1; i < N; i++)
 		{
 			fread(&cur_val, sizeof(T), 1, dst_val_file);
-			if (cur_val < last_val != ascending_dir)
+			if ((cur_val < last_val && ascending_dir) || (cur_val > last_val && !ascending_dir))
 			{
 				printf("error:%lld %f %f\n", i, last_val, cur_val);
 			}
+			last_val = cur_val;
 		}
 		fclose(dst_val_file);
 	}
