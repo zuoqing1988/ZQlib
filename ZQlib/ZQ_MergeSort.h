@@ -783,6 +783,7 @@ namespace ZQ
 				{
 					return false;
 				}
+				
 				__int64 count1 = 1;
 				__int64 count2 = 1;
 				while (true)
@@ -802,7 +803,31 @@ namespace ZQ
 							}
 						}
 						if (buffer1.isEnd())
+						{
+							if (has_data)
+							{
+								if (!data_buffer1.isEnd())
+								{
+									printf("error\n");
+								}
+							}
+							if (buffer2.isEnd())
+							{
+								out_buffer.SetNextVal(&val2);
+								if (has_data)
+								{
+									if (!data_buffer2.GetNextVal(data_ptr))
+									{
+										return false;
+									}
+									if (!data_out_buffer.SetNextVal(data_ptr))
+									{
+										return false;
+									}
+								}
+							}
 							break;
+						}
 						buffer1.GetNextVal(&val1);
 						count1++;
 					}
@@ -821,7 +846,31 @@ namespace ZQ
 							}
 						}
 						if (buffer2.isEnd())
+						{
+							if (has_data)
+							{
+								if (!data_buffer2.isEnd())
+								{
+									printf("error\n");
+								}
+							}
+							if (buffer1.isEnd())
+							{
+								out_buffer.SetNextVal(&val1);
+								if (has_data)
+								{
+									if (!data_buffer1.GetNextVal(data_ptr))
+									{
+										return false;
+									}
+									if (!data_out_buffer.SetNextVal(data_ptr))
+									{
+										return false;
+									}
+								}
+							}
 							break;
+						}
 						buffer2.GetNextVal(&val2);
 						count2++;
 					}
@@ -830,16 +879,19 @@ namespace ZQ
 
 				if (buffer1.isEnd())
 				{
-					out_buffer.SetNextVal(&val2);
-					if (has_data)
+					if (!buffer2.isEnd())
 					{
-						if (!data_buffer2.GetNextVal(data_ptr))
+						out_buffer.SetNextVal(&val2);
+						if (has_data)
 						{
-							return false;
-						}
-						if (!data_out_buffer.SetNextVal(data_ptr))
-						{
-							return false;
+							if (!data_buffer2.GetNextVal(data_ptr))
+							{
+								return false;
+							}
+							if (!data_out_buffer.SetNextVal(data_ptr))
+							{
+								return false;
+							}
 						}
 					}
 					while (!buffer2.isEnd())
@@ -862,16 +914,19 @@ namespace ZQ
 				}
 				else
 				{
-					out_buffer.SetNextVal(&val1);
-					if (has_data)
+					if (!buffer1.isEnd())
 					{
-						if (!data_buffer1.GetNextVal(data_ptr))
+						out_buffer.SetNextVal(&val1);
+						if (has_data)
 						{
-							return false;
-						}
-						if (!data_out_buffer.SetNextVal(data_ptr))
-						{
-							return false;
+							if (!data_buffer1.GetNextVal(data_ptr))
+							{
+								return false;
+							}
+							if (!data_out_buffer.SetNextVal(data_ptr))
+							{
+								return false;
+							}
 						}
 					}
 					while (!buffer1.isEnd())
@@ -896,8 +951,8 @@ namespace ZQ
 
 			if (tmp_rest_nBlock == 1)
 			{
-				int num1 = __min(num - tmp_block_size*bb * 2, tmp_block_size);
-				int out_num = num1;
+				__int64 num1 = __min(num - tmp_block_size*bb * 2, tmp_block_size);
+				__int64 out_num = num1;
 				buffer1.Bind(tmp_val_files[tmp_file_idx], tmp_block_size*(bb * 2)*val_size, num1, val_size, val_block_buffer1, block_size*val_size);
 				out_buffer.Bind(tmp_val_files[other_file_idx], tmp_block_size*bb * 2*val_size, out_num, val_size, out_val_buffer, block_size * 2 * val_size);
 				if (has_data)
