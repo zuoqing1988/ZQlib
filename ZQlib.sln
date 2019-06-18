@@ -170,6 +170,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleSplinePCHIP", "Sample
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleMergeSort", "SampleMergeSort\SampleMergeSort.vcxproj", "{098DBF81-04FC-4886-A594-B0D015E6737B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleFindSimilarityLandmark", "SampleFindSimilarityLandmark\SampleFindSimilarityLandmark.vcxproj", "{F1A86C94-46F0-478E-B791-B7BB43E8911C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -847,6 +849,14 @@ Global
 		{098DBF81-04FC-4886-A594-B0D015E6737B}.Release|Win32.Build.0 = Release|Win32
 		{098DBF81-04FC-4886-A594-B0D015E6737B}.Release|x64.ActiveCfg = Release|x64
 		{098DBF81-04FC-4886-A594-B0D015E6737B}.Release|x64.Build.0 = Release|x64
+		{F1A86C94-46F0-478E-B791-B7BB43E8911C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F1A86C94-46F0-478E-B791-B7BB43E8911C}.Debug|Win32.Build.0 = Debug|Win32
+		{F1A86C94-46F0-478E-B791-B7BB43E8911C}.Debug|x64.ActiveCfg = Debug|x64
+		{F1A86C94-46F0-478E-B791-B7BB43E8911C}.Debug|x64.Build.0 = Debug|x64
+		{F1A86C94-46F0-478E-B791-B7BB43E8911C}.Release|Win32.ActiveCfg = Release|Win32
+		{F1A86C94-46F0-478E-B791-B7BB43E8911C}.Release|Win32.Build.0 = Release|Win32
+		{F1A86C94-46F0-478E-B791-B7BB43E8911C}.Release|x64.ActiveCfg = Release|x64
+		{F1A86C94-46F0-478E-B791-B7BB43E8911C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
