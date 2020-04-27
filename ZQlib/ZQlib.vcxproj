@@ -136,6 +136,7 @@
     <ClInclude Include="ZQ_LazySnappingOptions.h" />
     <ClInclude Include="ZQ_LevMar.h" />
     <ClInclude Include="ZQ_Logger.h" />
+    <ClInclude Include="ZQ_LSD.h" />
     <ClInclude Include="ZQ_LSQRSolver.h" />
     <ClInclude Include="ZQ_LSQRUtils.h" />
     <ClInclude Include="ZQ_MarchingCube.h" />
@@ -155,6 +156,8 @@
     <ClInclude Include="ZQ_OpticalFlow3D.h" />
     <ClInclude Include="ZQ_OpticalFlowOptions.h" />
     <ClInclude Include="ZQ_PCGSolver.h" />
+    <ClInclude Include="ZQ_Ray2D.h" />
+    <ClInclude Include="ZQ_RectifyCard.h" />
     <ClInclude Include="ZQ_SplinePCHIP.h" />
     <ClInclude Include="ZQ_PIVMovingObject.h" />
     <ClInclude Include="ZQ_PIVMovingObject3D.h" />

@@ -432,5 +432,14 @@
     <ClInclude Include="ZQ_FindSimilarityLandmark.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ZQ_Ray2D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_RectifyCard.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZQ_LSD.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
