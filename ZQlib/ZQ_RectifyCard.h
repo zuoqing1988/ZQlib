@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "ZQ_Vec2D.h"
+#include "ZQ_Ray2D.h"
 #include "ZQ_SVD.h"
 #include "ZQ_LSD.h"
 
@@ -77,43 +78,6 @@ namespace ZQ
 			}
 		};
 
-		class ZQ_Ray
-		{
-		public:
-			ZQ_Vec2D ori, dir;
-
-			static bool RayCross(const ZQ_Ray& ray1, const ZQ_Ray& ray2, float& depth1, float& depth2, ZQ_Vec2D& crossPos)
-			{
-				if (ray1.dir.Length() == 0)
-					return false;
-				if (ray2.dir.Length() == 0)
-					return false;
-
-				ZQ_Matrix<float> matA(2, 2);
-				ZQ_Matrix<float> Ainv(2, 2);
-				ZQ_Matrix<float> matB(2, 1);
-
-				matA.SetData(0, 0, ray1.dir.x);
-				matA.SetData(0, 1, -ray2.dir.x);
-				matA.SetData(1, 0, ray1.dir.y);
-				matA.SetData(1, 1, -ray2.dir.y);
-
-				matB.SetData(0, 0, ray2.ori.x - ray1.ori.x);
-				matB.SetData(1, 0, ray2.ori.y - ray1.ori.y);
-
-				ZQ_SVD::Invert(matA, Ainv);
-
-				ZQ_Matrix<float> matX = Ainv*matB;
-
-				bool flag;
-				depth1 = matX.GetData(0, 0, flag);
-				depth2 = matX.GetData(1, 0, flag);
-
-				crossPos = (ray1.ori + ray1.dir*depth1 + ray2.ori + ray2.dir*depth2)*0.5;
-
-				return true;
-			}
-		};
 	private:
 		static bool _is_in_rect(cv::Rect& rect, ZQ_Vec2D& pt)
 		{
@@ -212,22 +176,22 @@ namespace ZQ
 			}
 		}
 
-		static bool _regress_line(const std::vector<ZQ_LineSegWithInfo>& input, ZQ_Ray& ray)
+		static bool _regress_line(const std::vector<ZQ_LineSegWithInfo>& input, ZQ_Ray2D& ray)
 		{
 			if (input.size() == 0)
 				return false;
-			ray.ori = ZQ_Vec2D(0, 0);
+			ray.origin = ZQ_Vec2D(0, 0);
 			ray.dir = ZQ_Vec2D(0, 0);
 			for (int i = 0; i < input.size(); i++)
 			{
-				ray.ori += input[i].line.pt0;
-				ray.ori += input[i].line.pt1;
+				ray.origin += input[i].line.pt0;
+				ray.origin += input[i].line.pt1;
 			}
-			ray.ori *= 1.0 / (2.0*input.size());
+			ray.origin *= 1.0 / (2.0*input.size());
 			for (int i = 0; i < input.size(); i++)
 			{
-				ZQ_Vec2D dir0 = input[i].line.pt0 - ray.ori;
-				ZQ_Vec2D dir1 = input[i].line.pt1 - ray.ori;
+				ZQ_Vec2D dir0 = input[i].line.pt0 - ray.origin;
+				ZQ_Vec2D dir1 = input[i].line.pt1 - ray.origin;
 				if (dir0.x >= 0)
 					ray.dir += dir0;
 				else
@@ -448,7 +412,7 @@ namespace ZQ
 				return false;
 
 			/* line regression */
-			ZQ_Ray rayT, rayB, rayL, rayR;
+			ZQ_Ray2D rayT, rayB, rayL, rayR;
 			_regress_line(lineT, rayT);
 			_regress_line(lineB, rayB);
 			_regress_line(lineL, rayL);
@@ -458,17 +422,17 @@ namespace ZQ
 			{
 				m_imResize.copyTo(dst);
 				float max_ray_len = dstWidth + dstHeight;
-				cv::line(dst, cv::Point(rayT.ori.x - max_ray_len*rayT.dir.x, rayT.ori.y - max_ray_len*rayT.dir.y),
-					cv::Point(rayT.ori.x + max_ray_len*rayT.dir.x, rayT.ori.y + max_ray_len*rayT.dir.y),
+				cv::line(dst, cv::Point(rayT.origin.x - max_ray_len*rayT.dir.x, rayT.origin.y - max_ray_len*rayT.dir.y),
+					cv::Point(rayT.origin.x + max_ray_len*rayT.dir.x, rayT.origin.y + max_ray_len*rayT.dir.y),
 					cv::Scalar(0, 255, 255), 1, CV_AA);
-				cv::line(dst, cv::Point(rayB.ori.x - max_ray_len*rayB.dir.x, rayB.ori.y - max_ray_len*rayB.dir.y),
-					cv::Point(rayB.ori.x + max_ray_len*rayB.dir.x, rayB.ori.y + max_ray_len*rayB.dir.y),
+				cv::line(dst, cv::Point(rayB.origin.x - max_ray_len*rayB.dir.x, rayB.origin.y - max_ray_len*rayB.dir.y),
+					cv::Point(rayB.origin.x + max_ray_len*rayB.dir.x, rayB.origin.y + max_ray_len*rayB.dir.y),
 					cv::Scalar(0, 255, 255), 1, CV_AA);
-				cv::line(dst, cv::Point(rayL.ori.x - max_ray_len*rayL.dir.x, rayL.ori.y - max_ray_len*rayL.dir.y),
-					cv::Point(rayL.ori.x + max_ray_len*rayL.dir.x, rayL.ori.y + max_ray_len*rayL.dir.y),
+				cv::line(dst, cv::Point(rayL.origin.x - max_ray_len*rayL.dir.x, rayL.origin.y - max_ray_len*rayL.dir.y),
+					cv::Point(rayL.origin.x + max_ray_len*rayL.dir.x, rayL.origin.y + max_ray_len*rayL.dir.y),
 					cv::Scalar(0, 255, 255), 1, CV_AA);
-				cv::line(dst, cv::Point(rayR.ori.x - max_ray_len*rayR.dir.x, rayR.ori.y - max_ray_len*rayR.dir.y),
-					cv::Point(rayR.ori.x + max_ray_len*rayR.dir.x, rayR.ori.y + max_ray_len*rayR.dir.y),
+				cv::line(dst, cv::Point(rayR.origin.x - max_ray_len*rayR.dir.x, rayR.origin.y - max_ray_len*rayR.dir.y),
+					cv::Point(rayR.origin.x + max_ray_len*rayR.dir.x, rayR.origin.y + max_ray_len*rayR.dir.y),
 					cv::Scalar(0, 255, 255), 1, CV_AA);
 				cv::namedWindow("show4");
 				cv::imshow("show4", dst);
@@ -479,10 +443,10 @@ namespace ZQ
 
 			ZQ_Vec2D corner_LT, corner_LB, corner_RT, corner_RB;
 			float depth1, depth2;
-			ZQ_Ray::RayCross(rayL, rayT, depth1, depth2, corner_LT);
-			ZQ_Ray::RayCross(rayL, rayB, depth1, depth2, corner_LB);
-			ZQ_Ray::RayCross(rayR, rayT, depth1, depth2, corner_RT);
-			ZQ_Ray::RayCross(rayR, rayB, depth1, depth2, corner_RB);
+			ZQ_Ray2D::RayCross(rayL, rayT, depth1, depth2, corner_LT);
+			ZQ_Ray2D::RayCross(rayL, rayB, depth1, depth2, corner_LB);
+			ZQ_Ray2D::RayCross(rayR, rayT, depth1, depth2, corner_RT);
+			ZQ_Ray2D::RayCross(rayR, rayB, depth1, depth2, corner_RB);
 
 
 			float scale_x = (float)src.cols / dstWidth;
