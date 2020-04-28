@@ -84,10 +84,10 @@ namespace ZQ
 			return pt.x >= rect.x && pt.x < rect.x + rect.width && pt.y >= rect.y && pt.y < rect.y + rect.height;
 		}
 
-		static void _choose_line_by_angle(const std::vector<ZQ_LineSegWithInfo>& input, std::vector<ZQ_LineSegWithInfo>& output)
+		static void _choose_line_by_angle(const std::vector<ZQ_LineSegWithInfo>& input, std::vector<ZQ_LineSegWithInfo>& output, int angle_range = 2)
 		{
 			float bucket[360] = { 0 };
-			const int range = 2;
+			const int range = abs(angle_range);
 
 			for (int i = 0; i < input.size(); i++)
 			{
@@ -122,7 +122,7 @@ namespace ZQ
 			}
 		}
 
-		static void _choose_line_by_distance(const std::vector<ZQ_LineSegWithInfo>& input, std::vector<ZQ_LineSegWithInfo>& output)
+		static void _choose_line_by_distance(const std::vector<ZQ_LineSegWithInfo>& input, std::vector<ZQ_LineSegWithInfo>& output, int dis_range = 1)
 		{
 			float max_distance = -1;
 			float min_distance = 1e9;
@@ -137,7 +137,7 @@ namespace ZQ
 			int max_dis_i = ceil(max_distance);
 			int num_bucket = max_dis_i - min_dis_i + 1;
 			std::vector<double> bucket(num_bucket, 0);
-			const int range = 1;
+			const int range = abs(dis_range);
 
 			for (int i = 0; i < input.size(); i++)
 			{
@@ -205,23 +205,16 @@ namespace ZQ
 		}
 
 	public:
-		static bool RectifyCard(const cv::Mat& src, int dstWidth, int dstHeight, cv::Mat& dst, bool display = false)
+		
+		static bool DetectRectCorners(const cv::Mat& src, ZQ_Vec2D& pt_lt, ZQ_Vec2D& pt_lb, ZQ_Vec2D& pt_rt, ZQ_Vec2D& pt_rb,
+			int angle_range = 2, int dis_range = 0, bool display = false, int border_size = -1)
 		{
-			//int dstWidth = 444;
-			//int dstHeight = 280;
-			cv::Mat m_imResize;
-			cv::resize(src, m_imResize, cv::Size(dstWidth, dstHeight));
-			//cv::GaussianBlur(m_imResize, m_imResize, cv::Size(3, 3), 0);
-			//cv::GaussianBlur(m_imResize, m_imResize, cv::Size(3, 3), 0);
-			//cv::GaussianBlur(m_imResize, m_imResize, cv::Size(3, 3), 0);
-			//cv::GaussianBlur(m_imResize, m_imResize, cv::Size(3, 3), 0);
-
 			ZQ_LSD::ntuple_list detected_lines;
 			clock_t start, finish;
 			double duration, rate;
 			start = clock();
 			cv::Mat im_gray;
-			cv::cvtColor(m_imResize, im_gray, CV_BGR2GRAY);
+			cv::cvtColor(src, im_gray, CV_BGR2GRAY);
 			ZQ_LSD::image_double  image = ZQ_LSD::new_image_double(im_gray.cols, im_gray.rows);
 			uchar* im_src = (uchar*)im_gray.data;
 			int xsize = image->xsize;
@@ -229,12 +222,12 @@ namespace ZQ
 
 			for (int y = 0; y < ysize; y++)
 			{
-				for (int x = 0; x < xsize; x++)  //x是横坐标，y是纵坐标
+				for (int x = 0; x < xsize; x++) 
 				{
-					image->data[y*xsize + x] = im_src[y*im_gray.step[0] + x];//im_gray是灰度图像，没有颜色通道
+					image->data[y*xsize + x] = im_src[y*im_gray.step[0] + x];
 				}
 			}
-			detected_lines = ZQ_LSD::lsd(image);//detected_lines中存储提取直线的首位坐标及宽度，具体意义见说明文档
+			detected_lines = ZQ_LSD::lsd(image);
 			ZQ_LSD::free_image_double(image);
 			finish = clock();
 			duration = (double)(finish - start) / CLOCKS_PER_SEC;
@@ -246,23 +239,25 @@ namespace ZQ
 			}
 
 			int dim = detected_lines->dim;
-			m_imResize.copyTo(dst);
-
-
-			int tempWidth = 50;
-			ZQ_Vec2D center(dstWidth*0.5, dstHeight*0.5);
-			cv::Rect rectL(0, 0, tempWidth, dst.rows);
-			cv::Rect rectR(dst.cols - 1 - tempWidth, 0, tempWidth, dst.rows);
-			cv::Rect rectT(0, 0, dst.cols, tempWidth);
-			cv::Rect rectB(0, dst.rows - 1 - tempWidth, dst.cols, tempWidth);
+			
+			cv::Mat show;
 			if (display)
-			{
-				cv::rectangle(dst, rectL, cv::Scalar(0, 0, 255));
-				cv::rectangle(dst, rectR, cv::Scalar(0, 0, 255));
-				cv::rectangle(dst, rectT, cv::Scalar(0, 0, 255));
-				cv::rectangle(dst, rectB, cv::Scalar(0, 0, 255));
-			}
+				src.copyTo(show);
 
+			int srcWidth = src.cols;
+			int srcHeight = src.rows;
+			int border_x = srcWidth / 2;
+			int border_y = srcHeight / 2;
+			if (border_size > 0)
+			{
+				border_x = border_size;
+				border_y = border_size;
+			}
+			ZQ_Vec2D center(srcWidth*0.5, srcHeight*0.5);
+			cv::Rect rectL(0, 0, border_x, srcHeight);
+			cv::Rect rectR(srcWidth - 1 - border_x, 0, border_x, srcHeight);
+			cv::Rect rectT(0, 0, srcWidth, border_y);
+			cv::Rect rectB(0, srcHeight - 1 - border_y, srcWidth, border_y);
 			std::vector<ZQ_LineSegWithInfo> lineTop, lineBottom, lineLeft, lineRight;
 
 			for (unsigned int j = 0; j < detected_lines->size; j++)
@@ -281,7 +276,7 @@ namespace ZQ
 					{
 						if (display)
 						{
-							cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+							cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 						}
 						lineLeft.push_back(lineseg);
 					}
@@ -291,7 +286,7 @@ namespace ZQ
 					{
 						if (display)
 						{
-							cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+							cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 						}
 						lineRight.push_back(lineseg);
 
@@ -302,7 +297,7 @@ namespace ZQ
 					{
 						if (display)
 						{
-							cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+							cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 						}
 						lineTop.push_back(lineseg);
 					}
@@ -312,7 +307,7 @@ namespace ZQ
 					{
 						if (display)
 						{
-							cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+							cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 						}
 						lineBottom.push_back(lineseg);
 					}
@@ -325,45 +320,45 @@ namespace ZQ
 			if (display)
 			{
 				cv::namedWindow("show1");
-				cv::imshow("show1", dst);
+				cv::imshow("show1", show);
 				cv::waitKey(0);
 			}
 
 			std::vector<ZQ_LineSegWithInfo> lineT, lineB, lineL, lineR;
-			_choose_line_by_angle(lineTop, lineT);
-			_choose_line_by_angle(lineBottom, lineB);
-			_choose_line_by_angle(lineLeft, lineL);
-			_choose_line_by_angle(lineRight, lineR);
+			_choose_line_by_angle(lineTop, lineT, angle_range);
+			_choose_line_by_angle(lineBottom, lineB, angle_range);
+			_choose_line_by_angle(lineLeft, lineL, angle_range);
+			_choose_line_by_angle(lineRight, lineR, angle_range);
 
 			if (display)
 			{
-				m_imResize.copyTo(dst);
+				src.copyTo(show);
 				for (int i = 0; i < lineT.size(); i++)
 				{
 					ZQ_Vec2D& pt0 = lineT[i].line.pt0;
 					ZQ_Vec2D& pt1 = lineT[i].line.pt1;
-					cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+					cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 				}
 				for (int i = 0; i < lineB.size(); i++)
 				{
 					ZQ_Vec2D& pt0 = lineB[i].line.pt0;
 					ZQ_Vec2D& pt1 = lineB[i].line.pt1;
-					cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+					cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 				}
 				for (int i = 0; i < lineL.size(); i++)
 				{
 					ZQ_Vec2D& pt0 = lineL[i].line.pt0;
 					ZQ_Vec2D& pt1 = lineL[i].line.pt1;
-					cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+					cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 				}
 				for (int i = 0; i < lineR.size(); i++)
 				{
 					ZQ_Vec2D& pt0 = lineR[i].line.pt0;
 					ZQ_Vec2D& pt1 = lineR[i].line.pt1;
-					cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+					cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 				}
 				cv::namedWindow("show2");
-				cv::imshow("show2", dst);
+				cv::imshow("show2", show);
 				cv::waitKey(0);
 			}
 
@@ -371,40 +366,40 @@ namespace ZQ
 			lineBottom.swap(lineB);
 			lineLeft.swap(lineL);
 			lineRight.swap(lineR);
-			_choose_line_by_distance(lineTop, lineT);
-			_choose_line_by_distance(lineBottom, lineB);
-			_choose_line_by_distance(lineLeft, lineL);
-			_choose_line_by_distance(lineRight, lineR);
+			_choose_line_by_distance(lineTop, lineT, dis_range);
+			_choose_line_by_distance(lineBottom, lineB, dis_range);
+			_choose_line_by_distance(lineLeft, lineL, dis_range);
+			_choose_line_by_distance(lineRight, lineR, dis_range);
 
 			if (display)
 			{
-				m_imResize.copyTo(dst);
+				src.copyTo(show);
 				for (int i = 0; i < lineT.size(); i++)
 				{
 					ZQ_Vec2D& pt0 = lineT[i].line.pt0;
 					ZQ_Vec2D& pt1 = lineT[i].line.pt1;
-					cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+					cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 				}
 				for (int i = 0; i < lineB.size(); i++)
 				{
 					ZQ_Vec2D& pt0 = lineB[i].line.pt0;
 					ZQ_Vec2D& pt1 = lineB[i].line.pt1;
-					cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+					cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 				}
 				for (int i = 0; i < lineL.size(); i++)
 				{
 					ZQ_Vec2D& pt0 = lineL[i].line.pt0;
 					ZQ_Vec2D& pt1 = lineL[i].line.pt1;
-					cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+					cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 				}
 				for (int i = 0; i < lineR.size(); i++)
 				{
 					ZQ_Vec2D& pt0 = lineR[i].line.pt0;
 					ZQ_Vec2D& pt1 = lineR[i].line.pt1;
-					cv::line(dst, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
+					cv::line(show, cv::Point(pt0.x, pt0.y), cv::Point(pt1.x, pt1.y), cv::Scalar(0, 255, 0), 2, CV_AA);
 				}
 				cv::namedWindow("show3");
-				cv::imshow("show3", dst);
+				cv::imshow("show3", show);
 				cv::waitKey(0);
 			}
 
@@ -420,22 +415,22 @@ namespace ZQ
 
 			if (display)
 			{
-				m_imResize.copyTo(dst);
-				float max_ray_len = dstWidth + dstHeight;
-				cv::line(dst, cv::Point(rayT.origin.x - max_ray_len*rayT.dir.x, rayT.origin.y - max_ray_len*rayT.dir.y),
+				src.copyTo(show);
+				float max_ray_len = srcWidth + srcHeight;
+				cv::line(show, cv::Point(rayT.origin.x - max_ray_len*rayT.dir.x, rayT.origin.y - max_ray_len*rayT.dir.y),
 					cv::Point(rayT.origin.x + max_ray_len*rayT.dir.x, rayT.origin.y + max_ray_len*rayT.dir.y),
 					cv::Scalar(0, 255, 255), 1, CV_AA);
-				cv::line(dst, cv::Point(rayB.origin.x - max_ray_len*rayB.dir.x, rayB.origin.y - max_ray_len*rayB.dir.y),
+				cv::line(show, cv::Point(rayB.origin.x - max_ray_len*rayB.dir.x, rayB.origin.y - max_ray_len*rayB.dir.y),
 					cv::Point(rayB.origin.x + max_ray_len*rayB.dir.x, rayB.origin.y + max_ray_len*rayB.dir.y),
 					cv::Scalar(0, 255, 255), 1, CV_AA);
-				cv::line(dst, cv::Point(rayL.origin.x - max_ray_len*rayL.dir.x, rayL.origin.y - max_ray_len*rayL.dir.y),
+				cv::line(show, cv::Point(rayL.origin.x - max_ray_len*rayL.dir.x, rayL.origin.y - max_ray_len*rayL.dir.y),
 					cv::Point(rayL.origin.x + max_ray_len*rayL.dir.x, rayL.origin.y + max_ray_len*rayL.dir.y),
 					cv::Scalar(0, 255, 255), 1, CV_AA);
-				cv::line(dst, cv::Point(rayR.origin.x - max_ray_len*rayR.dir.x, rayR.origin.y - max_ray_len*rayR.dir.y),
+				cv::line(show, cv::Point(rayR.origin.x - max_ray_len*rayR.dir.x, rayR.origin.y - max_ray_len*rayR.dir.y),
 					cv::Point(rayR.origin.x + max_ray_len*rayR.dir.x, rayR.origin.y + max_ray_len*rayR.dir.y),
 					cv::Scalar(0, 255, 255), 1, CV_AA);
 				cv::namedWindow("show4");
-				cv::imshow("show4", dst);
+				cv::imshow("show4", show);
 				cv::waitKey(0);
 			}
 
@@ -443,10 +438,81 @@ namespace ZQ
 
 			ZQ_Vec2D corner_LT, corner_LB, corner_RT, corner_RB;
 			float depth1, depth2;
-			ZQ_Ray2D::RayCross(rayL, rayT, depth1, depth2, corner_LT);
-			ZQ_Ray2D::RayCross(rayL, rayB, depth1, depth2, corner_LB);
-			ZQ_Ray2D::RayCross(rayR, rayT, depth1, depth2, corner_RT);
-			ZQ_Ray2D::RayCross(rayR, rayB, depth1, depth2, corner_RB);
+			ZQ_Ray2D::RayCross(rayL, rayT, depth1, depth2, pt_lt);
+			ZQ_Ray2D::RayCross(rayL, rayB, depth1, depth2, pt_lb);
+			ZQ_Ray2D::RayCross(rayR, rayT, depth1, depth2, pt_rt);
+			ZQ_Ray2D::RayCross(rayR, rayB, depth1, depth2, pt_rb);
+			return true;
+		}
+
+		static bool RectifyDriverCard(const cv::Mat& src, int dstWidth, int dstHeight, cv::Mat& dst, 
+			const cv::Rect red_roi, const cv::Rect c1_roi, bool display = false)
+		{
+			
+			cv::Mat red_roi_img = src(red_roi);
+			cv::Mat c1_roi_img = src(c1_roi);
+			
+			ZQ_Vec2D red_pt_lt, red_pt_lb, red_pt_rt, red_pt_rb;
+			ZQ_Vec2D c1_pt_lt, c1_pt_lb, c1_pt_rt, c1_pt_rb;
+			if (!DetectRectCorners(red_roi_img, red_pt_lt, red_pt_lb, red_pt_rt, red_pt_rb,2,0,display)
+				|| !DetectRectCorners(c1_roi_img, c1_pt_lt, c1_pt_lb, c1_pt_rt, c1_pt_rb,2,0,display))
+				return false;
+
+			float standard_width = 440, standard_height = 300;
+			float standard_coords[8] =
+			{
+				18,163,116,261,
+				179,226,311,255
+			};
+
+			for (int i = 0; i < 4; i++)
+			{
+				standard_coords[i * 2] /= standard_width;
+				standard_coords[i * 2 + 1] /= standard_height;
+			}
+
+
+			std::vector<cv::Point2f> src_pts, dst_pts;
+			src_pts.push_back(cv::Point2f(red_pt_lt.x + red_roi.x, red_pt_lt.y + red_roi.y));
+			src_pts.push_back(cv::Point2f(red_pt_lb.x + red_roi.x, red_pt_lb.y + red_roi.y));
+			src_pts.push_back(cv::Point2f(red_pt_rt.x + red_roi.x, red_pt_rt.y + red_roi.y));
+			src_pts.push_back(cv::Point2f(red_pt_rb.x + red_roi.x, red_pt_rb.y + red_roi.y));
+			src_pts.push_back(cv::Point2f(c1_pt_lt.x + c1_roi.x, c1_pt_lt.y + c1_roi.y));
+			src_pts.push_back(cv::Point2f(c1_pt_lb.x + c1_roi.x, c1_pt_lb.y + c1_roi.y));
+			src_pts.push_back(cv::Point2f(c1_pt_rt.x + c1_roi.x, c1_pt_rt.y + c1_roi.y));
+			src_pts.push_back(cv::Point2f(c1_pt_rb.x + c1_roi.x, c1_pt_rb.y + c1_roi.y));
+			dst_pts.push_back(cv::Point2f(standard_coords[0] * dstWidth, standard_coords[1] * dstHeight));
+			dst_pts.push_back(cv::Point2f(standard_coords[0] * dstWidth, standard_coords[3] * dstHeight));
+			dst_pts.push_back(cv::Point2f(standard_coords[2] * dstWidth, standard_coords[1] * dstHeight));
+			dst_pts.push_back(cv::Point2f(standard_coords[2] * dstWidth, standard_coords[3] * dstHeight));
+			dst_pts.push_back(cv::Point2f(standard_coords[4] * dstWidth, standard_coords[5] * dstHeight));
+			dst_pts.push_back(cv::Point2f(standard_coords[4] * dstWidth, standard_coords[7] * dstHeight));
+			dst_pts.push_back(cv::Point2f(standard_coords[6] * dstWidth, standard_coords[5] * dstHeight));
+			dst_pts.push_back(cv::Point2f(standard_coords[6] * dstWidth, standard_coords[7] * dstHeight));
+
+			cv::Mat transmtx = cv::findHomography(src_pts, dst_pts);
+			cv::warpPerspective(src, dst, transmtx, cv::Size(dstWidth, dstHeight));
+
+			return true;
+		}
+
+		static bool RectifyCard(const cv::Mat& src, int dstWidth, int dstHeight, cv::Mat& dst, int border_width = 50, bool display = false)
+		{
+			//int dstWidth = 444;
+			//int dstHeight = 280;
+			cv::Mat m_imResize;
+			cv::resize(src, m_imResize, cv::Size(dstWidth, dstHeight));
+			//cv::GaussianBlur(m_imResize, m_imResize, cv::Size(3, 3), 0);
+			//cv::GaussianBlur(m_imResize, m_imResize, cv::Size(3, 3), 0);
+			//cv::GaussianBlur(m_imResize, m_imResize, cv::Size(3, 3), 0);
+			//cv::GaussianBlur(m_imResize, m_imResize, cv::Size(3, 3), 0);
+
+			/* get corners */
+
+			ZQ_Vec2D corner_LT, corner_LB, corner_RT, corner_RB;
+
+			if (!DetectRectCorners(m_imResize, corner_LT, corner_LB, corner_RT, corner_RB, 2, 1, display, border_width))
+				return false;
 
 
 			float scale_x = (float)src.cols / dstWidth;
@@ -467,6 +533,7 @@ namespace ZQ
 
 			return true;
 		}
+
 	};
 }
 
