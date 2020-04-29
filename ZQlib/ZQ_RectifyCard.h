@@ -867,7 +867,8 @@ namespace ZQ
 		static bool RectifyDriverCard(const cv::Mat& src, int dstWidth, int dstHeight, cv::Mat& dst, cv::Mat& transmtx,
 			int border_width = 50, bool display = false)
 		{
-
+			int srcWidth = src.cols;
+			int srcHeight = src.rows;
 			std::vector<ZQ_Vec2D> lines;
 			clock_t start = clock();
 			cv::Mat im_gray;
@@ -888,6 +889,14 @@ namespace ZQ
 					float y1 = lines[i * 2 + 1].y;
 					cv::line(show, cv::Point(x0, y0), cv::Point(x1, y1), cv::Scalar(0, 255, 0), 1, CV_AA);
 				}
+				cv::Rect rectL(0, 0, border_width, srcHeight);
+				cv::Rect rectR(srcWidth - 1 - border_width, 0, border_width, srcHeight);
+				cv::Rect rectT(0, 0, srcWidth, border_width);
+				cv::Rect rectB(0, srcHeight - 1 - border_width, srcWidth, border_width);
+				cv::rectangle(show, rectL, cv::Scalar(0, 0, 255));
+				cv::rectangle(show, rectR, cv::Scalar(0, 0, 255));
+				cv::rectangle(show, rectT, cv::Scalar(0, 0, 255));
+				cv::rectangle(show, rectB, cv::Scalar(0, 0, 255));
 				cv::namedWindow("show");
 				cv::imshow("show", show);
 				cv::waitKey(0);
@@ -895,8 +904,7 @@ namespace ZQ
 
 			/* get corners */
 			ZQ_Vec2D corner_LT, corner_LB, corner_RT, corner_RB;
-			int srcWidth = src.cols;
-			int srcHeight = src.rows;
+
 			if (!_detectRectCorners(src, lines, srcWidth, srcHeight, corner_LT, corner_LB, corner_RT, corner_RB, 2, 1, display, border_width))
 				return false;
 
