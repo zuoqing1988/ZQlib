@@ -44,12 +44,14 @@ void test_drivercard()
 		{ 87,256,192,285 },		//有效期第一格
 		{ 213,256,325,285 }		//有效期第二格
 	};
-	dstWidth *= 1.0;
-	dstHeight *= 1.0;
+	
+	float scale = 2.0;
+	dstWidth *= scale;
+	dstHeight *= scale;
 	for (int i = 0; i < 11; i++)
 	{
 		for (int j = 0; j < 4; j++)
-			rects[i][j] *= 1.0;
+			rects[i][j] *= scale;
 	}
 
 #if defined(_DEBUG)
