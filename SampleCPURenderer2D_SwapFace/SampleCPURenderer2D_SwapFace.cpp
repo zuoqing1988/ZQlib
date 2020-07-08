@@ -224,7 +224,7 @@ int test()
 	
 	int mask_bbox_xmin = ori_image.cols;
 	int mask_bbox_xmax = -1;
-	int mask_bbox_ymin = ori_image.cols;
+	int mask_bbox_ymin = ori_image.rows;
 	int mask_bbox_ymax = -1;
 	for (int i = 0; i < buffer_height2D; i++)
 	{
