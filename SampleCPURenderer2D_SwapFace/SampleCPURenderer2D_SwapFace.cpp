@@ -253,7 +253,7 @@ int test()
 	cv::imwrite("final.png", final_image);
 
 	printf("load: %.3f ms, prepare: %.3f ms, render: %.3f ms, fetch: %.3f ms, merge: %.3f ms\n", 
-		t2 - t1, t3 - t2, t4 - t3, t5 - t4, t6 - t5);
+		1000*(t2 - t1), 1000*(t3 - t2), 1000*(t4 - t3), 1000*(t5 - t4), 1000*(t6 - t5));
 	//cv::namedWindow("ori");
 	//cv::namedWindow("mask");
 	//cv::namedWindow("ref");
