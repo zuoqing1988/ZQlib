@@ -441,5 +441,8 @@
     <ClInclude Include="ZQ_LSD.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ZQ_HeadPoseEstimation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

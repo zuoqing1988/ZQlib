@@ -117,6 +117,7 @@
     <ClInclude Include="ZQ_GridDeformation3D.h" />
     <ClInclude Include="ZQ_GridDeformation3DOptions.h" />
     <ClInclude Include="ZQ_GridDeformationOptions.h" />
+    <ClInclude Include="ZQ_HeadPoseEstimation.h" />
     <ClInclude Include="ZQ_Huffman.h" />
     <ClInclude Include="ZQ_ICP.h" />
     <ClInclude Include="ZQ_ImageIO.h" />
