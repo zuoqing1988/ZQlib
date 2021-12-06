@@ -108,9 +108,9 @@ namespace ZQ
 			}
 			
 #if defined(_WIN32)
-			if (_strcmpi(buffer.c_str(), "NVM_V3") != 0)
+			if (strncmp(buffer.c_str(), "NVM_V3",6) != 0)
 #else
-			if (strcmp(buffer.c_str(), "NVM_V3") != 0)
+			if (strncmp(buffer.c_str(), "NVM_V3",6) != 0)
 #endif
 			{
 				return false;
