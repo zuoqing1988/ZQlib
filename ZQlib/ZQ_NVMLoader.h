@@ -278,6 +278,22 @@ namespace ZQ
 			fclose(out);
 			return true;
 		}
+
+
+		void DeleteBadPoints(int seen_less_than_n_cam) 
+		{
+			for (int i = 0; i < model_list.size(); i++)
+			{
+				ZQ_NVM_Model& cur_model = model_list[i];
+				for (int j = cur_model.point_list.size() - 1; j >= 0; j--)
+				{
+					if (cur_model.point_list[j].measure_list.size() < seen_less_than_n_cam)
+					{
+						cur_model.point_list.erase(cur_model.point_list.begin() + j);
+					}
+				}
+			}
+		}
 	};
 
 
