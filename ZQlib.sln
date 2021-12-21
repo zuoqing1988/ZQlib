@@ -176,6 +176,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleRectifyCard", "Sample
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleCPURenderer2D_SwapFace", "SampleCPURenderer2D_SwapFace\SampleCPURenderer2D_SwapFace.vcxproj", "{481A4A05-102D-40CE-9143-626CC620DBB7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleCPURenderer3DRGBD", "SampleCPURenderer3DRGBD\SampleCPURenderer3DRGBD.vcxproj", "{DBBC6EBF-1C03-4E00-8350-50A3FF71016E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -877,6 +879,14 @@ Global
 		{481A4A05-102D-40CE-9143-626CC620DBB7}.Release|Win32.Build.0 = Release|Win32
 		{481A4A05-102D-40CE-9143-626CC620DBB7}.Release|x64.ActiveCfg = Release|x64
 		{481A4A05-102D-40CE-9143-626CC620DBB7}.Release|x64.Build.0 = Release|x64
+		{DBBC6EBF-1C03-4E00-8350-50A3FF71016E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DBBC6EBF-1C03-4E00-8350-50A3FF71016E}.Debug|Win32.Build.0 = Debug|Win32
+		{DBBC6EBF-1C03-4E00-8350-50A3FF71016E}.Debug|x64.ActiveCfg = Debug|x64
+		{DBBC6EBF-1C03-4E00-8350-50A3FF71016E}.Debug|x64.Build.0 = Debug|x64
+		{DBBC6EBF-1C03-4E00-8350-50A3FF71016E}.Release|Win32.ActiveCfg = Release|Win32
+		{DBBC6EBF-1C03-4E00-8350-50A3FF71016E}.Release|Win32.Build.0 = Release|Win32
+		{DBBC6EBF-1C03-4E00-8350-50A3FF71016E}.Release|x64.ActiveCfg = Release|x64
+		{DBBC6EBF-1C03-4E00-8350-50A3FF71016E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
