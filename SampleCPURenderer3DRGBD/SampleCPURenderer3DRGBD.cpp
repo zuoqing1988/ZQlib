@@ -1,7 +1,7 @@
 #include "ZQ_CPURenderer3DWorkspace.h"
 #include "ZQ_DoubleImage.h"
 #include "ZQ_ImageIO.h"
-#include <opencv2\opencv.hpp>
+#include <opencv2/opencv.hpp>
 
 using namespace ZQ;
 
@@ -27,10 +27,33 @@ int main(int argc, const char** argv)
 	{
 		return EXIT_FAILURE;
 	}
+	//opencv right-hand (Xright,Ydown,Zin) to left-hand(Xright,Yup,Zin)
+	float mat_inL_to_inR[16] = 
+	{
+		1,0,0,0,
+		0,-1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+	float mat_outR_to_outL[16] = 
+	{
+		1,0,0,0,
+		0,-1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+	float mat_inL_to_outR[16];
+	float* mat_inR_to_outR = outcam_viewmat;
+	ZQ_MathBase::MatrixMul(mat_inR_to_outR, mat_inL_to_inR, 4, 4, 4, mat_inL_to_outR);
+	float inL_to_outL[16];
+	ZQ_MathBase::MatrixMul(mat_outR_to_outL, mat_inL_to_outR, 4, 4, 4, inL_to_outL);
+
+
 	ZQ_CPURenderer3DWorkspace render3D(outcam_intrinsic[0], outcam_intrinsic[1], true);
 	render3D.SetClip(25, 10000);
-	render3D.SetIntrinsicPara(outcam_intrinsic[2],outcam_intrinsic[3],outcam_intrinsic[4],outcam_intrinsic[5]);
-	render3D.SetViewMatrix(outcam_viewmat);
+	float out_cy = outcam_intrinsic[1] - 1 - outcam_intrinsic[3];
+	render3D.SetIntrinsicPara(outcam_intrinsic[2],out_cy,outcam_intrinsic[4],outcam_intrinsic[5]);
+	render3D.SetViewMatrix(inL_to_outL);
 
 #if defined(_WIN32)
 	FILE* in = 0;
@@ -117,8 +140,12 @@ bool render_one_image(ZQ_CPURenderer3DWorkspace& render3d, const char* in_rgb_im
 		return false;
 	int im_width = rgb_im.cols;
 	int im_height = rgb_im.rows;
-
+	cv::flip(rgb_im, rgb_im, 0);//flip updown
+	/*cv::namedWindow("show");
+	cv::imshow("show", rgb_im);
+	cv::waitKey(0);*/
 	std::vector<float> in_depth_buffer(im_width*im_height, 0);
+	std::vector<float> in_depth_buffer_tmp(im_width*im_height, 0);
 #if defined(_WIN32)
 	FILE* in = 0;
 	if(0 != fopen_s(&in,in_depth_img_file,"rb"))
@@ -129,12 +156,19 @@ bool render_one_image(ZQ_CPURenderer3DWorkspace& render3d, const char* in_rgb_im
 	{
 		return false;
 	}
-	if (im_width*im_height != fread(in_depth_buffer.data(), sizeof(float), im_width*im_height, in))
+	if (im_width*im_height != fread(in_depth_buffer_tmp.data(), sizeof(float), im_width*im_height, in))
 	{
 		return false;
 	}
 	fclose(in);
 
+	for (int i = 0; i < im_height; i++) // flip updown
+	{
+		const float* src_ptr = in_depth_buffer_tmp.data() + i * im_width;
+		float* dst_ptr = in_depth_buffer.data() + (im_height - 1 - i) * im_width;
+		memcpy(dst_ptr, src_ptr, sizeof(float)*im_width);
+	}
+	float up_cy = im_height - 1 - cy;
 	int nVerts = im_width*im_height;
 	float* vertices = new float[nVerts * 7];
 	for (int i = 0; i < im_height; i++)
@@ -143,10 +177,11 @@ bool render_one_image(ZQ_CPURenderer3DWorkspace& render3d, const char* in_rgb_im
 		{
 			int idx = i*im_width + j;
 			float cur_x = (float)(j - cx) / fx;
-			float cur_y = (float)(i - cy) / fy;
-			vertices[idx * 7 + 0] = cur_x*in_depth_buffer[idx];
-			vertices[idx * 7 + 1] = cur_y*in_depth_buffer[idx];
-			vertices[idx * 7 + 2] = in_depth_buffer[idx];
+			float cur_y = (float)(i - up_cy) / fy;
+			float scale = 1.0;
+			vertices[idx * 7 + 0] = cur_x*in_depth_buffer[idx] * scale;
+			vertices[idx * 7 + 1] = cur_y*in_depth_buffer[idx] * scale;
+			vertices[idx * 7 + 2] = in_depth_buffer[idx] * scale;
 			vertices[idx * 7 + 3] = rgb_im.ptr<unsigned char>(i)[j * 3 + 2];
 			vertices[idx * 7 + 4] = rgb_im.ptr<unsigned char>(i)[j * 3 + 1];
 			vertices[idx * 7 + 5] = rgb_im.ptr<unsigned char>(i)[j * 3 + 0];
@@ -215,9 +250,18 @@ bool render_one_image(ZQ_CPURenderer3DWorkspace& render3d, const char* in_rgb_im
 			out_rgb.ptr<unsigned char>(i)[j * 3 + 0] = color_buffer[i*buffer_width * 4 + j * 4 + 2];
 		}
 	}
+	
+	cv::flip(out_rgb, out_rgb, 0);//flip updown
 	if (!cv::imwrite(out_rgb_img_file, out_rgb))
 	{
 		return false;
+	}
+	std::vector<float> depth(buffer_width*buffer_height);
+	for (int i = 0; i < buffer_height; i++) //flip updown
+	{
+		const float* src_ptr = depth_buffer + i*buffer_width;
+		float* dst_ptr = depth.data() + (buffer_height - 1 - i)*buffer_width;
+		memcpy(dst_ptr, src_ptr, sizeof(float)*buffer_width);
 	}
 #if defined(_WIN32)
 	FILE* out = 0;
@@ -229,7 +273,7 @@ bool render_one_image(ZQ_CPURenderer3DWorkspace& render3d, const char* in_rgb_im
 		return false;
 #endif
 	
-	if (buffer_height*buffer_width != fwrite(depth_buffer, sizeof(float), buffer_width*buffer_height, out))
+	if (buffer_height*buffer_width != fwrite(depth.data(), sizeof(float), buffer_width*buffer_height, out))
 	{
 		fclose(out);
 		return false;
