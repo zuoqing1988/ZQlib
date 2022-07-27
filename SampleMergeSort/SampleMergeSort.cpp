@@ -22,91 +22,55 @@ int main()
 	std::vector<int> tmp_vals, buf_vals;
 	std::vector<int> tmp_idx, buf_idx;
 	tmp_vals = values;
-	ZQ_MergeSort::MergeSort(tmp_vals.data(), N, true);
-	printf("MergeSort:\n");
-#if SHOW_PRINT_INFO
-	for (int i = 0; i < N; i++)
-	{
-		printf("%2d ", tmp_vals[i]);
-	}
-	printf("\n");
-#endif
-
-	printf("\n");
-	tmp_vals = values;
-	buf_vals.resize(values.size());
-	ZQ_MergeSort::MergeSort(tmp_vals.data(), N, true, buf_vals.data());
-	printf("MergeSort (buf):\n");
-#if SHOW_PRINT_INFO
-	for (int i = 0; i < N; i++)
-	{
-		printf("%2d ", tmp_vals[i]);
-	}
-	printf("\n");
-#endif
-
-	printf("\n");
-	tmp_vals = values;
-	buf_vals.resize(values.size());
-	ZQ_MergeSort::MergeSort_norecursive(tmp_vals.data(), N, true, buf_vals.data());
-	printf("MergeSort_norecursive (buf):\n");
-#if SHOW_PRINT_INFO
-	for (int i = 0; i < N; i++)
-	{
-		printf("%2d ", tmp_vals[i]);
-	}
-	printf("\n");
-#endif
-
-	printf("\n");
-	tmp_vals = values;
-	tmp_idx = indices;
-	ZQ_MergeSort::MergeSort(tmp_vals.data(), tmp_idx.data(), N, true);
-	printf("MergeSort with idx:\n");
-#if SHOW_PRINT_INFO
-	for (int i = 0; i < N; i++)
-	{
-		printf("%2d ", tmp_vals[i]);
-	}
-	printf("\n");
-	for (int i = 0; i < N; i++)
-	{
-		printf("%2d ", tmp_idx[i]);
-	}
-	printf("\n");
-#endif
-
-	printf("\n");
-	tmp_vals = values;
-	tmp_idx = indices;
-	buf_vals.resize(values.size());
-	buf_idx.resize(indices.size());
 	double t1 = omp_get_wtime();
-	ZQ_MergeSort::MergeSort(tmp_vals.data(), tmp_idx.data(), N, true, buf_vals.data(), buf_idx.data());
+	ZQ_MergeSort::MergeSort(tmp_vals.data(), N, true);
 	double t2 = omp_get_wtime();
-	printf("MergeSort with idx (buf): %f\n", t2 - t1);
+	printf("MergeSort: %f\n", t2 - t1);
 #if SHOW_PRINT_INFO
 	for (int i = 0; i < N; i++)
 	{
 		printf("%2d ", tmp_vals[i]);
 	}
 	printf("\n");
-	for (int i = 0; i < N; i++)
-	{
-		printf("%2d ", tmp_idx[i]);
-	}
-	printf("\n");
 #endif
 
 	printf("\n");
 	tmp_vals = values;
-	tmp_idx = indices;
 	buf_vals.resize(values.size());
-	buf_idx.resize(indices.size());
 	double t3 = omp_get_wtime();
-	ZQ_MergeSort::MergeSort_norecursive(tmp_vals.data(), tmp_idx.data(), N, true, buf_vals.data(), buf_idx.data());
+	ZQ_MergeSort::MergeSort(tmp_vals.data(), N, true, buf_vals.data());
 	double t4 = omp_get_wtime();
-	printf("MergeSort_norecursive with idx (buf): %f\n", t4 - t3);
+	printf("MergeSort (buf): %f\n", t4 - t3);
+#if SHOW_PRINT_INFO
+	for (int i = 0; i < N; i++)
+	{
+		printf("%2d ", tmp_vals[i]);
+	}
+	printf("\n");
+#endif
+
+	printf("\n");
+	tmp_vals = values;
+	buf_vals.resize(values.size());
+	double t5 = omp_get_wtime();
+	ZQ_MergeSort::MergeSort_norecursive(tmp_vals.data(), N, true, buf_vals.data());
+	double t6 = omp_get_wtime();
+	printf("MergeSort_norecursive (buf): %f\n", t6 - t5);
+#if SHOW_PRINT_INFO
+	for (int i = 0; i < N; i++)
+	{
+		printf("%2d ", tmp_vals[i]);
+	}
+	printf("\n");
+#endif
+
+	printf("\n");
+	tmp_vals = values;
+	tmp_idx = indices;
+	double t7 = omp_get_wtime();
+	ZQ_MergeSort::MergeSort(tmp_vals.data(), tmp_idx.data(), N, true);
+	double t8 = omp_get_wtime();
+	printf("MergeSort with idx: %f\n", t8 - t7);
 #if SHOW_PRINT_INFO
 	for (int i = 0; i < N; i++)
 	{
@@ -123,8 +87,54 @@ int main()
 	printf("\n");
 	tmp_vals = values;
 	tmp_idx = indices;
+	buf_vals.resize(values.size());
+	buf_idx.resize(indices.size());
+	double t9 = omp_get_wtime();
+	ZQ_MergeSort::MergeSort(tmp_vals.data(), tmp_idx.data(), N, true, buf_vals.data(), buf_idx.data());
+	double t10 = omp_get_wtime();
+	printf("MergeSort with idx (buf): %f\n", t10 - t9);
+#if SHOW_PRINT_INFO
+	for (int i = 0; i < N; i++)
+	{
+		printf("%2d ", tmp_vals[i]);
+	}
+	printf("\n");
+	for (int i = 0; i < N; i++)
+	{
+		printf("%2d ", tmp_idx[i]);
+	}
+	printf("\n");
+#endif
+
+	printf("\n");
+	tmp_vals = values;
+	tmp_idx = indices;
+	buf_vals.resize(values.size());
+	buf_idx.resize(indices.size());
+	double t11 = omp_get_wtime();
+	ZQ_MergeSort::MergeSort_norecursive(tmp_vals.data(), tmp_idx.data(), N, true, buf_vals.data(), buf_idx.data());
+	double t12 = omp_get_wtime();
+	printf("MergeSort_norecursive with idx (buf): %f\n", t12 - t11);
+#if SHOW_PRINT_INFO
+	for (int i = 0; i < N; i++)
+	{
+		printf("%2d ", tmp_vals[i]);
+	}
+	printf("\n");
+	for (int i = 0; i < N; i++)
+	{
+		printf("%2d ", tmp_idx[i]);
+	}
+	printf("\n");
+#endif
+
+	printf("\n");
+	tmp_vals = values;
+	tmp_idx = indices;
+	double t13 = omp_get_wtime();
 	ZQ_MergeSort::MergeSortWithData(tmp_vals.data(), tmp_idx.data(), sizeof(int), N, true);
-	printf("MergeSortWithData:\n");
+	double t14 = omp_get_wtime();
+	printf("MergeSortWithData: %f\n", t14 - t13);
 #if SHOW_PRINT_INFO
 	for (int i = 0; i < N; i++)
 	{
@@ -143,8 +153,10 @@ int main()
 	tmp_idx = indices;
 	buf_vals.resize(values.size());
 	buf_idx.resize(indices.size());
+	double t15 = omp_get_wtime();
 	ZQ_MergeSort::MergeSortWithData(tmp_vals.data(), tmp_idx.data(), sizeof(int), N, true, buf_vals.data(), buf_idx.data());
-	printf("MergeSortWithData (buf):\n");
+	double t16 = omp_get_wtime();
+	printf("MergeSortWithData (buf): %f\n", t16 - t15);
 #if SHOW_PRINT_INFO
 	for (int i = 0; i < N; i++)
 	{
@@ -163,8 +175,10 @@ int main()
 	tmp_idx = indices;
 	buf_vals.resize(values.size());
 	buf_idx.resize(indices.size());
+	double t17 = omp_get_wtime();
 	ZQ_MergeSort::MergeSortWithData_norecursive(tmp_vals.data(), tmp_idx.data(), sizeof(int), N, true, buf_vals.data(), buf_idx.data());
-	printf("MergeSortWithData_norecursive (buf):\n");
+	double t18 = omp_get_wtime();
+	printf("MergeSortWithData_norecursive (buf): %f\n", t18 - t17);
 #if SHOW_PRINT_INFO
 	for (int i = 0; i < N; i++)
 	{
