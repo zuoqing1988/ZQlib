@@ -5,6 +5,22 @@
 #include <string.h>
 #include <stdio.h>
 #include <iostream>
+#include <math.h>
+
+#if defined(_WIN32)
+#else
+#ifndef __int64 
+#define __int64 long long
+#endif
+#endif
+
+#ifndef __min
+#define __min(x,y) (((x)<(y))?(x):(y))
+#endif
+
+#ifndef __max
+#define __max(x,y) (((x)>(y))?(x):(y))
+#endif
 
 namespace ZQ
 {
@@ -15,10 +31,30 @@ namespace ZQ
 		static void MergeSort(T* vals, __int64 num, bool ascending_dir);
 
 		template<class T>
+		static void MergeSort(T* vals, __int64 num, bool ascending_dir, T* buf_vals);
+
+		template<class T>
+		static void MergeSort_norecursive(T* vals, __int64 num, bool ascending_dir, T* buf_vals);
+
+		template<class T>
 		static void MergeSort(T* vals, int* idx, __int64 num, bool ascending_dir);
 
 		template<class T>
+		static void MergeSort(T* vals, int* idx, __int64 num, bool ascending_dir, T* buf_vals, int* buf_idx);
+
+		template<class T>
+		static void MergeSort_norecursive(T* vals, int* idx, __int64 num, bool ascending_dir, T* buf_vals, int* buf_idx);
+
+		template<class T>
 		static void MergeSortWithData(T* vals, void* data, int data_elt_size, __int64 num, bool ascending_dir);
+
+		template<class T>
+		static void MergeSortWithData(T* vals, void* data, int data_elt_size, __int64 num, bool ascending_dir,
+			T* buf_vals, void* buf_data);
+
+		template<class T>
+		static void MergeSortWithData_norecursive(T* vals, void* data, int data_elt_size, __int64 num, bool ascending_dir,
+			T* buf_vals, void* buf_data);
 
 		template<class T>
 		static bool MergeSort_OOC(const char* src_val_file, const char* dst_val_file, bool ascending_dir,
@@ -28,16 +64,36 @@ namespace ZQ
 		static bool MergeSortWithData_OOC(const char* src_val_file, const char* dst_val_file,
 			const char* src_data_file, const char* dst_data_file, int data_elt_size, bool ascending_dir,
 			int max_mem_size_in_KB = 100);
-		
+
 	private:
 		template<class T>
-		static void _mergeSort(T* vals,__int64 start, __int64 end, bool ascending_dir);
+		static void _mergeSort(T* vals, __int64 start, __int64 end, bool ascending_dir);
+
+		template<class T>
+		static void _mergeSort(T* vals, __int64 start, __int64 end, bool ascending_dir, T* buf_vals);
+
+		template<class T>
+		static void _mergeSort_norecursive(T* vals, __int64 start, __int64 end, bool ascending_dir, T* buf_vals);
 
 		template<class T>
 		static void _mergeSort(T* vals, int* idx, __int64 start, __int64 end, bool ascending_dir);
 
 		template<class T>
+		static void _mergeSort(T* vals, int* idx, __int64 start, __int64 end, bool ascending_dir, T* buf_vals, int* buf_idx);
+
+		template<class T>
+		static void _mergeSort_norecursive(T* vals, int* idx, __int64 start, __int64 end, bool ascending_dir, T* buf_vals, int* buf_idx);
+
+		template<class T>
 		static void _mergeSortWithData(T* vals, void* data, int data_elt_size, __int64 start, __int64 end, bool ascending_dir);
+
+		template<class T>
+		static void _mergeSortWithData(T* vals, void* data, int data_elt_size, __int64 start, __int64 end, bool ascending_dir,
+			T* buf_vals, void* buf_data);
+
+		template<class T>
+		static void _mergeSortWithData_norecursive(T* vals, void* data, int data_elt_size, __int64 start, __int64 end, bool ascending_dir,
+			T* buf_vals, void* buf_data);
 
 		template<class T>
 		static bool _mergeSort_OOC(FILE* in_val_file, FILE* tmp_val_files[2], FILE* in_data_file, FILE* tmp_data_files[2],
@@ -72,9 +128,9 @@ namespace ZQ
 			}
 
 			bool isEnd() const { return cur_total_off == total_num; }
-			
-			
-			bool GetNextVal(void* val) 
+
+
+			bool GetNextVal(void* val)
 			{
 				if (!isEnd())
 				{
@@ -86,14 +142,14 @@ namespace ZQ
 						fseek(f_ptr, offset, SEEK_SET);
 #endif
 						__int64 need_read_num = __min(buffer_size, total_num - cur_idx);
-						__int64 readed_num = fread(val_buffer,elt_size , need_read_num, f_ptr);
+						__int64 readed_num = fread(val_buffer, elt_size, need_read_num, f_ptr);
 						if (need_read_num != readed_num)
 						{
 							return false;
 						}
 						cur_idx += readed_num;
 					}
-					
+
 
 					memcpy(val, val_buffer + cur_buffer_off*elt_size, elt_size);
 					cur_buffer_off++;
@@ -123,7 +179,7 @@ namespace ZQ
 				else
 				{
 					return false;
-				}	
+				}
 			}
 
 			bool SetNextVal(void* val)
@@ -133,7 +189,7 @@ namespace ZQ
 				memcpy(val_buffer + cur_buffer_off*elt_size, val, elt_size);
 				cur_buffer_off++;
 				cur_total_off++;
-				if (cur_idx+cur_buffer_off == total_num)
+				if (cur_idx + cur_buffer_off == total_num)
 				{
 #if defined(_WIN32)
 					_fseeki64(f_ptr, offset + cur_idx * elt_size, SEEK_SET);
@@ -146,7 +202,7 @@ namespace ZQ
 					}
 					cur_idx = total_num;
 				}
-				else if(cur_buffer_off == buffer_size)
+				else if (cur_buffer_off == buffer_size)
 				{
 #if defined(_WIN32)
 					_fseeki64(f_ptr, offset + cur_idx * elt_size, SEEK_SET);
@@ -163,21 +219,45 @@ namespace ZQ
 				return true;
 			}
 		};
-		
+
 	};
-		
+
 	/********************* definitions ***********************************/
 
 	template<class T>
 	void ZQ_MergeSort::MergeSort(T* vals, __int64 num, bool ascending_dir)
 	{
-		_mergeSort(vals,0,num-1,ascending_dir);
+		_mergeSort(vals, 0, num - 1, ascending_dir);
+	}
+
+	template<class T>
+	void ZQ_MergeSort::MergeSort(T* vals, __int64 num, bool ascending_dir, T* buf_vals)
+	{
+		_mergeSort(vals, 0, num - 1, ascending_dir, buf_vals);
+	}
+
+	template<class T>
+	void ZQ_MergeSort::MergeSort_norecursive(T* vals, __int64 num, bool ascending_dir, T* buf_vals)
+	{
+		_mergeSort_norecursive(vals, 0, num - 1, ascending_dir, buf_vals);
 	}
 
 	template<class T>
 	void ZQ_MergeSort::MergeSort(T* vals, int* idx, __int64 num, bool ascending_dir)
 	{
-		_mergeSort(vals,idx,0,num-1,ascending_dir);
+		_mergeSort(vals, idx, 0, num - 1, ascending_dir);
+	}
+
+	template<class T>
+	void ZQ_MergeSort::MergeSort(T* vals, int* idx, __int64 num, bool ascending_dir, T* buf_vals, int* buf_idx)
+	{
+		_mergeSort(vals, idx, 0, num - 1, ascending_dir, buf_vals, buf_idx);
+	}
+
+	template<class T>
+	void ZQ_MergeSort::MergeSort_norecursive(T* vals, int* idx, __int64 num, bool ascending_dir, T* buf_vals, int* buf_idx)
+	{
+		_mergeSort_norecursive(vals, idx, 0, num - 1, ascending_dir, buf_vals, buf_idx);
 	}
 
 	template<class T>
@@ -187,125 +267,361 @@ namespace ZQ
 	}
 
 	template<class T>
-	void ZQ_MergeSort::_mergeSort(T* vals,__int64 start, __int64 end, bool ascending_dir)
+	void ZQ_MergeSort::MergeSortWithData(T* vals, void* data, int data_elt_size, __int64 num, bool ascending_dir,
+		T* buf_vals, void* buf_data)
 	{
-		if(start >= end)
-			return ;
+		_mergeSortWithData(vals, data, data_elt_size, 0, num - 1, ascending_dir, buf_vals, buf_data);
+	}
 
-		__int64 mid = (start+end)/2;
-		__int64 left_len = mid-start+1;
-		__int64 right_len = end-mid;
+	template<class T>
+	void ZQ_MergeSort::MergeSortWithData_norecursive(T* vals, void* data, int data_elt_size, __int64 num, bool ascending_dir,
+		T* buf_vals, void* buf_data)
+	{
+		_mergeSortWithData_norecursive(vals, data, data_elt_size, 0, num - 1, ascending_dir, buf_vals, buf_data);
+	}
+
+	template<class T>
+	void ZQ_MergeSort::_mergeSort(T* vals, __int64 start, __int64 end, bool ascending_dir)
+	{
+		if (start >= end)
+			return;
+
+		__int64 mid = (start + end) / 2;
+		__int64 left_len = mid - start + 1;
+		__int64 right_len = end - mid;
 		T* tmp_left = new T[left_len];
 		T* tmp_right = new T[right_len];
-		for(__int64 i = 0;i < left_len;i++)
-			tmp_left[i] = vals[start+i];
-		for(__int64 i = 0;i < right_len;i++)
-			tmp_right[i] = vals[mid+1+i];
+		for (__int64 i = 0; i < left_len; i++)
+			tmp_left[i] = vals[start + i];
+		for (__int64 i = 0; i < right_len; i++)
+			tmp_right[i] = vals[mid + 1 + i];
 
-		_mergeSort(tmp_left,0,left_len-1,ascending_dir);
-		_mergeSort(tmp_right,0,right_len-1,ascending_dir);
+		_mergeSort(tmp_left, 0, left_len - 1, ascending_dir);
+		_mergeSort(tmp_right, 0, right_len - 1, ascending_dir);
 
 		__int64 i_idx = 0;
 		__int64 j_idx = 0;
 		__int64 k_idx = 0;
-		for(;i_idx < left_len && j_idx < right_len;)
+		for (; i_idx < left_len && j_idx < right_len;)
 		{
-			if((tmp_left[i_idx] > tmp_right[j_idx]) != ascending_dir)
+			if ((tmp_left[i_idx] > tmp_right[j_idx]) != ascending_dir)
 			{
-				vals[start+k_idx] = tmp_left[i_idx];
+				vals[start + k_idx] = tmp_left[i_idx];
 				i_idx++;
 				k_idx++;
 			}
 			else
 			{
-				vals[start+k_idx] = tmp_right[j_idx];
+				vals[start + k_idx] = tmp_right[j_idx];
 				j_idx++;
 				k_idx++;
 			}
 		}
-		if(i_idx == left_len)
+		if (i_idx == left_len)
 		{
-			for(;j_idx < right_len;j_idx++,k_idx++)
-				vals[start+k_idx] = tmp_right[j_idx];
+			for (; j_idx < right_len; j_idx++, k_idx++)
+				vals[start + k_idx] = tmp_right[j_idx];
 		}
 		else
 		{
-			for(; i_idx < left_len;i_idx++,k_idx++)
-				vals[start+k_idx] = tmp_left[i_idx];
+			for (; i_idx < left_len; i_idx++, k_idx++)
+				vals[start + k_idx] = tmp_left[i_idx];
 		}
-		delete []tmp_left;
-		delete []tmp_right;
-		return ;
+		delete[]tmp_left;
+		delete[]tmp_right;
+		return;
+	}
+
+	template<class T>
+	void ZQ_MergeSort::_mergeSort(T* vals, __int64 start, __int64 end, bool ascending_dir, T* buf_vals)
+	{
+		if (start >= end)
+			return;
+
+		__int64 mid = (start + end) / 2;
+		__int64 left_len = mid - start + 1;
+		__int64 right_len = end - mid;
+		__int64 total_len = left_len + right_len;
+		memcpy(buf_vals + start, vals + start, sizeof(T)*total_len);
+
+		_mergeSort(buf_vals, start, mid, ascending_dir, vals);
+		_mergeSort(buf_vals, mid + 1, end, ascending_dir, vals);
+
+		__int64 i_idx = start;
+		__int64 j_idx = mid + 1;
+		__int64 k_idx = 0;
+		for (; i_idx <= mid && j_idx <= end;)
+		{
+			if ((buf_vals[i_idx] > buf_vals[j_idx]) != ascending_dir)
+			{
+				vals[start + k_idx] = buf_vals[i_idx];
+				i_idx++;
+				k_idx++;
+			}
+			else
+			{
+				vals[start + k_idx] = buf_vals[j_idx];
+				j_idx++;
+				k_idx++;
+			}
+		}
+		if (i_idx == mid + 1)
+		{
+			for (; j_idx <= end; j_idx++, k_idx++)
+			{
+				vals[start + k_idx] = buf_vals[j_idx];
+			}
+		}
+		else
+		{
+			for (; i_idx <= mid; i_idx++, k_idx++)
+			{
+				vals[start + k_idx] = buf_vals[i_idx];
+			}
+		}
+		return;
+	}
+
+	template<class T>
+	void ZQ_MergeSort::_mergeSort_norecursive(T* vals, __int64 start, __int64 end, bool ascending_dir, T* buf_vals)
+	{
+		if (start >= end)
+			return;
+		__int64 total_len = end - start + 1;
+		__int64 block_size = 1;
+		T* src_vals = vals;
+		T* dst_vals = buf_vals;
+		while (block_size < total_len)
+		{
+			__int64 num_block = total_len / block_size;
+			for (__int64 b = 0; b < num_block; b += 2)
+			{
+				__int64 cur_start = block_size*b;
+				__int64 cur_mid = __min(end, block_size*(b + 1) - 1);
+				__int64 cur_end = __min(end, block_size*(b + 2) - 1);
+				__int64 i_idx = cur_start;
+				__int64 j_idx = cur_mid + 1;
+				__int64 k_idx = 0;
+				for (; i_idx <= cur_mid && j_idx <= cur_end;)
+				{
+					if ((src_vals[i_idx] > src_vals[j_idx]) != ascending_dir)
+					{
+						dst_vals[cur_start + k_idx] = src_vals[i_idx];
+						i_idx++;
+						k_idx++;
+					}
+					else
+					{
+						dst_vals[cur_start + k_idx] = src_vals[j_idx];
+						j_idx++;
+						k_idx++;
+					}
+				}
+				if (i_idx == cur_mid + 1)
+				{
+					memcpy(dst_vals + cur_start + k_idx, src_vals + j_idx, sizeof(T)*(cur_end - j_idx + 1));
+				}
+				else
+				{
+					memcpy(dst_vals + cur_start + k_idx, src_vals + i_idx, sizeof(T)*(cur_mid - i_idx + 1));
+				}
+			}
+			T* tmp_vals_ptr = src_vals;
+			src_vals = dst_vals;
+			dst_vals = tmp_vals_ptr;
+			block_size *= 2;
+		}
+		if (src_vals != vals)
+		{
+			memcpy(vals + start, src_vals + start, sizeof(T)*total_len);
+		}
+		return;
 	}
 
 	template<class T>
 	void ZQ_MergeSort::_mergeSort(T* vals, int* idx, __int64 start, __int64 end, bool ascending_dir)
 	{
-		if(start >= end)
-			return ;
+		if (start >= end)
+			return;
 
-		__int64 mid = (start+end)/2;
-		__int64 left_len = mid-start+1;
-		__int64 right_len = end-mid;
+		__int64 mid = (start + end) / 2;
+		__int64 left_len = mid - start + 1;
+		__int64 right_len = end - mid;
 		T* tmp_left = new T[left_len];
 		T* tmp_right = new T[right_len];
 		int* tmp_left_idx = new int[left_len];
 		int* tmp_right_idx = new int[right_len];
-		for(__int64 i = 0;i < left_len;i++)
+		for (__int64 i = 0; i < left_len; i++)
 		{
-			tmp_left[i] = vals[start+i];
-			tmp_left_idx[i] = idx[start+i];
+			tmp_left[i] = vals[start + i];
+			tmp_left_idx[i] = idx[start + i];
 		}
-		for(__int64 i = 0;i < right_len;i++)
+		for (__int64 i = 0; i < right_len; i++)
 		{
-			tmp_right[i] = vals[mid+1+i];
-			tmp_right_idx[i] = idx[mid+1+i];
+			tmp_right[i] = vals[mid + 1 + i];
+			tmp_right_idx[i] = idx[mid + 1 + i];
 		}
 
-		_mergeSort(tmp_left,tmp_left_idx,0,left_len-1,ascending_dir);
-		_mergeSort(tmp_right,tmp_right_idx,0,right_len-1,ascending_dir);
+		_mergeSort(tmp_left, tmp_left_idx, 0, left_len - 1, ascending_dir);
+		_mergeSort(tmp_right, tmp_right_idx, 0, right_len - 1, ascending_dir);
 
 		__int64 i_idx = 0;
 		__int64 j_idx = 0;
 		__int64 k_idx = 0;
-		for(;i_idx < left_len && j_idx < right_len;)
+		for (; i_idx < left_len && j_idx < right_len;)
 		{
-			if((tmp_left[i_idx] > tmp_right[j_idx]) != ascending_dir)
+			if ((tmp_left[i_idx] > tmp_right[j_idx]) != ascending_dir)
 			{
-				vals[start+k_idx] = tmp_left[i_idx];
-				idx[start+k_idx] = tmp_left_idx[i_idx];
+				vals[start + k_idx] = tmp_left[i_idx];
+				idx[start + k_idx] = tmp_left_idx[i_idx];
 				i_idx++;
 				k_idx++;
 			}
 			else
 			{
-				vals[start+k_idx] = tmp_right[j_idx];
-				idx[start+k_idx] = tmp_right_idx[j_idx];
+				vals[start + k_idx] = tmp_right[j_idx];
+				idx[start + k_idx] = tmp_right_idx[j_idx];
 				j_idx++;
 				k_idx++;
 			}
 		}
-		if(i_idx == left_len)
+		if (i_idx == left_len)
 		{
-			for(;j_idx < right_len;j_idx++,k_idx++)
+			for (; j_idx < right_len; j_idx++, k_idx++)
 			{
-				vals[start+k_idx] = tmp_right[j_idx];
-				idx[start+k_idx] = tmp_right_idx[j_idx];
+				vals[start + k_idx] = tmp_right[j_idx];
+				idx[start + k_idx] = tmp_right_idx[j_idx];
 			}
 		}
 		else
 		{
-			for(; i_idx < left_len;i_idx++,k_idx++)
+			for (; i_idx < left_len; i_idx++, k_idx++)
 			{
-				vals[start+k_idx] = tmp_left[i_idx];
-				idx[start+k_idx] = tmp_left_idx[i_idx];
+				vals[start + k_idx] = tmp_left[i_idx];
+				idx[start + k_idx] = tmp_left_idx[i_idx];
 			}
 		}
-		delete []tmp_left;
-		delete []tmp_right;
-		delete []tmp_left_idx;
-		delete []tmp_right_idx;
-		return ;
+		delete[]tmp_left;
+		delete[]tmp_right;
+		delete[]tmp_left_idx;
+		delete[]tmp_right_idx;
+		return;
+	}
+
+	template<class T>
+	void ZQ_MergeSort::_mergeSort(T* vals, int* idx, __int64 start, __int64 end, bool ascending_dir, T* buf_vals, int* buf_idx)
+	{
+		if (start >= end)
+			return;
+
+		__int64 mid = (start + end) / 2;
+		__int64 left_len = mid - start + 1;
+		__int64 right_len = end - mid;
+		__int64 total_len = left_len + right_len;
+		memcpy(buf_vals + start, vals + start, sizeof(T)*total_len);
+		memcpy(buf_idx + start, idx + start, sizeof(int)*total_len);
+
+		_mergeSort(buf_vals, buf_idx, start, mid, ascending_dir, vals, idx);
+		_mergeSort(buf_vals, buf_idx, mid + 1, end, ascending_dir, vals, idx);
+
+		__int64 i_idx = start;
+		__int64 j_idx = mid + 1;
+		__int64 k_idx = 0;
+		for (; i_idx <= mid && j_idx <= end;)
+		{
+			if ((buf_vals[i_idx] > buf_vals[j_idx]) != ascending_dir)
+			{
+				vals[start + k_idx] = buf_vals[i_idx];
+				idx[start + k_idx] = buf_idx[i_idx];
+				i_idx++;
+				k_idx++;
+			}
+			else
+			{
+				vals[start + k_idx] = buf_vals[j_idx];
+				idx[start + k_idx] = buf_idx[j_idx];
+				j_idx++;
+				k_idx++;
+			}
+		}
+		if (i_idx == mid + 1)
+		{
+			memcpy(vals + start + k_idx, buf_vals + j_idx, sizeof(T)*(end - j_idx + 1));
+			memcpy(idx + start + k_idx, buf_idx + j_idx, sizeof(int)*(end - j_idx + 1));
+		}
+		else
+		{
+			memcpy(vals + start + k_idx, buf_vals + i_idx, sizeof(T)*(mid - i_idx + 1));
+			memcpy(idx + start + k_idx, buf_idx + i_idx, sizeof(int)*(mid - i_idx + 1));
+		}
+		return;
+	}
+
+	template<class T>
+	void ZQ_MergeSort::_mergeSort_norecursive(T* vals, int* idx, __int64 start, __int64 end, bool ascending_dir,
+		T* buf_vals, int* buf_idx)
+	{
+		if (start >= end)
+			return;
+		__int64 total_len = end - start + 1;
+		__int64 block_size = 1;
+		T* src_vals = vals;
+		T* dst_vals = buf_vals;
+		int* src_idx = idx;
+		int* dst_idx = buf_idx;
+		while (block_size < total_len)
+		{
+			__int64 num_block = total_len / block_size;
+			for (__int64 b = 0; b < num_block; b += 2)
+			{
+				__int64 cur_start = block_size*b;
+				__int64 cur_mid = __min(end, block_size*(b + 1) - 1);
+				__int64 cur_end = __min(end, block_size*(b + 2) - 1);
+				__int64 i_idx = cur_start;
+				__int64 j_idx = cur_mid + 1;
+				__int64 k_idx = 0;
+				for (; i_idx <= cur_mid && j_idx <= cur_end;)
+				{
+					if ((src_vals[i_idx] > src_vals[j_idx]) != ascending_dir)
+					{
+						dst_vals[cur_start + k_idx] = src_vals[i_idx];
+						dst_idx[cur_start + k_idx] = src_idx[i_idx];
+						i_idx++;
+						k_idx++;
+					}
+					else
+					{
+						dst_vals[cur_start + k_idx] = src_vals[j_idx];
+						dst_idx[cur_start + k_idx] = src_idx[j_idx];
+						j_idx++;
+						k_idx++;
+					}
+				}
+				if (i_idx == cur_mid + 1)
+				{
+					memcpy(dst_vals + cur_start + k_idx, src_vals + j_idx, sizeof(T)*(cur_end - j_idx + 1));
+					memcpy(dst_idx + cur_start + k_idx, src_idx + j_idx, sizeof(int)*(cur_end - j_idx + 1));
+				}
+				else
+				{
+					memcpy(dst_vals + cur_start + k_idx, src_vals + i_idx, sizeof(T)*(cur_mid - i_idx + 1));
+					memcpy(dst_idx + cur_start + k_idx, src_idx + i_idx, sizeof(int)*(cur_mid - i_idx + 1));
+				}
+			}
+			T* tmp_vals_ptr = src_vals;
+			src_vals = dst_vals;
+			dst_vals = tmp_vals_ptr;
+			int* tmp_idx_ptr = src_idx;
+			src_idx = dst_idx;
+			dst_idx = tmp_idx_ptr;
+			block_size *= 2;
+		}
+		if (src_vals != vals)
+		{
+			memcpy(vals + start, src_vals + start, sizeof(T)*total_len);
+			memcpy(idx + start, src_idx + start, sizeof(int)*total_len);
+		}
+		return;
 	}
 
 	template<class T>
@@ -379,6 +695,123 @@ namespace ZQ
 	}
 
 	template<class T>
+	void ZQ_MergeSort::_mergeSortWithData(T* vals, void* data, int data_elt_size, __int64 start, __int64 end, bool ascending_dir,
+		T* buf_vals, void* buf_data)
+	{
+		if (start >= end)
+			return;
+
+		__int64 mid = (start + end) / 2;
+		__int64 left_len = mid - start + 1;
+		__int64 right_len = end - mid;
+		__int64 total_len = left_len + right_len;
+		memcpy(buf_vals + start, vals + start, sizeof(T)*total_len);
+		memcpy((char*)buf_data + start*data_elt_size, (char*)data + start*data_elt_size, data_elt_size*total_len);
+
+		_mergeSortWithData(buf_vals, buf_data, data_elt_size, start, mid, ascending_dir, vals, data);
+		_mergeSortWithData(buf_vals, buf_data, data_elt_size, mid + 1, end, ascending_dir, vals, data);
+
+		__int64 i_idx = start;
+		__int64 j_idx = mid + 1;
+		__int64 k_idx = 0;
+		for (; i_idx <= mid && j_idx <= end;)
+		{
+			if ((buf_vals[i_idx] > buf_vals[j_idx]) != ascending_dir)
+			{
+				vals[start + k_idx] = buf_vals[i_idx];
+				memcpy((char*)data + (start + k_idx)*data_elt_size, (char*)buf_data + i_idx*data_elt_size, data_elt_size);
+				i_idx++;
+				k_idx++;
+			}
+			else
+			{
+				vals[start + k_idx] = buf_vals[j_idx];
+				memcpy((char*)data + (start + k_idx)*data_elt_size, (char*)buf_data + j_idx*data_elt_size, data_elt_size);
+				j_idx++;
+				k_idx++;
+			}
+		}
+		if (i_idx == mid + 1)
+		{
+			memcpy(vals + start + k_idx, buf_vals + j_idx, sizeof(T)*(end - j_idx + 1));
+			memcpy((char*)data + (start + k_idx)*data_elt_size, (char*)buf_data + j_idx*data_elt_size, data_elt_size*(end - j_idx + 1));
+		}
+		else
+		{
+			memcpy(vals + start + k_idx, buf_vals + i_idx, sizeof(T)*(mid - i_idx + 1));
+			memcpy((char*)data + (start + k_idx)*data_elt_size, (char*)buf_data + i_idx*data_elt_size, data_elt_size*(mid - i_idx + 1));
+		}
+		return;
+	}
+
+	template<class T>
+	void ZQ_MergeSort::_mergeSortWithData_norecursive(T* vals, void* data, int data_elt_size, __int64 start, __int64 end, bool ascending_dir,
+		T* buf_vals, void* buf_data)
+	{
+		if (start >= end)
+			return;
+		__int64 total_len = end - start + 1;
+		__int64 block_size = 1;
+		T* src_vals = vals;
+		T* dst_vals = buf_vals;
+		void* src_data = data;
+		void* dst_data = buf_data;
+		while (block_size < total_len)
+		{
+			__int64 num_block = total_len / block_size;
+			for (__int64 b = 0; b < num_block; b += 2)
+			{
+				__int64 cur_start = block_size*b;
+				__int64 cur_mid = __min(end, block_size*(b + 1) - 1);
+				__int64 cur_end = __min(end, block_size*(b + 2) - 1);
+				__int64 i_idx = cur_start;
+				__int64 j_idx = cur_mid + 1;
+				__int64 k_idx = 0;
+				for (; i_idx <= cur_mid && j_idx <= cur_end;)
+				{
+					if ((src_vals[i_idx] > src_vals[j_idx]) != ascending_dir)
+					{
+						dst_vals[cur_start + k_idx] = src_vals[i_idx];
+						memcpy((char*)dst_data + (cur_start + k_idx)*data_elt_size, (char*)src_data + i_idx*data_elt_size, data_elt_size);
+						i_idx++;
+						k_idx++;
+					}
+					else
+					{
+						dst_vals[cur_start + k_idx] = src_vals[j_idx];
+						memcpy((char*)dst_data + (cur_start + k_idx)*data_elt_size, (char*)src_data + j_idx*data_elt_size, data_elt_size);
+						j_idx++;
+						k_idx++;
+					}
+				}
+				if (i_idx == cur_mid + 1)
+				{
+					memcpy(dst_vals + cur_start + k_idx, src_vals + j_idx, sizeof(T)*(cur_end - j_idx + 1));
+					memcpy((char*)dst_data + (cur_start + k_idx)*data_elt_size, (char*)src_data + j_idx*data_elt_size, data_elt_size*(cur_end - j_idx + 1));
+				}
+				else
+				{
+					memcpy(dst_vals + cur_start + k_idx, src_vals + i_idx, sizeof(T)*(cur_mid - i_idx + 1));
+					memcpy((char*)dst_data + (cur_start + k_idx)*data_elt_size, (char*)src_data + i_idx*data_elt_size, data_elt_size*(cur_mid - i_idx + 1));
+				}
+			}
+			T* tmp_vals_ptr = src_vals;
+			src_vals = dst_vals;
+			dst_vals = tmp_vals_ptr;
+			void* tmp_data_ptr = src_data;
+			src_data = dst_data;
+			dst_data = tmp_data_ptr;
+			block_size *= 2;
+		}
+		if (src_vals != vals)
+		{
+			memcpy(vals + start, src_vals + start, sizeof(T)*total_len);
+			memcpy((char*)data + start*data_elt_size, (char*)src_data + start*data_elt_size, data_elt_size*total_len);
+		}
+		return;
+	}
+
+	template<class T>
 	bool ZQ_MergeSort::MergeSort_OOC(const char* src_val_file, const char* dst_val_file, bool ascending_dir,
 		int max_mem_size_in_KB)
 	{
@@ -435,7 +868,7 @@ namespace ZQ
 			tmp_dst_file_name.c_str()
 		};
 		FILE* tmp_file[2] = { 0 };
-		
+
 #if defined(_WIN32)
 		if (0 != fopen_s(&tmp_file[0], tmp_filename[0], "wb+"))
 #else
@@ -448,7 +881,7 @@ namespace ZQ
 			return false;
 		}
 #if defined(_WIN32)
-		if (0 != _fseeki64(tmp_file[0], total_len-1, SEEK_SET)
+		if (0 != _fseeki64(tmp_file[0], total_len - 1, SEEK_SET)
 			|| EOF == fputc('\0', tmp_file[0]))
 #else
 		if (0 != fseek(tmp_file[0], total_len - 1, SEEK_SET)
@@ -500,12 +933,12 @@ namespace ZQ
 			fseek(tmp_file[1], 0, SEEK_SET);
 #endif
 		}
-		
+
 		/* allocate file end  */
 
 		FILE* in_data_file = 0;
 		FILE* tmp_data_file[2] = { 0 };
-		bool ret = _mergeSort_OOC<T>(in, tmp_file, in_data_file, tmp_data_file, num, val_size, block_size, rest_iter, 
+		bool ret = _mergeSort_OOC<T>(in, tmp_file, in_data_file, tmp_data_file, num, val_size, block_size, rest_iter,
 			ascending_dir, false);
 
 		fclose(in);
@@ -583,7 +1016,7 @@ namespace ZQ
 #endif
 
 		max_mem_size_in_KB = __max(max_mem_size_in_KB, 1);
-		__int64 max_block_size = (__int64)max_mem_size_in_KB * 1024 / (4 * (val_size+data_elt_size));
+		__int64 max_block_size = (__int64)max_mem_size_in_KB * 1024 / (4 * (val_size + data_elt_size));
 		__int64 block_size = 1;
 		while (block_size * 2 <= max_block_size)
 			block_size *= 2;
@@ -810,11 +1243,12 @@ namespace ZQ
 			}
 			if (has_data)
 			{
-				ZQ_MergeSort::MergeSortWithData(val_block_buffer1, data_block_buffer1, data_elt_size, block_size, ascending_dir);
+				ZQ_MergeSort::MergeSortWithData_norecursive(val_block_buffer1, data_block_buffer1, data_elt_size, block_size, ascending_dir,
+					val_block_buffer2, data_block_buffer2);
 			}
 			else
 			{
-				ZQ_MergeSort::MergeSort(val_block_buffer1, block_size, ascending_dir);
+				ZQ_MergeSort::MergeSort_norecursive(val_block_buffer1, block_size, ascending_dir, val_block_buffer2);
 			}
 			if (block_size != fwrite(val_block_buffer1, val_size, block_size, tmp_val_files[tmp_file_idx]))
 			{
@@ -850,15 +1284,16 @@ namespace ZQ
 					return false;
 				}
 			}
-			if(has_data)
-				ZQ_MergeSort::MergeSortWithData(val_block_buffer1, data_block_buffer1, data_elt_size, rest, ascending_dir);
+			if (has_data)
+				ZQ_MergeSort::MergeSortWithData_norecursive(val_block_buffer1, data_block_buffer1, data_elt_size, rest, ascending_dir,
+					val_block_buffer2, data_block_buffer2);
 			else
-				ZQ_MergeSort::MergeSort(val_block_buffer1, rest, ascending_dir);
+				ZQ_MergeSort::MergeSort_norecursive(val_block_buffer1, rest, ascending_dir, val_block_buffer2);
 
 			if (rest != fwrite(val_block_buffer1, val_size, rest, tmp_val_files[tmp_file_idx]))
 			{
 				free(val_block_buffer);
-				if(has_data)free(data_block_buffer);
+				if (has_data)free(data_block_buffer);
 				return false;
 			}
 			if (has_data)
@@ -886,7 +1321,7 @@ namespace ZQ
 			fseek(tmp_data_files[tmp_file_idx], 0, SEEK_SET);
 #endif
 		}
-		
+
 		/* in-core sort end */
 
 		T* out_val_buffer = (T*)malloc(val_size*block_size * 2);
@@ -896,9 +1331,9 @@ namespace ZQ
 			out_data_buffer = (char*)malloc(data_elt_size*block_size * 2);
 		}
 		tmp_block_size = block_size;
-		for(int rest_it = 0; rest_it < rest_iter; rest_it++)
+		for (int rest_it = 0; rest_it < rest_iter; rest_it++)
 		{
-			printf("%d/%d %lld\n", rest_it+1, rest_iter, tmp_block_size);
+			printf("%d/%d %lld\n", rest_it + 1, rest_iter, tmp_block_size);
 			int other_file_idx = 1 - tmp_file_idx;
 			//
 #if defined(_WIN32)
@@ -949,7 +1384,7 @@ namespace ZQ
 				{
 					return false;
 				}
-				
+
 				__int64 count1 = 1;
 				__int64 count2 = 1;
 				while (true)
@@ -1120,11 +1555,11 @@ namespace ZQ
 				__int64 num1 = __min(num - tmp_block_size*bb * 2, tmp_block_size);
 				__int64 out_num = num1;
 				buffer1.Bind(tmp_val_files[tmp_file_idx], tmp_block_size*(bb * 2)*val_size, num1, val_size, val_block_buffer1, block_size*val_size);
-				out_buffer.Bind(tmp_val_files[other_file_idx], tmp_block_size*bb * 2*val_size, out_num, val_size, out_val_buffer, block_size * 2 * val_size);
+				out_buffer.Bind(tmp_val_files[other_file_idx], tmp_block_size*bb * 2 * val_size, out_num, val_size, out_val_buffer, block_size * 2 * val_size);
 				if (has_data)
 				{
 					data_buffer1.Bind(tmp_data_files[tmp_file_idx], tmp_block_size*(bb * 2)*data_elt_size, num1, data_elt_size, data_block_buffer1, block_size*data_elt_size);
-					data_out_buffer.Bind(tmp_data_files[other_file_idx], tmp_block_size*bb * 2*data_elt_size, out_num, data_elt_size, out_data_buffer, block_size * 2 * data_elt_size);
+					data_out_buffer.Bind(tmp_data_files[other_file_idx], tmp_block_size*bb * 2 * data_elt_size, out_num, data_elt_size, out_data_buffer, block_size * 2 * data_elt_size);
 				}
 				while (!buffer1.isEnd())
 				{
